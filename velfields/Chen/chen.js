@@ -172,10 +172,10 @@ class Particle{
         this.time = _t;
         this.radius = random(0.11,0.11);
         this.h = _h;
-        this.op = random(190,200);
-        this.r = random(200);
-        this.g = random(255);
-        this.b = random(135,255);
+        this.op = random(150,200);
+        this.r = random(220,255);
+        this.g = random(200,255);
+        this.b = random(255);
     }
     
     update() {
