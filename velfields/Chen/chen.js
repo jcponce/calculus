@@ -27,7 +27,7 @@ let currentParticle = 0;
 
 
 let parDef = {
-    name: 'Chen Attractor',
+    Attractor: 'Chen',
     alpha: 5.0,
     beta: -10.0,
     delta: -0.38,
@@ -53,7 +53,7 @@ function setup() {
     pixelDensity(1);
     
     let gui = new dat.GUI();
-    gui.add(parDef, 'name');
+    gui.add(parDef, 'Attractor');
     gui.add(parDef, 'alpha'   , -5, 5  ).listen();
     gui.add(parDef, 'beta'   , -10, 10  ).listen();
     gui.add(parDef, 'delta'   , -0.5, 0.5  ).listen();

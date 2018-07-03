@@ -24,8 +24,17 @@ let numMax = 700;
 let t = 0;
 let h = 0.01;
 let currentParticle = 0;
-let widthApplet = 1000;
-let heightApplet = 700;
+
+// settings and presets
+let parDef = {
+Attractor: 'Lorenz84',
+a: 0.25,
+b: 4.0,
+f: 8.0,
+g: 1.0,
+Randomize: initSketch,
+Preset: function() {  this.a = 0.25; this.b = 4.0; this.f = 8.0; this.g = 1.0 },
+};
 
 //parameters
 let a = 0.25;//1.111;
@@ -41,7 +50,17 @@ let points1 = new Array();
 
 function setup() { 
  
-  pixelDensity(1);
+    pixelDensity(1);
+    
+    // create gui (dat.gui)
+    let gui = new dat.GUI();
+    gui.add(parDef, 'Attractor');
+    gui.add(parDef, 'a'   , -0.35, 0.35  ).listen();
+    gui.add(parDef, 'b'   , -5.5, 5.5  ).listen();
+    gui.add(parDef, 'f'   , -8.5, 8.5  ).listen();
+    gui.add(parDef, 'g'   , -1.5, 1.5  ).listen();
+    gui.add(parDef, 'Randomize'  );
+    gui.add(parDef, 'Preset'  );
   
   let canvas = createCanvas(windowWidth, windowHeight, WEBGL);
   setAttributes('antialias', true);
@@ -49,10 +68,6 @@ function setup() {
   console.log(Dw.EasyCam.INFO);
   
   easycam = new Dw.EasyCam(this._renderer, {distance : 6});
-    let m = 5;
-    for (let i=0; i<numMax; i++) {
-        particles[i] = new Particle(random(-m, m), random(-m, m), random(-m, m), t, h);
-    }
     
     for(let i = 0; i< 2000; i++){
         let dt = 0.02;
@@ -65,11 +80,23 @@ function setup() {
         
         points1.push(new p5.Vector(x1, y1, z1));
     }
+    
+    // place initial samples
+    initSketch();
 } 
 
 function windowResized() {
   resizeCanvas(windowWidth, windowHeight);
   easycam.setViewport([0, 0, windowWidth, windowHeight]);
+}
+
+function initSketch(){
+    
+    let m = 5;
+    for (let i=0; i<numMax; i++) {
+        particles[i] = new Particle(random(-m, m), random(-m, m), random(-m, m), t, h);
+    }
+    
 }
 
 function draw(){
@@ -123,15 +150,15 @@ function draw(){
 
 let speed = 0.7;
 function componentFX(t, x, y, z){
-    return speed * ( -a * x - y * y - z * z + a * f  );//Change this function
+    return speed * ( -parDef.a * x - y * y - z * z + parDef.a * parDef.f  );//Change this function
 }
 
 function componentFY(t, x, y, z){
-    return speed * ( -y + x * y - b * x * z + g  );//Change this function
+    return speed * ( -y + x * y - parDef.b * x * z + parDef.g  );//Change this function
 }
 
 function componentFZ(t, x, y, z){
-    return speed * ( -z + b * x * y + x * z );//Change this function
+    return speed * ( -z +parDef.b * x * y + x * z );//Change this function
 }
 
 //Particle definition and motion
@@ -174,7 +201,7 @@ class Particle{
         translate(this.x, this.y, this.z);
         ambientMaterial(this.r, this.b, this.g);
         noStroke();
-        sphere(this.radius, 9, 9);
+        sphere(this.radius, 6, 6);
         pop();
     }
     
