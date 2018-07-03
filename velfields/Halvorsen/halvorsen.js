@@ -27,36 +27,27 @@ let currentParticle = 0;
 
 
 let parDef = {
-    name: 'Chen Attractor',
-    alpha: 5.0,
-    beta: -10.0,
-    delta: -0.38,
-    Randomize: initSketch,
-    Preset: function() {  this.alpha = 5.00; this.beta = -10.0; this.delta = -0.38 },
+Attractor: 'Halsorven',
+a: 1.4,
+Randomize: initSketch,
+Preset: function() {  this.a = 1.4; },
 };
 
 //parameters
 
-let x1 = 5;
-let y1 = 10;
-let z1 = 10;
+let x = 0;
+let y = -5;
+let z = -2.01;
 
-let x2 = -7;
-let y2 = -5;
-let z2 = -10;
-
-let points1 = new Array();
-let points2 = new Array();
+let points = new Array();
 
 function setup() {
     
     pixelDensity(1);
     
     let gui = new dat.GUI();
-    gui.add(parDef, 'name');
-    gui.add(parDef, 'alpha'   , -5, 5  ).listen();
-    gui.add(parDef, 'beta'   , -10, 10  ).listen();
-    gui.add(parDef, 'delta'   , -0.5, 0.5  ).listen();
+    gui.add(parDef, 'Attractor');
+    gui.add(parDef, 'a' , -1.5, 1.5  ).listen();
     gui.add(parDef, 'Randomize'  );
     gui.add(parDef, 'Preset'  );
     
@@ -65,45 +56,24 @@ function setup() {
     
     console.log(Dw.EasyCam.INFO);
     
-    easycam = new Dw.EasyCam(this._renderer, {distance : 30});
+    easycam = new Dw.EasyCam(this._renderer, {distance : 35});
     
-    for(let i = 0; i< 1300; i++){
+    for(let i = 0; i< 2000; i++){
         let dt = 0.02;
-        let dx = speed * ( parDef.alpha * x1 - y1 * z1 ) * dt;
-        let dy = speed * ( parDef.beta * y1 + x1 * z1 ) * dt;
-        let dz = speed * ( parDef.delta * z1 + x1 * y1/3 ) * dt;
-        x1 = x1 + dx;
-        y1 = y1 + dy;
-        z1 = z1 + dz;
+        let dx = speed*( -1.4 * x -4 * y-4 * z-y * y  ) * dt;
+        let dy = speed*(  -1.4 * y-4 * z-4 * x-z * z ) * dt;
+        let dz = speed*( -1.4 * z-4 * x-4 * y-x * x   ) * dt;
+        x = x + dx;
+        y = y + dy;
+        z = z + dz;
         
-        points1.push(new p5.Vector(x1, y1, z1));
+        points.push(new p5.Vector(x, y, z));
     }
     
-    for(let i = 0; i< 1300; i++){
-        let dt = 0.02;
-        let dx = speed * ( parDef.alpha * x2- y2 * z2 ) * dt;
-        let dy = speed * ( parDef.beta * y2 + x2 * z2 ) * dt;
-        let dz = speed * ( parDef.delta * z2 + x2 * y2/3 ) * dt;
-        x2 = x2 + dx;
-        y2 = y2 + dy;
-        z2 = z2 + dz;
-        
-        points2.push(new p5.Vector(x2, y2, z2));
-    }
     
     // place initial samples
     initSketch();
     
-}
-
-function initSketch(){
-    
-    let m = 15;
-    for (let i=0; i<numMax; i++) {
-        particles[i] = new Particle(random(-m, m), random(-m, m), random(-m, m), t, h);
-    }
-    
-
 }
 
 function windowResized() {
@@ -114,6 +84,16 @@ function windowResized() {
     initSketch();
 }
 
+function initSketch(){
+    
+    let m = 15;
+    for (let i=0; i<numMax; i++) {
+        particles[i] = new Particle(random(-m, m), random(-m, m), random(-m, m), t, h);
+    }
+    
+    
+}
+
 function draw(){
     
     // projection
@@ -122,30 +102,16 @@ function draw(){
     // BG
     background(0);
     
-    let hu1 = 0;
+    let hu = 0;
     beginShape(POINTS);
-    for (let v of points1) {
-        stroke(hu1, 103, 212);
-        strokeWeight(0.1);
+    for (let v of points) {
+        stroke(hu, 193, 255);
+        strokeWeight(0.09);
         vertex(v.x, v.y, v.z);
         
-        hu1 += 1;
-        if (hu1 > 255) {
-            hu1 = 0;
-        }
-    }
-    endShape();
-    
-    let hu2 = 0;
-    beginShape(POINTS);
-    for (let v of points2) {
-        stroke(hu2, 103, 212);
-        strokeWeight(0.1);
-        vertex(v.x, v.y, v.z);
-        
-        hu2 += 1;
-        if (hu2 > 255) {
-            hu2 = 0;
+        hu += 1;
+        if (hu > 255) {
+            hu = 0;
         }
     }
     endShape();
@@ -155,7 +121,7 @@ function draw(){
         let p = particles[i];
         p.update();
         p.display();
-        if ( p.x > 800 ||  p.y > 800 || p.z > 800 || p.x < -800 ||  p.y < -800 || p.z < -800 ) {
+        if ( p.x > 80 ||  p.y > 80 || p.z > 80 || p.x < -80 ||  p.y < -80 || p.z < -80 ) {
             particles.splice(i,1);
             currentParticle--;
             particles.push(new Particle(random(-7,7),random(-6,6), random(-6,6), t, h) );
@@ -173,17 +139,17 @@ function draw(){
     
 }
 
-let speed = 0.7;
+let speed = 0.4;
 function componentFX(t, x, y, z){
-    return speed * ( parDef.alpha * x- y * z );//Change this function
+    return speed * ( -parDef.a * x -4 * y-4 * z-y * y );//Change this function
 }
 
 function componentFY(t, x, y, z){
-    return speed * ( parDef.beta * y + x * z );//Change this function
+    return speed * ( -parDef.a * y-4 * z-4 * x-z * z  );//Change this function
 }
 
 function componentFZ(t, x, y, z){
-    return speed * ( parDef.delta * z + x * y/3 );//Change this function
+    return speed * ( -parDef.a * z-4 * x-4 * y-x * x );//Change this function
 }
 
 //Particle definition and motion
@@ -197,9 +163,9 @@ class Particle{
         this.radius = random(0.11,0.11);
         this.h = _h;
         this.op = random(150,200);
-        this.r = random(220,255);
+        this.r = random(255);
         this.g = random(200,255);
-        this.b = random(255);
+        this.b = random(200,255);
     }
     
     update() {
