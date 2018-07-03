@@ -98,7 +98,7 @@ function setup() {
 
 function initSketch(){
     
-    let m = 35;
+    let m = 15;
     for (let i=0; i<numMax; i++) {
         particles[i] = new Particle(random(-m, m), random(-m, m), random(-m, m)+5, t, h);
     }
