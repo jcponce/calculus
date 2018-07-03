@@ -27,7 +27,7 @@ let currentParticle = 0;
 
 
 let parDef = {
-Attractor: 'Halsorven',
+Attractor: 'Halvorsen',
 a: 1.4,
 Randomize: initSketch,
 Preset: function() {  this.a = 1.4; },
