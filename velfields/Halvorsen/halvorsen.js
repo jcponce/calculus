@@ -56,7 +56,7 @@ function setup() {
     
     console.log(Dw.EasyCam.INFO);
     
-    easycam = new Dw.EasyCam(this._renderer, {distance : 35});
+    easycam = new Dw.EasyCam(this._renderer, {distance : 40});
     
     for(let i = 0; i< 2000; i++){
         let dt = 0.02;
@@ -102,6 +102,8 @@ function draw(){
     // BG
     background(0);
     
+    rotateX(-0.5);
+    rotateY(PI/2+0.7);
     let hu = 0;
     beginShape(POINTS);
     for (let v of points) {
@@ -124,7 +126,7 @@ function draw(){
         if ( p.x > 80 ||  p.y > 80 || p.z > 80 || p.x < -80 ||  p.y < -80 || p.z < -80 ) {
             particles.splice(i,1);
             currentParticle--;
-            particles.push(new Particle(random(-7,7),random(-6,6), random(-6,6), t, h) );
+            particles.push(new Particle(random(-10,10),random(-10,10), random(-10,10), t, h) );
         }
     }
     

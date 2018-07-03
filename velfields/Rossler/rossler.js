@@ -122,6 +122,8 @@ function draw(){
     // BG
     background(0);
     
+    rotateX(PI/2-0.2);
+    rotateZ(PI+1.2);
     let hu1 = 0;
     beginShape(POINTS);
     for (let v of points1) {
