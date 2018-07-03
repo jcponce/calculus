@@ -33,7 +33,7 @@ b: 4.0,
 f: 8.0,
 g: 1.0,
 ResetParticles: initSketch,
-Preset: function() {  this.a = 0.25; this.b = 4.0; this.f = 8.0; this.g = 1.0 },
+Preset: function() {  this.a = 0.25; this.b = 4.0; this.f = 8.0; this.g = 1.0; },
 };
 
 //parameters

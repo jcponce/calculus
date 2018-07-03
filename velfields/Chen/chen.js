@@ -32,7 +32,7 @@ let parDef = {
     beta: -10.0,
     delta: -0.38,
     ResetParticles: initSketch,
-    Preset: function() {  this.alpha = 5.00; this.beta = -10.0; this.delta = -0.38 },
+Preset: function() {  this.alpha = 5.00; this.beta = -10.0; this.delta = -0.38; },
 };
 
 //parameters
