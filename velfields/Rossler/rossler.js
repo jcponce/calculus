@@ -128,7 +128,7 @@ function draw(){
     beginShape(POINTS);
     for (let v of points1) {
         stroke(hu1, 103, 212);
-        strokeWeight(0.1);
+        strokeWeight(0.15);
         vertex(v.x, v.y, v.z);
         
         hu1 += 1;
