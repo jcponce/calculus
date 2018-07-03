@@ -32,7 +32,7 @@ a: 0.25,
 b: 4.0,
 f: 8.0,
 g: 1.0,
-Randomize: initSketch,
+ResetParticles: initSketch,
 Preset: function() {  this.a = 0.25; this.b = 4.0; this.f = 8.0; this.g = 1.0 },
 };
 
@@ -59,7 +59,7 @@ function setup() {
     gui.add(parDef, 'b'   , -5.5, 5.5  ).listen();
     gui.add(parDef, 'f'   , -8.5, 8.5  ).listen();
     gui.add(parDef, 'g'   , -1.5, 1.5  ).listen();
-    gui.add(parDef, 'Randomize'  );
+    gui.add(parDef, 'ResetParticles'  );
     gui.add(parDef, 'Preset'  );
   
   let canvas = createCanvas(windowWidth, windowHeight, WEBGL);
