@@ -31,7 +31,7 @@ let parDef = {
     a: 0.2,
     b: 0.2,
     c: 5.7,
-    Randomize: initSketch,
+    ResetParticles: initSketch,
 Preset: function() {  this.a = 0.2; this.b = 0.2; this.c = 5.7; },
 };
 
@@ -57,7 +57,7 @@ function setup() {
     gui.add(parDef, 'a'   , -0.5, 0.5  ).listen();
     gui.add(parDef, 'b'   , -0.5, 0.5  ).listen();
     gui.add(parDef, 'c'   , -6.0, 6.0  ).listen();
-    gui.add(parDef, 'Randomize'  );
+    gui.add(parDef, 'ResetParticles'  );
     gui.add(parDef, 'Preset'  );
     
     let canvas = createCanvas(windowWidth, windowHeight, WEBGL);
