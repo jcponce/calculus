@@ -30,7 +30,7 @@ let parDef = {
 Attractor: 'Halvorsen',
 a: 1.4,
 Speed: 0.4,
-Randomize: initSketch,
+ResetParticles: initSketch,
 Preset: function() {  this.a = 1.4; this.Speed = 0.4;},
 };
 
@@ -50,7 +50,7 @@ function setup() {
     gui.add(parDef, 'Attractor');
     gui.add(parDef, 'a' , -1.5, 1.5  ).listen();
     gui.add(parDef, 'Speed' , 0, 1  ).listen();
-    gui.add(parDef, 'Randomize'  );
+    gui.add(parDef, 'ResetParticles'  );
     gui.add(parDef, 'Preset'  );
     
     let canvas = createCanvas(windowWidth, windowHeight, WEBGL);
