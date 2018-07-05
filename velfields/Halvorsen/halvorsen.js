@@ -29,8 +29,9 @@ let currentParticle = 0;
 let parDef = {
 Attractor: 'Halvorsen',
 a: 1.4,
+Speed: 0.4,
 Randomize: initSketch,
-Preset: function() {  this.a = 1.4; },
+Preset: function() {  this.a = 1.4; this.Speed = 0.4;},
 };
 
 //parameters
@@ -48,6 +49,7 @@ function setup() {
     let gui = new dat.GUI();
     gui.add(parDef, 'Attractor');
     gui.add(parDef, 'a' , -1.5, 1.5  ).listen();
+    gui.add(parDef, 'Speed' , 0, 1  ).listen();
     gui.add(parDef, 'Randomize'  );
     gui.add(parDef, 'Preset'  );
     
@@ -56,13 +58,13 @@ function setup() {
     
     console.log(Dw.EasyCam.INFO);
     
-    easycam = new Dw.EasyCam(this._renderer, {distance : 39});
+    easycam = new Dw.EasyCam(this._renderer, {distance : 42});
     
     for(let i = 0; i< 2000; i++){
         let dt = 0.02;
-        let dx = speed*( -1.4 * x -4 * y-4 * z-y * y  ) * dt;
-        let dy = speed*(  -1.4 * y-4 * z-4 * x-z * z ) * dt;
-        let dz = speed*( -1.4 * z-4 * x-4 * y-x * x   ) * dt;
+        let dx = parDef.Speed *( -1.4 * x -4 * y-4 * z-y * y  ) * dt;
+        let dy = parDef.Speed *(  -1.4 * y-4 * z-4 * x-z * z ) * dt;
+        let dz = parDef.Speed *( -1.4 * z-4 * x-4 * y-x * x   ) * dt;
         x = x + dx;
         y = y + dy;
         z = z + dz;
@@ -141,17 +143,17 @@ function draw(){
     
 }
 
-let speed = 0.4;
+
 function componentFX(t, x, y, z){
-    return speed * ( -parDef.a * x -4 * y-4 * z-y * y );//Change this function
+    return parDef.Speed * ( -parDef.a * x -4 * y-4 * z-y * y );//Change this function
 }
 
 function componentFY(t, x, y, z){
-    return speed * ( -parDef.a * y-4 * z-4 * x-z * z  );//Change this function
+    return parDef.Speed * ( -parDef.a * y-4 * z-4 * x-z * z  );//Change this function
 }
 
 function componentFZ(t, x, y, z){
-    return speed * ( -parDef.a * z-4 * x-4 * y-x * x );//Change this function
+    return parDef.Speed * ( -parDef.a * z-4 * x-4 * y-x * x );//Change this function
 }
 
 //Particle definition and motion
