@@ -1,4 +1,4 @@
-/* Vortex simulation designed with p5.js (https://p5js.org/)
+/* Source and Sink simulation designed with p5.js (https://p5js.org/)
  Under Creative Commons License
  https://creativecommons.org/licenses/by-sa/3.0/
  
@@ -19,14 +19,14 @@ let xmax = 6;
 let xmin = -6;
 let ymax = 4;
 let ymin = -4;
-let sc = 0.25;
+let sc = 0.15;
 let xstep = 0.5;
-let ystep = 0.3;
+let ystep = 0.5;
 
 let WIDTH = 700;
 let HEIGHT = 500;
-let frameWidth = WIDTH/100-1;
-let frameHeight = HEIGHT/100-1;
+let frameWidth = WIDTH/100-2;
+let frameHeight = HEIGHT/100-2;
 
 let currentParticle = 0;
 
@@ -152,8 +152,8 @@ function mousePressed() {
     starting = true;
 }
 
-let P = (t, x, y) => ( -sliderk.value()*y/(x*x+y*y) );//Change this function
-let Q = (t, x, y) =>  ( sliderk.value()*x/(x*x+y*y) );//Change this function
+let P = (t, x, y) => ( sliderk.value()*x/(x*x+y*y) );//Change this function
+let Q = (t, x, y) =>  ( sliderk.value()*y/(x*x+y*y) );//Change this function
 
 
 //Define particles and how they are moved with Runge–Kutta method of 4th degree.
@@ -198,7 +198,7 @@ class Particle{
 //Set sliders and buttons
 function controls() {
     
-    sliderk = createSlider(-4, 4, 1, 0.1);
+    sliderk = createSlider(-3, 3, 1, 0.1);
     sliderk.position(230, 460);
     sliderk.style('width', '150px');
     
@@ -217,23 +217,17 @@ function field(_time) {
     this.time = _time;
     for(let k=ymin; k<=ymax; k+=ystep){
         for(let j=xmin; j<=xmax; j+=xstep){
-            let xx = j + sc * P(this.time, j, k);
-            let yy = k + sc * Q(this.time, j, k);
-            
+            let xx = j + sc * P(this.time,j,k);
+            let yy = k + sc * Q(this.time,j,k);
             let lj = map(j, -6, 6, -width, width);
             let lk = map(-k, -4, 4, -height, height);
             let lx = map(xx, -6, 6, -width, width);
             let ly = map(-yy, -4, 4, -height, height);
-            let angle = atan2(ly-lk, lx-lj);
-            let dist = sqrt((lk-ly)*(lk-ly)+(lj-lx)*(lj-lx));
-            fill(250,dist);
-            push();
-            translate(lj, lk);
-            rotate(angle);
-            triangle(-15, -4, 15, 0, -15, 4);
-            pop();
+            stroke(200);
+            strokeWeight(1.5);
+            line(lj-1, lk-1, lx, ly);
+            line(lj+1, lk+1, lx, ly);
         }
     }
 }
-
 

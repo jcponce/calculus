@@ -19,9 +19,9 @@ let xmax = 6;
 let xmin = -6;
 let ymax = 4;
 let ymin = -4;
-let sc = 0.15;
+let sc = 0.25;
 let xstep = 0.5;
-let ystep = 0.5;
+let ystep = 0.35;
 
 let WIDTH = 700;
 let HEIGHT = 500;
@@ -217,16 +217,21 @@ function field(_time) {
     this.time = _time;
     for(let k=ymin; k<=ymax; k+=ystep){
         for(let j=xmin; j<=xmax; j+=xstep){
-            let xx = j + sc * P(this.time,j,k);
-            let yy = k + sc * Q(this.time,j,k);
+            let xx = j + sc * P(this.time, j, k);
+            let yy = k + sc * Q(this.time, j, k);
+            
             let lj = map(j, -6, 6, -width, width);
             let lk = map(-k, -4, 4, -height, height);
             let lx = map(xx, -6, 6, -width, width);
             let ly = map(-yy, -4, 4, -height, height);
-            stroke(200);
-            strokeWeight(1.5);
-            line(lj-1, lk-1, lx, ly);
-            line(lj+1, lk+1, lx, ly);
+            let angle = atan2(ly-lk, lx-lj);
+            let dist = sqrt((lk-ly)*(lk-ly)+(lj-lx)*(lj-lx));
+            fill(250,dist);
+            push();
+            translate(lj, lk);
+            rotate(angle);
+            triangle(-15, -4, 15, 0, -15, 4);
+            pop();
         }
     }
 }
