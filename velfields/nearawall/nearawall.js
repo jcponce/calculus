@@ -15,13 +15,13 @@ let h = 0.01;
 let particles = [];
 
 //vector field variables
-let xmax = 6;
-let xmin = -6;
-let ymax = 8;
+let xmax = 3.5;
+let xmin = -3.5;
+let ymax = 4;
 let ymin = 0;
-let sc = 0.15;
-let xstep = 0.5;
-let ystep = 0.5;
+let sc = 0.5;
+let xstep = 0.25;
+let ystep = 0.25;
 
 let WIDTH = 700;
 let HEIGHT = 500;
@@ -48,7 +48,7 @@ function resetSketch() {
     
     //seting up particles
     for (let i=0; i<numMax; i++) {
-        let valX = random(-frameWidth, frameWidth);
+        let valX = random(-6, 6);
         let valY = random(0, 5);
         particles[i] = new Particle(valX, valY, t, h);
     }
@@ -218,17 +218,17 @@ function field(_time) {
             let xx = j + sc * P(this.time, j, k);
             let yy = k + sc * Q(this.time, j, k);
             
-            let lj = map(j, -6, 6, -width, width);
-            let lk = map(-k, -4, 4, -height, height);
-            let lx = map(xx, -6, 6, -width, width);
-            let ly = map(-yy, -4, 4, -height, height);
+            let lj = map(j, -3.5, 3.5, -width, width);
+            let lk = map(-k, -3, 3, -height, height);
+            let lx = map(xx, -3.5, 3.5, -width, width);
+            let ly = map(-yy, -3, 3, -height, height);
             let angle = atan2(ly-lk, lx-lj);
-            let dist = sqrt((lk-ly)*(lk-ly)+(lj-lx)*(lj-lx));
-            fill(250,dist);
+            let dist = sqrt((lk-ly)*(lk-ly)+(lj-lx)*(lj-lx))
+            fill(255, dist);
             push();
             translate(lj, lk);
             rotate(angle);
-            triangle(-15, -4, 15, 0, -15, 4);
+            triangle(-10, -3, 10, 0, -10, 3);
             pop();
         }
     }
