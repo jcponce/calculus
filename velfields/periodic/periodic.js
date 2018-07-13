@@ -1,6 +1,6 @@
-/* Vortex simulation designed with p5.js (https://p5js.org/)
+/* Periodic simulation designed with p5.js (https://p5js.org/)
  Under Creative Commons License
- https://creativecommons.org/licenses/by-sa/3.0/
+ https://creativecommons.org/licenses/by-sa/4.0/
  
  Writen by Juan Carlos Ponce Campuzano, 19-August-2017
  */

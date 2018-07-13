@@ -1,6 +1,6 @@
-/* Vortex simulation designed with p5.js (https://p5js.org/)
+/* Quadruple gyro simulation designed with p5.js (https://p5js.org/)
  Under Creative Commons License
- https://creativecommons.org/licenses/by-sa/3.0/
+ https://creativecommons.org/licenses/by-sa/4.0/
  
  Writen by Juan Carlos Ponce Campuzano, 19-August-2017
  */
@@ -20,8 +20,8 @@ let xmin = 0;
 let ymax = 2;
 let ymin = 0;
 let sc = 0.3;
-let xstep = 0.1;
-let ystep = 0.1;
+let xstep = 0.15;
+let ystep = 0.15;
 
 let currentParticle = 0;
 
@@ -120,10 +120,13 @@ function mousePressed(){
     }
 }
 
+let F = (x,t) => PI*(0.25*sin(2*PI / 10* t) *x*x + (1 - 2* (0.25) *sin(2*PI / 10 *t))* x);
+let G = (x,t) => PI*(0.25*sin(2*PI / 10* t) *x*x + (1 - 2 *(0.25) *sin(2*PI / 10 *t))* x);
+let H = (x,t) => 2 *(0.25)* sin(2*PI / 10* t)* x + 1 - 2 *(0.25)* sin(2*PI/ 10* t);
 
-let P = (t, x, y) =>  2.2*( -PI*0.1*sin(PI*(0.25*sin(2*PI / 10* t) *x*x + (1 - 2* (0.25) *sin(2*PI / 10 *t))* x))* cos(PI* y)  );//Change this function
+let P = (t, x, y) =>  2.2*( -PI*0.1*sin( F(x,t) )* cos(PI* y)  );//Change this function
 
-let Q = (t, x, y) => 2.2*(   PI*0.1 *cos(PI*(0.25*sin(2*PI / 10* t) *x*x + (1 - 2 *(0.25) *sin(2*PI / 10 *t))* x))* sin(PI*y)*(2 *(0.25)* sin(2*PI / 10* t)* x + 1 - 2 *(0.25)* sin(2*PI/ 10* t)) );//Change this function
+let Q = (t, x, y) => 2.2*(   PI*0.1 *cos( G(x,t) )* sin(PI*y)*H(x,t) );//Change this function
 
 
 function Particle(_x, _y, _t, _h) {
