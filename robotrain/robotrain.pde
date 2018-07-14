@@ -86,17 +86,17 @@ void robotHead() {
   theta2 += 0.1; //lower values slow down the movement
 
   //head 
-  fill(#e24b00);
+  fill(#5c5c8a);
   ellipse(257 + a, 250, 124, 84);
-  fill(#f25d13);
+  fill(#666699);
   ellipse(257 + a, 243, 115, 70);
-  fill(#f67535);
+  fill(#7575a3);
   ellipse(257 + a, 235, 110, 50);
   //shiny
   pushMatrix();
   translate(270 + a, 220);
   rotate(radians(8));
-  fill(#ffb793);
+  fill(#b3b3cc);
   ellipse(0, 0, 30, 10);
   popMatrix();
 
@@ -165,7 +165,7 @@ void robotHead() {
 
   //line across middle
   noFill();
-  stroke(#9e3b0a); 
+  stroke(#2d2d86); 
   strokeWeight(1.5);
   line(257 + a, 209, 257 + a, 291);
 
@@ -180,11 +180,11 @@ void robotHead() {
 
 void robotBody() {
   //body
-  fill(#f25d13);
+  fill(#666699);
   arc(241, 347, 130, 159, radians(-32), radians(213), OPEN);
-  fill(#fa6a22);
+  fill(#8585ad);
   arc(241, 330, 125, 100, radians(-32), radians(213), OPEN);
-  fill(#e24b00);
+  fill(#5c5c8a);
   ellipse(241, 308, 114, 26);
 
   //neck
