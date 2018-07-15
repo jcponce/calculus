@@ -35,14 +35,11 @@ let frameWidth = WIDTH/100;
 let frameHeight = HEIGHT/100;
 
 function setup() {
+    
     createCanvas(WIDTH, HEIGHT);
     controls();
     frameRate(60);
     smooth();
-    //background(0);
-    //for (let i=0; i<numMax; i++) {
-    //  particles[i] = new Particle(t,h);
-    //}
     
 }
 
@@ -62,9 +59,7 @@ function draw() {
     strokeWeight(0.1);
     rect(0,0,width,height);
     
-    
     translate(0, height);//we need the oringin at the center
-    
     
     //Reference xy
     stroke(255, 0, 0,100);
@@ -87,7 +82,6 @@ function draw() {
         }
     }
     
-    //if(fieldShow == true){
     //updating and displaying the particles
     for (let i=particles.length-1; i>=0; i-=1) {
         let p = particles[i];
@@ -96,11 +90,8 @@ function draw() {
         if ( p.x > 4 ||  p.y > 3 || p.x < 0 ||  p.y < 0 ) {
             particles.splice(i,1);
             currentParticle--;
-            //particles.push(new Particle(random(-4,4),random(-3,3),t,h) );
         }
     }
-    //}
-    
     
     if(fshow == true){
         field(t);
@@ -128,7 +119,6 @@ let P = (t, x, y) =>  2.2*( -PI*0.1*sin( F(x,t) )* cos(PI* y)  );//Change this f
 
 let Q = (t, x, y) => 2.2*(   PI*0.1 *cos( G(x,t) )* sin(PI*y)*H(x,t) );//Change this function
 
-
 function Particle(_x, _y, _t, _h) {
     
     this.x = _x;
@@ -142,7 +132,6 @@ function Particle(_x, _y, _t, _h) {
     this.b = random(5);
     this.lifespan = 700.0;
     
-    
     this.update = function() {
         this.k1 = P(this.time, this.x, this.y);
         this.j1 = Q(this.time, this.x, this.y);
@@ -155,24 +144,21 @@ function Particle(_x, _y, _t, _h) {
         this.x = this.x + this.h/6 *(this.k1 + 2 * this.k2 + 2 * this.k3 + this.k4);
         this.y = this.y + this.h/6 *(this.j1 + 2 * this.j2 + 2 * this.j3 + this.j4);
         this.time += this.h;
-        //this.lifespan -= 1.0;
     };
     
     this.display = function() {
         fill(this.r, this.b, this.g, this.op);
-        noStroke();//stroke(0,random(220,230),  random(250,255),this.lifespan);
+        noStroke();
         this.updatex = map(this.x, 0, 2, 0, width);
         this.updatey = map(-this.y, 0, 2, 0, height);
         ellipse(this.updatex, this.updatey, 2*this.radius, 2*this.radius);
     };
-    
 }
 
 function controls() {
     buttonField = createButton('Field');
     buttonField.position(250, 470);
     buttonField.mousePressed(fieldShow);
-    
 }
 
 function field(_time) {
@@ -195,5 +181,4 @@ function field(_time) {
             pop();
         }
     }
-    
 }

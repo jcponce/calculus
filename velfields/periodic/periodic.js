@@ -35,12 +35,9 @@ let frameWidth = WIDTH/100;
 let frameHeight = HEIGHT/100;
 
 function setup() {
+    
     createCanvas(WIDTH, HEIGHT);
     controls();
-    //background(0);
-    //for (let i=0; i<numMax; i++) {
-    //  particles[i] = new Particle(t,h);
-    //}
     
 }
 
@@ -85,7 +82,6 @@ function draw() {
         }
     }
     
-    //if(fieldShow == true){
     //updating and displaying the particles
     for (let i=particles.length-1; i>=0; i-=1) {
         let p = particles[i];
@@ -94,11 +90,9 @@ function draw() {
         if ( p.x > 6 ||  p.y > 5 || p.x < -6 ||  p.y < -5 ) {
             particles.splice(i,1);
             currentParticle--;
-            //particles.push(new Particle(random(-4,4),random(-3,3),t,h) );
+            
         }
     }
-    //}
-    
     
     if(fshow == true){
         field(t);
@@ -148,17 +142,15 @@ function Particle(_x, _y, _t, _h) {
         this.x = this.x + this.h/6 *(this.k1 + 2 * this.k2 + 2 * this.k3 + this.k4);
         this.y = this.y + this.h/6 *(this.j1 + 2 * this.j2 + 2 * this.j3 + this.j4);
         this.time += this.h;
-        //this.lifespan -= 1.0;
     };
     
     this.display = function() {
         fill(this.r, this.b, this.g, this.op);
-        noStroke();//stroke(0,random(220,230),  random(250,255),this.lifespan);
+        noStroke();
         this.updatex = map(this.x, -9, 9, -width, width);
         this.updatey = map(-this.y, -7, 7, -height, height);
         ellipse(this.updatex, this.updatey, 2*this.radius, 2*this.radius);
     };
-    
 }
 
 
