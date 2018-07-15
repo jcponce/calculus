@@ -23,7 +23,6 @@ let sc = 0.5;//length of vector field
 let xstep = 0.2;
 let ystep = 0.2;
 
-
 let currentParticle = 0;
 
 let fshow = false;
@@ -41,19 +40,10 @@ let HEIGHT = 500;
 let frameWidth = WIDTH/100;
 let frameHeight = HEIGHT/100;
 
-
 function setup() {
     
     createCanvas(WIDTH, HEIGHT);
-    
     controls();
-    
-    //seting up particles
-    //for (let i=0; i<numMax; i++) {
-    //    let valX = random(-frameWidth, frameWidth);
-    // let valY = random(-frameHeight, frameHeight);
-    // particles[i] = new Particle(valX, valY, t, h);
-    //}
     smooth();
     
 }
@@ -95,13 +85,10 @@ function draw() {
     }
     noStroke();
     rect(0,0,width,height);
-    //////////////////////////
-    
     
     translate(width/2, height/2);//we need the oringin at the center
     
-    
-    //Reference xy
+    //Reference xy-axis
     stroke(255, 0, 0,100);
     strokeWeight(2);
     line(0,0,100,0);//xAxis
@@ -122,8 +109,6 @@ function draw() {
         }
     }
     
-    
-    //if(fieldShow == true){
     //updating and displaying the particles
     for (let i=particles.length-1; i>=0; i-=1) {
         let p = particles[i];
@@ -132,11 +117,8 @@ function draw() {
         if ( p.x > 3.5 ||  p.y > 3 || p.x < -3.5 ||  p.y < -2 ) {
             particles.splice(i,1);
             currentParticle--;
-            //particles.push(new Particle(random(-frameWidth, frameWidth),random(-frameHeight, frameHeight),t,h) );
         }
     }
-    //}
-    
    
     if(fshow == true){
         field(t);
@@ -145,16 +127,7 @@ function draw() {
     //println(currentParticle);
     
     //Black background for text and sliders
-    noStroke();
-    fill(0);
-    rect(-700, 180, 1400, 100);
-    //text
-    textSize(16);
-    fill(250);
-    text('u= '+nfc(slideru0.value(),1,1), -320, 205);//for slider u
-    text('v= '+nfc(sliderv0.value(),1,1),-200, 205);//for slider v
-    text('k= '+nfc(sliderk.value(),1,1), -100, 205);//for slider k
-    text('alpha= '+nfc(slideralpha.value(),1,1), -5, 205);//for slider alpha
+    textFrame();
     
 }
 
@@ -227,13 +200,25 @@ function controls() {
     
 }
 
+function textFrame(){
+    noStroke();
+    fill(0);
+    rect(-700, 180, 1400, 100);
+    //text defintion and format
+    textSize(16);
+    fill(250);
+    text('u= '+nfc(slideru0.value(),1,1), -320, 205);//for slider u
+    text('v= '+nfc(sliderv0.value(),1,1),-200, 205);//for slider v
+    text('k= '+nfc(sliderk.value(),1,1), -100, 205);//for slider k
+    text('alpha= '+nfc(slideralpha.value(),1,1), -5, 205);//for slider alpha
+}
+
 function field(_time) {
     this.time = _time;
     for(let k=ymin; k<=ymax; k+=ystep){
         for(let j=xmin; j<=xmax; j+=xstep){
             let xx = j + sc * P(this.time, j, k);
             let yy = k + sc * Q(this.time, j, k);
-            
             let lj = map(j, -3, 3, -width, width);
             let lk = map(-k, -2, 2, -height, height);
             let lx = map(xx, -3, 3, -width, width);
@@ -249,7 +234,6 @@ function field(_time) {
             pop();
         }
     }
-    
 }
 
 
