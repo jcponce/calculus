@@ -1,5 +1,5 @@
 /**
- *
+ * 
  * The p5.EasyCam library - Easy 3D CameraControl for p5.js and WEBGL.
  *
  *   Copyright 2018 by Thomas Diewald (https://www.thomasdiewald.com)
@@ -7,98 +7,60 @@
  *   Source: https://github.com/diwi/p5.EasyCam
  *
  *   MIT License: https://opensource.org/licenses/MIT
- *
- *
+ * 
+ * 
  * explanatory notes:
- *
- * p5.EasyCam is a derivative of the original PeasyCam Library by Jonathan Feinberg
+ * 
+ * p5.EasyCam is a derivative of the original PeasyCam Library by Jonathan Feinberg 
  * and combines new useful features with the great look and feel of its parent.
- *
- *
+ * 
+ * 
  */
 
-
 let easycam;
-let particles = [];
-let numMax = 700;
-let t = 0;
-let h = 0.01;
-let currentParticle = 0;
 
-
+// settings and presets
 let parDef = {
-Attractor: 'Halvorsen',
-a: 1.4,
-Speed: 0.4,
-ResetParticles: initSketch,
-Preset: function() {  this.a = 1.4; this.Speed = 0.4;},
+Curve: 'Torus knot',
+p: 2,
+q: 3,
+xyzAxes: axesSketch,
+Random: function() { this.p = floor(random(-40,40)); this.q = floor(random(-39,39)); },
 };
-
-//parameters
-
-let x = 0;
-let y = -5;
-let z = -2.01;
-
-let points = new Array();
-
-function backAttractors () {
-    window.location.href = "https://jcponce.github.io/strange-attractors/strange-attractors.html";
-}
 
 function setup() {
     
-    pixelDensity(1);
-    
+    // create gui (dat.gui)
     let gui = new dat.GUI();
-    gui.add(parDef, 'Attractor');
-    gui.add(parDef, 'a' , -1.5, 1.5  ).listen();
-    gui.add(parDef, 'Speed' , 0, 1  ).listen();
-    gui.add(parDef, 'ResetParticles'  );
-    gui.add(parDef, 'Preset'  );
-    gui.add(this, 'backAttractors').name("Go Back");
+    gui.add(parDef, 'Curve');
+    gui.add(parDef, 'p'  , -40, 40 ,1 ).listen();
+    gui.add(parDef, 'q'  , -39, 39 ,1 ).listen();
+    gui.add(parDef, 'xyzAxes'  );
+    gui.add(parDef, 'Random'  );
+    //gui.add(this, 'backAttractors').name("Go Back");
+    
+    pixelDensity(1);
     
     let canvas = createCanvas(windowWidth, windowHeight, WEBGL);
     setAttributes('antialias', true);
     
     console.log(Dw.EasyCam.INFO);
     
-    easycam = new Dw.EasyCam(this._renderer, {distance : 42});
+    easycam = new Dw.EasyCam(this._renderer, {distance : 7});
     
-    for(let i = 0; i< 2000; i++){
-        let dt = 0.02;
-        let dx = parDef.Speed *( -1.4 * x -4 * y-4 * z-y * y  ) * dt;
-        let dy = parDef.Speed *(  -1.4 * y-4 * z-4 * x-z * z ) * dt;
-        let dz = parDef.Speed *( -1.4 * z-4 * x-4 * y-x * x   ) * dt;
-        x = x + dx;
-        y = y + dy;
-        z = z + dz;
-        
-        points.push(new p5.Vector(x, y, z));
-    }
-    
-    
-    // place initial samples
-    initSketch();
     
 }
 
 function windowResized() {
     resizeCanvas(windowWidth, windowHeight);
-    easycam.setViewport([0, 0, windowWidth, windowHeight]);
-    
-    // place initial samples
-    initSketch();
+    easycam.setViewport([0,0,windowWidth, windowHeight]);
 }
 
-function initSketch(){
-    
-    let m = 15;
-    for (let i=0; i<numMax; i++) {
-        particles[i] = new Particle(random(-m, m), random(-m, m), random(-m, m), t, h);
-    }
-    
-    
+let gizmo = false;
+function axesSketch(){
+    if(gizmo == false){
+        return gizmo = true;
+    }else gizmo = false;
 }
 
 function draw(){
@@ -109,23 +71,130 @@ function draw(){
     // BG
     background(0);
     
-    rotateX(-0.5);
-    rotateY(PI/2+0.7);
-    let hu = 0;
+    noFill();
+    //stroke(255);
+    rotateX(0.9)
+    rotateY(0.0);
+    rotateZ(0.3);
+    let hu = 50;
+    beginShape();
+    for(let i = 0; i <= 2*PI; i+=PI/800){
+        stroke(hu, 255, 255);
+        strokeWeight(0.035);
+        let xc = 1.1*(cos(parDef.q*i)+2)*cos(parDef.p * i);
+        let yc = 1.1*(cos(parDef.q*i)+2)*sin(parDef.p * i);
+        let zc =  -1.1*sin(parDef.q * i);
+        vertex(xc, yc, zc);
+    }
+    endShape(CLOSE);
+    
+    if(gizmo==true){
+    // gizmo
+    strokeWeight(0.04);
+    stroke(255, 32,  0); line(0,0,0,1.5,0,0);
+    stroke( 32,255, 32); line(0,0,0,0,1.5,0);
+    stroke(  0, 32,255); line(0,0,0,0,0,1.5);
+    }
+}
+/*
+let easycam;
+let particles = [];
+let numMax = 600;
+let t = 0;
+let h = 0.01;
+let currentParticle = 0;
+
+// settings and presets
+let parDef = {
+Attractor: 'Thomas',
+b: 0.208186,
+ResetParticles: initSketch,
+Preset: function() { this.b = 0.208186; },
+};
+
+let b = 0.208186;
+let x = 1.1;
+let y = 1.1;
+let z = -0.01;
+
+let points = new Array();
+
+function backAttractors () {
+    window.location.href = "https://jcponce.github.io/strange-attractors/strange-attractors.html";
+}
+
+function setup() { 
+ 
+  pixelDensity(1);
+    
+    // create gui (dat.gui)
+    let gui = new dat.GUI();
+    gui.add(parDef, 'Attractor');
+    gui.add(parDef, 'b'  , 0, 0.95  ).listen();
+    gui.add(parDef, 'ResetParticles'  );
+    gui.add(parDef, 'Preset'  );
+    gui.add(this, 'backAttractors').name("Go Back");
+  
+  let canvas = createCanvas(windowWidth, windowHeight, WEBGL);
+  setAttributes('antialias', true);
+  
+  console.log(Dw.EasyCam.INFO);
+  
+  easycam = new Dw.EasyCam(this._renderer, {distance : 10});
+    
+    
+    for(let i = 0; i< 1300; i++){
+        let dt = 0.04;
+        let dx = speed*(sin( y ) - b * x) * dt;
+        let dy = speed*(sin( z ) - b * y) * dt;
+        let dz = speed*(sin( x ) - b * z) * dt;
+        x = x + dx;
+        y = y + dy;
+        z = z + dz;
+        
+        points.push(new p5.Vector(x, y, z));
+    }
+    
+    // place initial samples
+    initSketch();
+    
+} 
+
+function windowResized() {
+  resizeCanvas(windowWidth, windowHeight);
+  easycam.setViewport([0, 0, windowWidth, windowHeight]);
+    
+    // place initial samples
+    initSketch();
+}
+
+function initSketch(){
+    
+    let m = 20;
+    for (let i=0; i<numMax; i++) {
+        particles[i] = new Particle(random(-m, m), random(-m, m), random(-m, m), t, h);
+    }
+    
+}
+
+function draw(){
+    
+  // projection
+  perspective(60 * PI/180, width/height, 1, 5000);
+  
+  // BG
+  background(0);
+    
+    
     beginShape(POINTS);
     for (let v of points) {
-        stroke(hu, 193, 255);
-        strokeWeight(0.09);
+        stroke(204, 255, 255);
+        strokeWeight(0.025);
         vertex(v.x, v.y, v.z);
-        
-        hu += 1;
-        if (hu > 255) {
-            hu = 0;
-        }
     }
     endShape();
     
-    //updating and displaying the particles
+  //updating and displaying the particles
     for (let i=particles.length-1; i>=0; i-=1) {
         let p = particles[i];
         p.update();
@@ -133,49 +202,47 @@ function draw(){
         if ( p.x > 80 ||  p.y > 80 || p.z > 80 || p.x < -80 ||  p.y < -80 || p.z < -80 ) {
             particles.splice(i,1);
             currentParticle--;
-            particles.push(new Particle(random(-10,10),random(-10,10), random(-10,10), t, h) );
+            particles.push(new Particle(random(-7,7),random(-6,6), random(-6,6), t,h) );
         }
     }
-    
-    // gizmo
-    //strokeWeight(0.1);
-    //stroke(255, 32,  0); line(0,0,0,2,0,0);
-    //stroke( 32,255, 32); line(0,0,0,0,2,0);
-    //stroke(  0, 32,255); line(0,0,0,0,0,2);
-    
-    
-    
-    
+  
+  // gizmo
+  //strokeWeight(0.1);
+  //stroke(255, 32,  0); line(0,0,0,2,0,0);
+  //stroke( 32,255, 32); line(0,0,0,0,2,0);
+  //stroke(  0, 32,255); line(0,0,0,0,0,2);
+  
+ 
 }
 
-
+let speed = 6;
 function componentFX(t, x, y, z){
-    return parDef.Speed * ( -parDef.a * x -4 * y-4 * z-y * y );//Change this function
+    return speed * ( sin(y) - parDef.b * x);//Change this function
 }
 
 function componentFY(t, x, y, z){
-    return parDef.Speed * ( -parDef.a * y-4 * z-4 * x-z * z  );//Change this function
+    return speed * (  sin(z) - parDef.b * y  );//Change this function
 }
 
 function componentFZ(t, x, y, z){
-    return parDef.Speed * ( -parDef.a * z-4 * x-4 * y-x * x );//Change this function
+    return speed * ( sin(x) - parDef.b * z  );//Change this function
 }
 
 //Particle definition and motion
 class Particle{
     
-    constructor(_x, _y, _z, _t, _h){
-        this.x = _x;
-        this.y = _y;
-        this.z = _z;
-        this.time = _t;
-        this.radius = random(0.11,0.11);
-        this.h = _h;
-        this.op = random(150,200);
-        this.r = random(255);
-        this.g = random(200,255);
-        this.b = random(200,255);
-    }
+	constructor(_x, _y, _z, _t, _h){
+    this.x = _x;
+    this.y = _y;
+    this.z = _z;
+    this.time = _t;
+    this.radius = random(0.05,0.05);
+    this.h = _h;
+    this.op = random(190,200);
+    this.r = random(0);
+    this.g = random(164,255);
+    this.b = random(255);
+	}
     
     update() {
         this.k1 = componentFX(this.time, this.x, this.y, this.z);
@@ -203,7 +270,6 @@ class Particle{
         noStroke();
         sphere(this.radius, 6, 6);
         pop();
-        //sphere(-(this.x), this.y, this.z, 2*this.radius, 2*this.radius);
     }
     
-}
+}*/

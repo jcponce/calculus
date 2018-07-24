@@ -48,6 +48,10 @@ let z1 = -1;
 let points1 = new Array();
 //let points2 = new Array();
 
+function backAttractors () {
+    window.location.href = "https://jcponce.github.io/strange-attractors/strange-attractors.html";
+}
+
 function setup() {
     
     pixelDensity(1);
@@ -59,6 +63,7 @@ function setup() {
     gui.add(parDef, 'c'   , -6.0, 6.0  ).listen();
     gui.add(parDef, 'ResetParticles'  );
     gui.add(parDef, 'Preset'  );
+    gui.add(this, 'backAttractors').name("Go Back");
     
     let canvas = createCanvas(windowWidth, windowHeight, WEBGL);
     setAttributes('antialias', true);

@@ -16,37 +16,118 @@
  * 
  * 
  */
- 
 
 let easycam;
+
+// settings and presets
+let parDef = {
+Curve: 'Knots',
+a: 0.6,
+b: 4,
+c: 0.2,
+d: 6,
+e: 1.57,
+f: 1.2,
+xyzAxes: axesSketch,
+Random: function() { this.a = random(-2,2); this.b = floor(random(0,10)); this.c = random(0,2); this.d = floor(random(0,12)); this.e = random(0, 2*PI); this.f = random(0,2); },
+};
+
+function setup() {
+    
+    // create gui (dat.gui)
+    let gui = new dat.GUI();
+    gui.add(parDef, 'Curve');
+    gui.add(parDef, 'a'  , -2, 2 , 0.1 ).listen();
+    gui.add(parDef, 'b'  , 0, 10 , 1 ).listen();
+    gui.add(parDef, 'c'  , 0, 2 , 0.1 ).listen();
+    gui.add(parDef, 'd'  , 0, 12 , 1 ).listen();
+    gui.add(parDef, 'e'  , 0, 2*PI , 0.1 ).listen();
+    gui.add(parDef, 'f'  , 0, 2 , 0.1 ).listen();
+    gui.add(parDef, 'xyzAxes'  );
+    gui.add(parDef, 'Random'  );
+    //gui.add(this, 'backAttractors').name("Go Back");
+    
+    pixelDensity(1);
+    
+    let canvas = createCanvas(windowWidth, windowHeight, WEBGL);
+    setAttributes('antialias', true);
+    
+    console.log(Dw.EasyCam.INFO);
+    
+    easycam = new Dw.EasyCam(this._renderer, {distance : 7});
+    
+    
+}
+
+function windowResized() {
+    resizeCanvas(windowWidth, windowHeight);
+    easycam.setViewport([0,0,windowWidth, windowHeight]);
+}
+
+let gizmo = false;
+function axesSketch(){
+    if(gizmo == false){
+        return gizmo = true;
+    }else gizmo = false;
+}
+
+function draw(){
+    
+    // projection
+    perspective(60 * PI/180, width/height, 1, 5000);
+    
+    // BG
+    background(0);
+    
+    noFill();
+    //stroke(255);
+    rotateX(0.9)
+    rotateY(0.0);
+    rotateZ(0.3);
+    beginShape();
+    for(let i = 0; i <= 2*PI; i+=PI/900){
+        stroke(191, 128, 255);
+        strokeWeight(0.03);
+        let phi = parDef.c*PI *sin(parDef.d*i);
+        let r = parDef.f+parDef.a*sin(6*i+parDef.e);
+        let theta = parDef.b*i;
+        let xc = 1.5*(r*cos(phi)*cos(theta));
+        let yc = 1.5*(r*cos(phi)*sin(theta));
+        let zc =  -1.5*sin(phi);
+        vertex(xc, yc, zc);
+    }
+    endShape(CLOSE);
+    
+    if(gizmo==true){
+    // gizmo
+    strokeWeight(0.04);
+    stroke(255, 32,  0); line(0,0,0,1.5,0,0);
+    stroke( 32,255, 32); line(0,0,0,0,1.5,0);
+    stroke(  0, 32,255); line(0,0,0,0,0,1.5);
+    }
+}
+/*
+let easycam;
 let particles = [];
-let numMax = 700;
+let numMax = 600;
 let t = 0;
 let h = 0.01;
 let currentParticle = 0;
 
 // settings and presets
 let parDef = {
-Attractor: 'Lorenz84',
-a: 0.25,
-b: 4.0,
-f: 8.0,
-g: 1.0,
+Attractor: 'Thomas',
+b: 0.208186,
 ResetParticles: initSketch,
-Preset: function() {  this.a = 0.25; this.b = 4.0; this.f = 8.0; this.g = 1.0; },
+Preset: function() { this.b = 0.208186; },
 };
 
-//parameters
-let a = 0.25;//1.111;
-let b = 4;//1.479;
-let f = 8;//4.494;
-let g = 1;//0.44;
+let b = 0.208186;
+let x = 1.1;
+let y = 1.1;
+let z = -0.01;
 
-let x1 = -3.04;
-let y1 = 3.02;
-let z1 = -0.01;
-
-let points1 = new Array();
+let points = new Array();
 
 function backAttractors () {
     window.location.href = "https://jcponce.github.io/strange-attractors/strange-attractors.html";
@@ -54,15 +135,12 @@ function backAttractors () {
 
 function setup() { 
  
-    pixelDensity(1);
+  pixelDensity(1);
     
     // create gui (dat.gui)
     let gui = new dat.GUI();
     gui.add(parDef, 'Attractor');
-    gui.add(parDef, 'a'   , -0.35, 0.35  ).listen();
-    gui.add(parDef, 'b'   , -5.5, 5.5  ).listen();
-    gui.add(parDef, 'f'   , -8.5, 8.5  ).listen();
-    gui.add(parDef, 'g'   , -1.5, 1.5  ).listen();
+    gui.add(parDef, 'b'  , 0, 0.95  ).listen();
     gui.add(parDef, 'ResetParticles'  );
     gui.add(parDef, 'Preset'  );
     gui.add(this, 'backAttractors').name("Go Back");
@@ -72,32 +150,37 @@ function setup() {
   
   console.log(Dw.EasyCam.INFO);
   
-  easycam = new Dw.EasyCam(this._renderer, {distance : 6});
+  easycam = new Dw.EasyCam(this._renderer, {distance : 10});
     
-    for(let i = 0; i< 2000; i++){
-        let dt = 0.02;
-        let dx = speed * ( -a * x1 - y1 * y1 - z1 * z1 + a * f  ) * dt;
-        let dy = speed * ( -y1 + x1 * y1 - b * x1 * z1 + g  ) * dt;
-        let dz = speed * ( -z1 + b * x1 * y1 + x1 * z1 ) * dt;
-        x1 = x1 + dx;
-        y1 = y1 + dy;
-        z1 = z1 + dz;
+    
+    for(let i = 0; i< 1300; i++){
+        let dt = 0.04;
+        let dx = speed*(sin( y ) - b * x) * dt;
+        let dy = speed*(sin( z ) - b * y) * dt;
+        let dz = speed*(sin( x ) - b * z) * dt;
+        x = x + dx;
+        y = y + dy;
+        z = z + dz;
         
-        points1.push(new p5.Vector(x1, y1, z1));
+        points.push(new p5.Vector(x, y, z));
     }
     
     // place initial samples
     initSketch();
+    
 } 
 
 function windowResized() {
   resizeCanvas(windowWidth, windowHeight);
   easycam.setViewport([0, 0, windowWidth, windowHeight]);
+    
+    // place initial samples
+    initSketch();
 }
 
 function initSketch(){
     
-    let m = 5;
+    let m = 20;
     for (let i=0; i<numMax; i++) {
         particles[i] = new Particle(random(-m, m), random(-m, m), random(-m, m), t, h);
     }
@@ -112,21 +195,12 @@ function draw(){
   // BG
   background(0);
     
-    // lights
-    //ambientLight(250);
-    //pointLight(255, 255, 255, 50, 0, 60);
     
-    let hu1 = 0;
     beginShape(POINTS);
-    for (let v of points1) {
-        stroke(hu1, 103, 212);
-        strokeWeight(0.015);
+    for (let v of points) {
+        stroke(204, 255, 255);
+        strokeWeight(0.025);
         vertex(v.x, v.y, v.z);
-        
-        hu1 += 1;
-        if (hu1 > 255) {
-            hu1 = 0;
-        }
     }
     endShape();
     
@@ -135,10 +209,10 @@ function draw(){
         let p = particles[i];
         p.update();
         p.display();
-        if ( p.x > 800 ||  p.y > 800 || p.z > 800 || p.x < -800 ||  p.y < -800 || p.z < -800 ) {
+        if ( p.x > 80 ||  p.y > 80 || p.z > 80 || p.x < -80 ||  p.y < -80 || p.z < -80 ) {
             particles.splice(i,1);
             currentParticle--;
-            particles.push(new Particle(random(-7,7),random(-6,6), random(-6,6), t, h) );
+            particles.push(new Particle(random(-7,7),random(-6,6), random(-6,6), t,h) );
         }
     }
   
@@ -148,22 +222,20 @@ function draw(){
   //stroke( 32,255, 32); line(0,0,0,0,2,0);
   //stroke(  0, 32,255); line(0,0,0,0,0,2);
   
-    
-  
  
 }
 
-let speed = 0.7;
+let speed = 6;
 function componentFX(t, x, y, z){
-    return speed * ( -parDef.a * x - y * y - z * z + parDef.a * parDef.f  );//Change this function
+    return speed * ( sin(y) - parDef.b * x);//Change this function
 }
 
 function componentFY(t, x, y, z){
-    return speed * ( -y + x * y - parDef.b * x * z + parDef.g  );//Change this function
+    return speed * (  sin(z) - parDef.b * y  );//Change this function
 }
 
 function componentFZ(t, x, y, z){
-    return speed * ( -z +parDef.b * x * y + x * z );//Change this function
+    return speed * ( sin(x) - parDef.b * z  );//Change this function
 }
 
 //Particle definition and motion
@@ -174,12 +246,12 @@ class Particle{
     this.y = _y;
     this.z = _z;
     this.time = _t;
-    this.radius = random(0.03,0.03);
+    this.radius = random(0.05,0.05);
     this.h = _h;
     this.op = random(190,200);
-    this.r = random(250);
-    this.g = random(200,250);
-    this.b = random(135,150);
+    this.r = random(0);
+    this.g = random(164,255);
+    this.b = random(255);
 	}
     
     update() {
@@ -210,4 +282,4 @@ class Particle{
         pop();
     }
     
-}
+}*/
