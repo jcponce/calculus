@@ -78,9 +78,9 @@ function draw(){
     rotateZ(0.3);
     let hu = 50;
     beginShape();
-    for(let i = 0; i <= 2*PI; i+=PI/800){
+    for(let i = 0; i <= 2*PI; i+=PI/900){
         stroke(hu, 255, 255);
-        strokeWeight(0.035);
+        strokeWeight(0.02);
         let xc = 1.1*(cos(parDef.q*i)+2)*cos(parDef.p * i);
         let yc = 1.1*(cos(parDef.q*i)+2)*sin(parDef.p * i);
         let zc =  -1.1*sin(parDef.q * i);
