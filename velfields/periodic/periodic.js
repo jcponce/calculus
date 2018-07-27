@@ -20,8 +20,8 @@ let xmin = -4.5;
 let ymax = 3;
 let ymin = -3;
 let sc = 0.3;
-let xstep = 0.4;
-let ystep = 0.4;
+let xstep = 0.5;
+let ystep = 0.5;
 
 let currentParticle = 0;
 
@@ -174,6 +174,7 @@ function field(_time) {
             let angle = atan2(ly-lk, lx-lj);
             let dist = sqrt((lk-ly)*(lk-ly)+(lj-lx)*(lj-lx));
             fill(255,dist);
+            noStroke();
             push();
             translate(lj, lk);
             rotate(angle);
