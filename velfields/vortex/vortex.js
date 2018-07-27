@@ -227,6 +227,7 @@ function field(_time) {
             let angle = atan2(ly-lk, lx-lj);
             let dist = sqrt((lk-ly)*(lk-ly)+(lj-lx)*(lj-lx));
             fill(255,dist);
+            noStroke();
             push();
             translate(lj, lk);
             rotate(angle);
