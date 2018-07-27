@@ -173,10 +173,11 @@ function field(_time) {
             let ly = map(-yy, -7, 7, -height, height);
             let angle = atan2(ly-lk, lx-lj);
             let dist = sqrt((lk-ly)*(lk-ly)+(lj-lx)*(lj-lx));
-            fill(210,dist);
+            fill(255,dist);
             push();
             translate(lj, lk);
             rotate(angle);
+            scale(map(dist,0,1,0,0.03));
             triangle(-10, -4, 10, 0, -10, 4);
             pop();
         }

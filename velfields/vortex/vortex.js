@@ -17,8 +17,8 @@ let particles = [];
 //vector field
 let xmax = 3.5;
 let xmin = -3.5;
-let ymax = 3;
-let ymin = -2;
+let ymax = 3.5;
+let ymin = -3.5;
 let sc = 0.35;
 let xstep = 0.3;
 let ystep = 0.3;
@@ -221,16 +221,17 @@ function field(_time) {
             let yy = k + sc * Q(this.time, j, k);
             
             let lj = map(j, -3.5, 3.5, -width, width);
-            let lk = map(-k, -3, 3, -height, height);
+            let lk = map(-k, -3.5, 3.5, -height, height);
             let lx = map(xx, -3.5, 3.5, -width, width);
-            let ly = map(-yy, -3, 3, -height, height);
+            let ly = map(-yy, -3.5, 3.5, -height, height);
             let angle = atan2(ly-lk, lx-lj);
             let dist = sqrt((lk-ly)*(lk-ly)+(lj-lx)*(lj-lx));
             fill(255,dist);
             push();
             translate(lj, lk);
             rotate(angle);
-            triangle(-10, -3, 10, 0, -10, 3);
+            scale(map(dist,0,2,0,0.01));
+            triangle(0, -3, 20, 0, 0, 3);
             pop();
         }
     }

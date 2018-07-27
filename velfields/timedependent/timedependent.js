@@ -230,6 +230,7 @@ function field(_time) {
             push();
             translate(lj, lk);
             rotate(angle);
+            scale(map(dist,0,1.5,0,0.01));
             triangle(-10, -3, 10, 0, -10, 3);
             pop();
         }

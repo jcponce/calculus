@@ -177,6 +177,7 @@ function field(_time) {
             push();
             translate(lj, lk);
             rotate(angle);
+            scale(map(dist,0,1.5,0,0.05));
             triangle(-8, -2, 8, 0, -8, 2);
             pop();
         }
