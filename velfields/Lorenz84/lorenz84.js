@@ -49,7 +49,7 @@ let z1 = -0.01;
 let points1 = new Array();
 
 function backAttractors () {
-    window.location.href = "https://jcponce.github.io/strange-attractors/strange-attractors.html";
+    window.location.href = "https://jcponce.github.io/strange-attractors";
 }
 
 function setup() { 
@@ -59,7 +59,7 @@ function setup() {
     // create gui (dat.gui)
     let gui = new dat.GUI();
     gui.add(parDef, 'Attractor');
-    gui.add(parDef, 'a'   , -0.35, 0.35  ).listen();
+    gui.add(parDef, 'a'   , -0.35, 1.11  ).listen();
     gui.add(parDef, 'b'   , -5.5, 5.5  ).listen();
     gui.add(parDef, 'f'   , -8.5, 8.5  ).listen();
     gui.add(parDef, 'g'   , -1.5, 1.5  ).listen();

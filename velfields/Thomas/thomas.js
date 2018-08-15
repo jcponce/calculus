@@ -47,7 +47,7 @@ let z = -0.01;
 let points = new Array();
 
 function backAttractors () {
-    window.location.href = "https://jcponce.github.io/strange-attractors/strange-attractors.html";
+    window.location.href = "https://jcponce.github.io/strange-attractors";
 }
 
 function setup() { 

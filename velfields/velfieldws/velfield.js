@@ -36,10 +36,11 @@ var sliderv0;
 var sliderk;
 var slideralpha;
 
-var WIDTH = 700;
-var HEIGHT = 500;
+var WIDTH = 1000;
+var HEIGHT = 800;
 var frameWidth = WIDTH/100;
 var frameHeight = HEIGHT/100;
+
 
 
 function setup() {
@@ -193,7 +194,38 @@ function Particle(_x, _y, _t, _h) {
     
 }
 
+let inpP, inpQ;
+
+let pText, qText;
+
+let button;
+
 function controls() {
+    
+    inpP = createInput();
+    inpQ = createInput();
+    inpP.value('x');
+    inpQ.value('y');
+    inpP.style('font-size', '16px');
+    inpP.style('width', '150px');
+    inpQ.style('font-size', '16px');
+    inpQ.style('width', '150px');
+    inpP.position(width/17, height/15);
+    inpQ.position(width/17, height/15+40);
+    
+    pText = createElement('p', 'P(x,y)=');
+    pText.position(width/25-40, height/15-10);
+    pText.style('color', color(255));
+    
+    qText = createElement('p', 'Q(x,y)=');
+    qText.position(width/25-40, height/15+30);
+    qText.style('color', color(255));
+    
+    button = createButton('Update');
+    button.position(inpQ.x, inpQ.y+35);
+    button.style('font-size', '16px');
+    button.style('cursor', 'pointer');
+    button.mousePressed(changeVector);
     
     slideru0 = createSlider(-2, 2, 0.5, 0.1);
     slideru0.position(10, 470);
@@ -219,6 +251,11 @@ function controls() {
     buttonTrace.position(520, 470);
     buttonTrace.mousePressed(traceShow);
     
+}
+
+function changeVector(){
+    P = inpP.value();
+    Q = inpQ.value();
 }
 
 function field(_time) {

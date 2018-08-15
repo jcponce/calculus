@@ -49,7 +49,7 @@ let points1 = new Array();
 //let points2 = new Array();
 
 function backAttractors () {
-    window.location.href = "https://jcponce.github.io/strange-attractors/strange-attractors.html";
+    window.location.href = "https://jcponce.github.io/strange-attractors";
 }
 
 function setup() {
