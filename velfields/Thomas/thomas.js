@@ -1,22 +1,3 @@
-/**
- * 
- * The p5.EasyCam library - Easy 3D CameraControl for p5.js and WEBGL.
- *
- *   Copyright 2018 by Thomas Diewald (https://www.thomasdiewald.com)
- *
- *   Source: https://github.com/diwi/p5.EasyCam
- *
- *   MIT License: https://opensource.org/licenses/MIT
- * 
- * 
- * explanatory notes:
- * 
- * p5.EasyCam is a derivative of the original PeasyCam Library by Jonathan Feinberg 
- * and combines new useful features with the great look and feel of its parent.
- * 
- * 
- */
-
 /* Written in p5.js (https://p5js.org/)
  * Under Creative Commons License
  * https://creativecommons.org/licenses/by-sa/4.0/
@@ -25,8 +6,15 @@
  
 
 let easycam;
+
 let particles = [];
-let numMax = 600;
+let points = [];
+
+let attractor = new ThomasAttractor();
+
+let NUM_POINTS = 2500;//num of points in curve
+
+let numMax = 600;//num of particles
 let t = 0;
 let h = 0.01;
 let currentParticle = 0;
@@ -34,53 +22,51 @@ let currentParticle = 0;
 // settings and presets
 let parDef = {
 Attractor: 'Thomas',
-b: 0.208186,
-ResetParticles: initSketch,
-Preset: function() { this.b = 0.208186; },
+Speed: 7,
+Particles: true,
+Preset: function() {
+    this.Speed = 7;
+    this.Particles = true;
+    attractor.b = 0.208186;
+    attractor.x = 1.1;
+    attractor.y = 1.1;
+    attractor.z = -0.01;
+    for (let i=points.length-1; i>=0; i-=1){
+        points.splice(i,1);
+    }
+    initSketch();
+},
+Randomize: randomCurve,
 };
 
-let b = 0.208186;
-let x = 1.1;
-let y = 1.1;
-let z = -0.01;
-
-let points = new Array();
 
 function backAttractors () {
     window.location.href = "https://jcponce.github.io/strange-attractors";
 }
 
-function setup() { 
- 
-  pixelDensity(1);
+let bText;
+
+function setup() {
     
     // create gui (dat.gui)
     let gui = new dat.GUI();
     gui.add(parDef, 'Attractor');
-    gui.add(parDef, 'b'  , 0, 0.95  ).listen();
-    gui.add(parDef, 'ResetParticles'  );
+    gui.add(parDef, 'Speed', 0, 10, 0.01).listen();
+    gui.add(parDef, 'Particles' );
+    gui.add(parDef, 'Randomize'  );
     gui.add(parDef, 'Preset'  );
     gui.add(this, 'backAttractors').name("Go Back");
-  
-  let canvas = createCanvas(windowWidth, windowHeight, WEBGL);
-  setAttributes('antialias', true);
-  
-  console.log(Dw.EasyCam.INFO);
-  
-  easycam = new Dw.EasyCam(this._renderer, {distance : 10});
+ 
+   
     
+    pixelDensity(1);
     
-    for(let i = 0; i< 1300; i++){
-        let dt = 0.04;
-        let dx = speed*(sin( y ) - b * x) * dt;
-        let dy = speed*(sin( z ) - b * y) * dt;
-        let dz = speed*(sin( x ) - b * z) * dt;
-        x = x + dx;
-        y = y + dy;
-        z = z + dz;
-        
-        points.push(new p5.Vector(x, y, z));
-    }
+    let canvas = createCanvas(windowWidth, windowHeight, WEBGL);
+    setAttributes('antialias', true);
+    
+    console.log(Dw.EasyCam.INFO);
+    
+    easycam = new Dw.EasyCam(this._renderer, {distance : 10});
     
     // place initial samples
     initSketch();
@@ -90,15 +76,41 @@ function setup() {
 function windowResized() {
   resizeCanvas(windowWidth, windowHeight);
   easycam.setViewport([0, 0, windowWidth, windowHeight]);
+ 
+}
+
+function randomCurve() {
+        for (let i=points.length-1; i>=0; i-=1){
+            points.splice(i,1);
+        }
+        attractor.randomize();
+        initSketch();
     
-    // place initial samples
-    initSketch();
 }
 
 function initSketch(){
     
+    let p = {
+    x: attractor.x,
+    y: attractor.y,
+    z: attractor.z
+    }
+    
+    for( var j = 0; j < NUM_POINTS; j++ ) {
+        
+        p = attractor.generatePoint( p.x, p.y, p.z );
+        
+        if( isNaN( p.x ) || isNaN( p.y ) || isNaN( p.z ) ) {
+            console.log( 'Failed, retry' );
+            initScene( id, randomize );
+            return;
+        }
+        
+        points.push(new p5.Vector(attractor.scale * p.x,attractor.scale * p.y, attractor.scale * p.z));
+        
+    }
     let m = 20;
-    for (let i=0; i<numMax; i++) {
+    for (var i=0; i < numMax; i++) {
         particles[i] = new Particle(random(-m, m), random(-m, m), random(-m, m), t, h);
     }
     
@@ -112,7 +124,6 @@ function draw(){
   // BG
   background(0);
     
-    
     beginShape(POINTS);
     for (let v of points) {
         stroke(204, 255, 255);
@@ -121,8 +132,9 @@ function draw(){
     }
     endShape();
     
+if(parDef.Particles==true){
   //updating and displaying the particles
-    for (let i=particles.length-1; i>=0; i-=1) {
+    for (var i=particles.length-1; i>=0; i-=1) {
         let p = particles[i];
         p.update();
         p.display();
@@ -132,27 +144,27 @@ function draw(){
             particles.push(new Particle(random(-7,7),random(-6,6), random(-6,6), t,h) );
         }
     }
-  
+}
   // gizmo
   //strokeWeight(0.1);
   //stroke(255, 32,  0); line(0,0,0,2,0,0);
   //stroke( 32,255, 32); line(0,0,0,0,2,0);
   //stroke(  0, 32,255); line(0,0,0,0,0,2);
+    
+    //console.log(attractor.b);
   
- 
 }
 
-let speed = 6;
 function componentFX(t, x, y, z){
-    return speed * ( sin(y) - parDef.b * x);//Change this function
+    return parDef.Speed * ( sin(y) - attractor.b * x);//Change this function
 }
 
 function componentFY(t, x, y, z){
-    return speed * (  sin(z) - parDef.b * y  );//Change this function
+    return parDef.Speed * (  sin(z) - attractor.b * y  );//Change this function
 }
 
 function componentFZ(t, x, y, z){
-    return speed * ( sin(x) - parDef.b * z  );//Change this function
+    return parDef.Speed * ( sin(x) - attractor.b * z  );//Change this function
 }
 
 //Particle definition and motion
@@ -198,5 +210,42 @@ class Particle{
         sphere(this.radius, 6, 6);
         pop();
     }
+    
+}
+
+function ThomasAttractor() {
+    
+    this.speed = 10;
+    
+    this.b = 0.208186;
+    
+    this.x = 1.1;
+    this.y = 1.1;
+    this.z = -0.01;
+    
+    this.h = .03;
+    this.scale = 1;
+    
+}
+
+ThomasAttractor.prototype.generatePoint = function( x, y, z ) {
+    
+    var nx = this.speed * (Math.sin( y ) - this.b * x);
+    var ny =  this.speed * (Math.sin( z ) - this.b * y);
+    var nz =  this.speed * (Math.sin( x ) - this.b * z);
+    
+    x += this.h * nx; y += this.h * ny; z += this.h * nz;
+    
+    return { x: x, y: y, z: z }
+    
+}
+
+ThomasAttractor.prototype.randomize = function() {
+    
+    this.b =random( 0.01, 0.4 );
+    
+    this.x = random( -1.1, 1.1 );
+    this.y = random( -1.1, 1.1 );
+    this.z = random( -1, 1 );
     
 }
