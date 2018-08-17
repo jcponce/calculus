@@ -20,6 +20,13 @@
 
 let easycam;
 let particles = [];
+
+let points = [];
+
+let attractor = new AizawaAttractor();
+
+let NUM_POINTS = 2500;//num of points in curve
+
 let numMax = 600;
 let t = 0;
 let h = 0.01;
@@ -29,30 +36,32 @@ let currentParticle = 0;
 let parDef = {
 Attractor: 'Aizawa',
 Speed: 1.0,
-a: 0.95,
-b: 0.7,
-c: 0.6,
-d: 3.5,
-e: 0.25,
-f: 0.1,
-ResetParticles: initSketch,
-Preset: function() { this.Speed = 1.0; this.a = 0.95; this.b = 0.7; this.c = 0.6; this.d = 3.5; this.e = 0.25; this.f = 0.1; },
+Particles: true,
+Preset: function() {
+    this.Speed = 7;
+    this.Particles = true;
+    this.Speed = 1.0;
+    attractor.a = 0.95;
+    attractor.b = 0.7;
+    attractor.c = 0.6;
+    attractor.d = 3.5;
+    attractor.e = 0.25;
+    attractor.f = 0.1;
+    attractor.x = 0.1;
+    attractor.y = 1;
+    attractor.z = 0.01;
+    for (let i=points.length-1; i>=0; i-=1){
+        points.splice(i,1);
+    }
+    initSketch();
+},
+Randomize: randomCurve,
 };
 
 //parameters
 let P = 1;
-let a = 0.95;
-let b = 0.7;
-let c = 0.6;
-let d = 3.5;
-let e = 0.25;
-let f = 0.1;
 
-let x = 0.1;
-let y = 1;
-let z = 0.01;
 
-let points = new Array();
 
 function backAttractors () {
     window.location.href = "https://jcponce.github.io/strange-attractors";
@@ -61,41 +70,24 @@ function backAttractors () {
 
 function setup() {
     
-    pixelDensity(1);
     
     // create gui (dat.gui)
     let gui = new dat.GUI();
     gui.add(parDef, 'Attractor');
-    gui.add(parDef, 'a'   , -0.95, 0.95  ).listen();
-    gui.add(parDef, 'b'   , -0.8, 0.8  ).listen();
-    gui.add(parDef, 'c'   , -0.7, 0.7  ).listen();
-    gui.add(parDef, 'd'   , -4.5, 4.5  ).listen();
-    gui.add(parDef, 'e'   , -0.35, 0.35  ).listen();
-    gui.add(parDef, 'f'   , -0.25, 0.25  ).listen();
-    gui.add(parDef, 'Speed'   , 0, 3  ).listen();
-    gui.add(parDef, 'ResetParticles'  );
+    gui.add(parDef, 'Speed', 0, 5, 0.01).listen();
+    gui.add(parDef, 'Particles' );
+    gui.add(parDef, 'Randomize'  );
     gui.add(parDef, 'Preset'  );
     gui.add(this, 'backAttractors').name("Go Back");
+    
+    pixelDensity(1);
     
     let canvas = createCanvas(windowWidth, windowHeight, WEBGL);
     setAttributes('antialias', true);
     
     console.log(Dw.EasyCam.INFO);
     
-    easycam = new Dw.EasyCam(this._renderer, {distance : 4});
-    
-    
-    for(let i = 0; i< 2800; i++){
-        let dt = 0.02;
-        let dx = speed*( P*((z - b) * x - d * y) ) * dt;
-        let dy = speed*(  P*(d * x + (z - b) * y) ) * dt;
-        let dz = speed*( P*(c + a * z - z*z*z/3 - (x*x+y*y)*(1+e*z)+f*z*x*x*x)  ) * dt;
-        x = x + dx;
-        y = y + dy;
-        z = z + dz;
-        
-        points.push(new p5.Vector(x, y, z));
-    }
+    easycam = new Dw.EasyCam(this._renderer, {distance : 5});
     
     // place initial samples
     initSketch();
@@ -105,15 +97,41 @@ function windowResized() {
     resizeCanvas(windowWidth, windowHeight);
     easycam.setViewport([0,0,windowWidth, windowHeight]);
     
-    // place initial samples
+}
+
+function randomCurve() {
+    for (let i=points.length-1; i>=0; i-=1){
+        points.splice(i,1);
+    }
+    attractor.randomize();
     initSketch();
+    
 }
 
 function initSketch(){
     
-    let m = 1.5;
-    for (let i=0; i<numMax; i++) {
-        particles[i] = new Particle(random(-m, m), random(-m, m), random(-m+1, m+1), t, h);
+    let p = {
+    x: attractor.x,
+    y: attractor.y,
+    z: attractor.z
+    }
+    
+    for( var j = 0; j < NUM_POINTS; j++ ) {
+        
+        p = attractor.generatePoint( p.x, p.y, p.z );
+        
+        if( isNaN( p.x ) || isNaN( p.y ) || isNaN( p.z ) ) {
+            console.log( 'Failed, retry' );
+            initScene( id, randomize );
+            return;
+        }
+        
+        points.push(new p5.Vector(attractor.scale * p.x,attractor.scale * p.y, attractor.scale * p.z));
+        
+    }
+    let m = 2;
+    for (var i=0; i < numMax; i++) {
+        particles[i] = new Particle(random(-m, m), random(-m, m), random(0, m), t, h);
     }
     
 }
@@ -143,16 +161,18 @@ function draw(){
     }
     endShape();
     
+    if(parDef.Particles==true){
     //updating and displaying the particles
     for (let i=particles.length-1; i>=0; i-=1) {
         let p = particles[i];
         p.update();
         p.display();
-        if ( p.x > 80 ||  p.y > 80 || p.z > 80 || p.x < -80 ||  p.y < -80 || p.z < -80 ) {
+        if ( p.x > 8 ||  p.y > 8 || p.z > 8 || p.x < -8 ||  p.y < -8 || p.z < -8 ) {
             particles.splice(i,1);
             currentParticle--;
-            particles.push(new Particle(random(-7,7),random(-6,6),random(-7,7),t,h) );
+            particles.push(new Particle(random(-5,5),random(-5,5),random(0,5),t,h) );
         }
+    }
     }
     
     // gizmo
@@ -163,17 +183,17 @@ function draw(){
     
 }
 
-let speed = 0.5;
+
 function componentFX(t, x, y, z){
-    return speed * ( parDef.Speed * ((z - parDef.b) * x - parDef.d * y) );//Change this function
+    return  ( parDef.Speed * ((z - attractor.b) * x - attractor.d * y) );//Change this function
 }
 
 function componentFY(t, x, y, z){
-    return speed * (  parDef.Speed * (parDef.d * x + (z - parDef.b) * y) );//Change this function
+    return  (  parDef.Speed * (attractor.d * x + (z - attractor.b) * y) );//Change this function
 }
 
 function componentFZ(t, x, y, z){
-    return speed * ( parDef.Speed * (parDef.c + parDef.a * z - z*z*z/3 - (x*x+y*y)*(1+parDef.e*z)+parDef.f*z*x*x*x)  );//Change this function
+    return ( parDef.Speed * (attractor.c + attractor.a * z - z*z*z/3 - (x*x+y*y)*(1+attractor.e*z)+attractor.f*z*x*x*x)  );//Change this function
 }
 
 //Particle definition and motion
@@ -219,5 +239,53 @@ class Particle{
         sphere(this.radius, 7, 6);
         pop();
     }
+    
+}
+
+function AizawaAttractor() {
+    
+    this.speed = 0.5;
+    
+    this.a = 0.95;
+    this.b = 0.7;
+    this.c = 0.6;
+    this.d = 3.5;
+    this.e = 0.25;
+    this.f = 0.1;
+    
+    this.x = 0.1;
+    this.y = 1;
+    this.z = 0.01;
+    
+    this.h = .03;
+    this.scale = 1;
+    
+}
+
+AizawaAttractor.prototype.generatePoint = function( x, y, z ) {
+    
+    
+    var nx = this.speed * ((z - this.b) * x - this.d * y) ;
+    var ny =  this.speed * (this.d * x + (z - this.b) * y) ;
+    var nz =  this.speed * (this.c + this.a * z - z*z*z/3 - (x*x+y*y)*(1+this.e*z)+this.f*z*x*x*x);
+    
+    x += this.h * nx; y += this.h * ny; z += this.h * nz;
+    
+    return { x: x, y: y, z: z }
+    
+}
+
+AizawaAttractor.prototype.randomize = function() {
+    
+    this.a = random( 0.5, 0.95 );
+    this.b = random( 0.5, 0.8 );
+    this.c = random( 0.2, 0.8 );
+    this.d = random( 2, 3.5 );
+    this.e = random( 0.01, 0.4 );
+    this.f = random( 0.01, 0.4 );
+    
+    this.x = random( -1.1, 1.1 );
+    this.y = random( -1.1, 1.1 );
+    this.z = random( -1, 1 );
     
 }
