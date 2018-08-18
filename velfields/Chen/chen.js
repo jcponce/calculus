@@ -4,7 +4,7 @@ let particles = [];
 let points = [];
 let points2 = [];
 
-let attractor = new AizawaAttractor();
+let attractor = new ChenAttractor();
 
 let NUM_POINTS = 2500;//num of points in curve
 
@@ -15,7 +15,7 @@ let currentParticle = 0;
 
 // settings and presets
 let parDef = {
-Attractor: 'Aizawa',
+Attractor: 'Chen',
 Speed: 1.0,
 Particles: true,
 Preset: function() {
@@ -236,7 +236,7 @@ class Particle{
     
 }
 
-function AizawaAttractor() {
+function ChenAttractor() {
     
     this.speed = 0.5;
     
@@ -257,7 +257,7 @@ function AizawaAttractor() {
     
 }
 
-AizawaAttractor.prototype.generatePoint = function( x, y, z ) {
+ChenAttractor.prototype.generatePoint = function( x, y, z ) {
     
     
     var nx = this.speed * (this.alpha * x- y * z ) ;
@@ -270,7 +270,7 @@ AizawaAttractor.prototype.generatePoint = function( x, y, z ) {
     
 }
 
-AizawaAttractor.prototype.randomize = function() {
+ChenAttractor.prototype.randomize = function() {
     
     this.alpha = random( 3, 5 );
     this.beta = random( -10, -8 );
