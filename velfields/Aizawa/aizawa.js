@@ -1,3 +1,9 @@
+/* p5.js (https://p5js.org/)
+ * Under Creative Commons License
+ * https://creativecommons.org/licenses/by-sa/4.0/
+ * Written by Juan Carlos Ponce Campuzano, 19-Jul-2018
+ */
+
 let easycam;
 let particles = [];
 
@@ -18,7 +24,6 @@ Attractor: 'Aizawa',
 Speed: 1.0,
 Particles: true,
 Preset: function() {
-    this.Speed = 7;
     this.Particles = true;
     this.Speed = 1.0;
     attractor.a = 0.95;
