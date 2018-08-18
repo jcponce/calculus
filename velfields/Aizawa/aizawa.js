@@ -1,23 +1,3 @@
-/**
- * 
- * The p5.EasyCam library - Easy 3D CameraControl for p5.js and WEBGL.
- *
- *   Copyright 2018 by Thomas Diewald (https://www.thomasdiewald.com)
- *
- *   Source: https://github.com/diwi/p5.EasyCam
- *
- *   MIT License: https://opensource.org/licenses/MIT
- * 
- * 
- * explanatory notes:
- * 
- * p5.EasyCam is a derivative of the original PeasyCam Library by Jonathan Feinberg 
- * and combines new useful features with the great look and feel of its parent.
- * 
- * 
- */
- 
-
 let easycam;
 let particles = [];
 
@@ -58,10 +38,6 @@ Preset: function() {
 Randomize: randomCurve,
 };
 
-//parameters
-let P = 1;
-
-
 
 function backAttractors () {
     window.location.href = "https://jcponce.github.io/strange-attractors";
@@ -100,7 +76,7 @@ function windowResized() {
 }
 
 function randomCurve() {
-    for (let i=points.length-1; i>=0; i-=1){
+    for (var i = points.length-1; i>=0; i-=1){
         points.splice(i,1);
     }
     attractor.randomize();
@@ -119,12 +95,6 @@ function initSketch(){
     for( var j = 0; j < NUM_POINTS; j++ ) {
         
         p = attractor.generatePoint( p.x, p.y, p.z );
-        
-        if( isNaN( p.x ) || isNaN( p.y ) || isNaN( p.z ) ) {
-            console.log( 'Failed, retry' );
-            initScene( id, randomize );
-            return;
-        }
         
         points.push(new p5.Vector(attractor.scale * p.x,attractor.scale * p.y, attractor.scale * p.z));
         
