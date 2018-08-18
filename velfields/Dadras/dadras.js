@@ -1,26 +1,13 @@
-/**
- * 
- * The p5.EasyCam library - Easy 3D CameraControl for p5.js and WEBGL.
- *
- *   Copyright 2018 by Thomas Diewald (https://www.thomasdiewald.com)
- *
- *   Source: https://github.com/diwi/p5.EasyCam
- *
- *   MIT License: https://opensource.org/licenses/MIT
- * 
- * 
- * explanatory notes:
- * 
- * p5.EasyCam is a derivative of the original PeasyCam Library by Jonathan Feinberg 
- * and combines new useful features with the great look and feel of its parent.
- * 
- * 
- */
- 
-
 let easycam;
 let particles = [];
-let numMax = 500;
+
+let points = [];
+
+let attractor = new DadrasAttractor();
+
+let NUM_POINTS = 2500;//num of points in curve
+
+let numMax = 600;
 let t = 0;
 let h = 0.01;
 let currentParticle = 0;
@@ -28,161 +15,164 @@ let currentParticle = 0;
 // settings and presets
 let parDef = {
 Attractor: 'Dadras',
-a: 3,
-b: 2.7,
-c: 1.7,
-d: 2.0,
-e: 9.0,
-ResetParticles: initSketch,
-Preset: function() {  this.a = 3; this.b = 2.7; this.c = 1.7; this.d = 2.0; this.e = 9.0; },
+Speed: 1.0,
+Particles: true,
+Preset: function() {
+    this.Speed = 1.0;
+    this.Particles = true;
+    attractor.a = 3.0;
+    attractor.b = 2.7;
+    attractor.c = 1.7;
+    attractor.d = 2.0;
+    attractor.e = 9.0;
+    attractor.x = 1.1;
+    attractor.y = 2.1;
+    attractor.z = -2.0;
+    for (let i=points.length-1; i>=0; i-=1){
+        points.splice(i,1);
+    }
+    initSketch();
+},
+Randomize: randomCurve,
 };
 
-let a = 3;
-let b = 2.7;
-let c = 1.7;
-let d = 2;
-let e = 9;
-
-let x = 1.1;
-let y = 0.1;
-let z = 0.0;
-
-let points = new Array();
 
 function backAttractors () {
     window.location.href = "https://jcponce.github.io/strange-attractors";
 }
 
-function setup() { 
- 
-  pixelDensity(1);
+
+function setup() {
+    
     
     // create gui (dat.gui)
     let gui = new dat.GUI();
     gui.add(parDef, 'Attractor');
-    gui.add(parDef, 'a'   , -3.0, 3.0  ).listen();
-    gui.add(parDef, 'b'   , -3.0, 3.0  ).listen();
-    gui.add(parDef, 'c'   , -2.0, 2.0  ).listen();
-    gui.add(parDef, 'd'   , -2.0, 2.0  ).listen();
-    gui.add(parDef, 'e'   , -10.0, 10.0  ).listen();
-    gui.add(parDef, 'ResetParticles'  );
+    gui.add(parDef, 'Speed', 0, 3, 0.01).listen();
+    gui.add(parDef, 'Particles' );
+    gui.add(parDef, 'Randomize'  );
     gui.add(parDef, 'Preset'  );
     gui.add(this, 'backAttractors').name("Go Back");
-  
-  let canvas = createCanvas(windowWidth, windowHeight, WEBGL);
-  setAttributes('antialias', true);
-  
-  console.log(Dw.EasyCam.INFO);
-  
-  easycam = new Dw.EasyCam(this._renderer, {distance : 25});
     
-    for(let i = 0; i< 2500; i++){
-        let dt = 0.02;
-        let dx = speed*(y - a *x +b * y * z) * dt;
-        let dy = speed*(c * y - x * z +z) * dt;
-        let dz = speed*( d * x * y - e * z) * dt;
-        x = x + dx;
-        y = y + dy;
-        z = z + dz;
-        
-        points.push(new p5.Vector(x, y, z));
-    }
+    pixelDensity(1);
+    
+    let canvas = createCanvas(windowWidth, windowHeight, WEBGL);
+    setAttributes('antialias', true);
+    
+    console.log(Dw.EasyCam.INFO);
+    
+    easycam = new Dw.EasyCam(this._renderer, {distance : 20});
     
     // place initial samples
     initSketch();
-    
-} 
+}
 
 function windowResized() {
-  resizeCanvas(windowWidth, windowHeight);
-  easycam.setViewport([0, 0, windowWidth, windowHeight]);
+    resizeCanvas(windowWidth, windowHeight);
+    easycam.setViewport([0,0,windowWidth, windowHeight]);
     
-    // place initial samples
+}
+
+function randomCurve() {
+    for (var i = points.length-1; i>=0; i-=1){
+        points.splice(i,1);
+    }
+    attractor.randomize();
     initSketch();
+    
 }
 
 function initSketch(){
     
-    let m = 15;
-    for (let i=0; i<numMax; i++) {
+    let p = {
+    x: attractor.x,
+    y: attractor.y,
+    z: attractor.z
+    }
+    
+    for( var j = 0; j < NUM_POINTS; j++ ) {
+        
+        p = attractor.generatePoint( p.x, p.y, p.z );
+        
+        points.push(new p5.Vector(attractor.scale * p.x,attractor.scale * p.y, attractor.scale * p.z));
+        
+    }
+    let m = 14;
+    for (var i=0; i < numMax; i++) {
         particles[i] = new Particle(random(-m, m), random(-m, m), random(-m, m), t, h);
     }
     
-    
 }
+
 
 function draw(){
     
-  // projection
-  perspective(60 * PI/180, width/height, 1, 5000);
-  
-  // BG
-  background(0);
+    // projection
+    perspective(60 * PI/180, width/height, 1, 5000);
     
-    let hu = 0;
+    // BG
+    background(0);
+    
+    //translate(0,0,-23);
+    
     beginShape(POINTS);
     for (let v of points) {
-        stroke(hu, 193, 255);
+        stroke(128, 193, 255);
         strokeWeight(0.08);
         vertex(v.x, v.y, v.z);
         
-        hu += 1;
-        if (hu > 255) {
-            hu = 0;
-        }
     }
     endShape();
     
-  //updating and displaying the particles
+    if(parDef.Particles==true){
+    //updating and displaying the particles
     for (let i=particles.length-1; i>=0; i-=1) {
         let p = particles[i];
         p.update();
         p.display();
-        if ( p.x > 800 ||  p.y > 800 || p.z > 800 || p.x < -800 ||  p.y < -800 || p.z < -800 ) {
+        if ( p.x > 100 ||  p.y > 100 || p.z > 100 || p.x < -100 ||  p.y < -100 || p.z < -100 ) {
             particles.splice(i,1);
             currentParticle--;
-            particles.push(new Particle(random(-7,7),random(-6,6), random(-6,6), t, h) );
+            particles.push(new Particle(random(-5,5),random(-5,5),random(-5,5),t,h) );
         }
     }
-  
-  // gizmo
-  //strokeWeight(0.1);
-  //stroke(255, 32,  0); line(0,0,0,2,0,0);
-  //stroke( 32,255, 32); line(0,0,0,0,2,0);
-  //stroke(  0, 32,255); line(0,0,0,0,0,2);
-  
+    }
     
-  
- 
+    // gizmo
+    //strokeWeight(0.1);
+    //stroke(255, 32,  0); line(0,0,0,2,0,0);
+    //stroke( 32,255, 32); line(0,0,0,0,2,0);
+    //stroke(  0, 32,255); line(0,0,0,0,0,2);
+    
 }
 
-let speed = 0.7;
+
 function componentFX(t, x, y, z){
-    return speed * ( y - parDef.a *x + parDef.b * y * z );//Change this function
+    return 1 * parDef.Speed * ( y - attractor.a *x + attractor.b * y * z );//Change this function
 }
 
 function componentFY(t, x, y, z){
-    return speed * ( parDef.c * y - x * z +z);//Change this function
+    return 1 * parDef.Speed * ( attractor.c * y - x * z +z);//Change this function
 }
 
 function componentFZ(t, x, y, z){
-    return speed * ( parDef.d * x * y - parDef.e * z);//Change this function
+    return 1 * parDef.Speed * ( attractor.d * x * y - attractor.e * z );//Change this function
 }
 
 //Particle definition and motion
 class Particle{
     
-	constructor(_x, _y, _z, _t, _h){
-    this.x = _x;
-    this.y = _y;
-    this.z = _z;
-    this.time = _t;
-    this.radius = random(0.11,0.11);
-    this.h = _h;
-    this.r = random(129,255);
-    this.g = random(200,255);
-    this.b = random(100,255);
-	}
+    constructor(_x, _y, _z, _t, _h){
+        this.x = _x;
+        this.y = _y;
+        this.z = _z;
+        this.time = _t;
+        this.radius = 0.12;
+        this.h = _h;
+        this.r = random(129,255);
+        this.g = random(200,255);
+        this.b = random(100,255);
+    }
     
     update() {
         this.k1 = componentFX(this.time, this.x, this.y, this.z);
@@ -208,8 +198,54 @@ class Particle{
         translate(this.x, this.y, this.z);
         ambientMaterial(this.r, this.b, this.g);
         noStroke();
-        sphere(this.radius, 6, 6);
+        sphere(this.radius, 7, 6);
         pop();
     }
+    
+}
+
+function DadrasAttractor() {
+    
+    this.speed = 0.5;
+    
+    this.a = 3.0;
+    this.b = 2.7;
+    this.c = 1.7;
+    this.d = 2.0;
+    this.e = 9.0;
+    
+    this.x = 1.1;
+    this.y = 2.1;
+    this.z = -2.0;
+    
+    this.h = 0.02;
+    this.scale = 1;
+    
+}
+
+DadrasAttractor.prototype.generatePoint = function( x, y, z ) {
+    
+    
+    var nx = this.speed * (y - this.a *x + this.b * y * z ) ;
+    var ny =  this.speed * (this.c * y - x * z +z) ;
+    var nz =  this.speed * (this.d * x * y - this.e * z);
+    
+    x += this.h * nx; y += this.h * ny; z += this.h * nz;
+    
+    return { x: x, y: y, z: z }
+    
+}
+
+DadrasAttractor.prototype.randomize = function() {
+    
+    this.a = random( 1, 3 );
+    this.b = random( 0.2, 3 );
+    this.c = random( 0.1, 2 );
+    this.d = random( 1, 3 );
+    this.e = random( 5, 10 );
+    
+    this.x = random( -1.5, 1.5 );
+    this.y = random( -2, 2 );
+    this.z = random( -5, 5 );
     
 }
