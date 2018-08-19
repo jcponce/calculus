@@ -104,6 +104,11 @@ function initSketch(){
     for( var j = 0; j < NUM_POINTS; j++ ) {
         
         p = attractor.generatePoint( p.x, p.y, p.z );
+        if( isNaN( p.x ) || isNaN( p.y ) || isNaN( p.z ) ) {
+            console.log( 'Failed, retry' );
+            randomCurve();
+            return;
+        }
         
         points.push(new p5.Vector(attractor.scale * p.x,attractor.scale * p.y, attractor.scale * p.z));
         
@@ -118,6 +123,12 @@ function initSketch(){
     for( var j = 0; j < NUM_POINTS; j++ ) {
         
         q = attractor.generatePoint( q.x, q.y, q.z );
+        
+        if( isNaN( q.x ) || isNaN( q.y ) || isNaN( q.z ) ) {
+            console.log( 'Failed, retry' );
+            randomCurve()
+            return;
+        }
        
         points2.push(new p5.Vector(attractor.scale * q.x,attractor.scale * q.y, attractor.scale * q.z));
         

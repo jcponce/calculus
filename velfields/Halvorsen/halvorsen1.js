@@ -1,119 +1,105 @@
-/* p5.js (https://p5js.org/)
- * Under Creative Commons License
- * https://creativecommons.org/licenses/by-sa/4.0/
- * Written by Juan Carlos Ponce Campuzano, 19-Jul-2018
+/**
+ *
+ * The p5.EasyCam library - Easy 3D CameraControl for p5.js and WEBGL.
+ *
+ *   Copyright 2018 by Thomas Diewald (https://www.thomasdiewald.com)
+ *
+ *   Source: https://github.com/diwi/p5.EasyCam
+ *
+ *   MIT License: https://opensource.org/licenses/MIT
+ *
+ *
+ * explanatory notes:
+ *
+ * p5.EasyCam is a derivative of the original PeasyCam Library by Jonathan Feinberg
+ * and combines new useful features with the great look and feel of its parent.
+ *
+ *
  */
+
 
 let easycam;
 let particles = [];
-
-let points = [];
-
-let attractor = new RosslerAttractor();
-
-let NUM_POINTS = 2500;//num of points in curve
-
-let numMax = 600;
+let numMax = 700;
 let t = 0;
 let h = 0.01;
 let currentParticle = 0;
 
-// settings and presets
+
 let parDef = {
-Attractor: 'Rössler',
-Speed: 1.0,
-Particles: true,
-Preset: function() {
-    this.Speed = 1.0;
-    this.Particles = true;
-    attractor.a = 0.2;
-    attractor.b = 0.2;
-    attractor.c = 5.7;
-    attractor.x = 10;
-    attractor.y = 0;
-    attractor.z = 10;
-    for (let i=points.length-1; i>=0; i-=1){
-        points.splice(i,1);
-    }
-    initSketch();
-},
-Randomize: randomCurve,
+Attractor: 'Halvorsen',
+a: 1.4,
+Speed: 0.4,
+ResetParticles: initSketch,
+Preset: function() {  this.a = 1.4; this.Speed = 0.4;},
 };
 
+//parameters
+
+let x = 0;
+let y = -5;
+let z = -2.01;
+
+let points = new Array();
 
 function backAttractors () {
     window.location.href = "https://jcponce.github.io/strange-attractors";
 }
 
-
 function setup() {
     
+    pixelDensity(1);
     
-    // create gui (dat.gui)
     let gui = new dat.GUI();
     gui.add(parDef, 'Attractor');
-    gui.add(parDef, 'Speed', 0, 3, 0.01).listen();
-    gui.add(parDef, 'Particles' );
-    gui.add(parDef, 'Randomize'  );
+    gui.add(parDef, 'a' , -1.5, 1.5  ).listen();
+    gui.add(parDef, 'Speed' , 0, 1  ).listen();
+    gui.add(parDef, 'ResetParticles'  );
     gui.add(parDef, 'Preset'  );
     gui.add(this, 'backAttractors').name("Go Back");
-    
-    pixelDensity(1);
     
     let canvas = createCanvas(windowWidth, windowHeight, WEBGL);
     setAttributes('antialias', true);
     
     console.log(Dw.EasyCam.INFO);
     
-    easycam = new Dw.EasyCam(this._renderer, {distance : 40});
+    easycam = new Dw.EasyCam(this._renderer, {distance : 42});
+    
+    for(let i = 0; i< 2000; i++){
+        let dt = 0.02;
+        let dx = parDef.Speed *( -1.4 * x -4 * y-4 * z-y * y  ) * dt;
+        let dy = parDef.Speed *(  -1.4 * y-4 * z-4 * x-z * z ) * dt;
+        let dz = parDef.Speed *( -1.4 * z-4 * x-4 * y-x * x   ) * dt;
+        x = x + dx;
+        y = y + dy;
+        z = z + dz;
+        
+        points.push(new p5.Vector(x, y, z));
+    }
+    
+    
+    // place initial samples
+    initSketch();
+    
+}
+
+function windowResized() {
+    resizeCanvas(windowWidth, windowHeight);
+    easycam.setViewport([0, 0, windowWidth, windowHeight]);
     
     // place initial samples
     initSketch();
 }
 
-function windowResized() {
-    resizeCanvas(windowWidth, windowHeight);
-    easycam.setViewport([0,0,windowWidth, windowHeight]);
-    
-}
-
-function randomCurve() {
-    for (var i = points.length-1; i>=0; i-=1){
-        points.splice(i,1);
-    }
-    attractor.randomize();
-    initSketch();
-    
-}
-
 function initSketch(){
     
-    let p = {
-    x: attractor.x,
-    y: attractor.y,
-    z: attractor.z
-    }
-    
-    for( var j = 0; j < NUM_POINTS; j++ ) {
-        
-        p = attractor.generatePoint( p.x, p.y, p.z );
-        
-        if( isNaN( p.x ) || isNaN( p.y ) || isNaN( p.z ) ) {
-            console.log( 'Failed, retry' );
-            randomCurve();
-            return;
-        }
-        
-        points.push(new p5.Vector(attractor.scale * p.x,attractor.scale * p.y, attractor.scale * p.z));
-        
-    }
-    let m = 20;
-    for (var i=0; i < numMax; i++) {
+    let m = 15;
+    for (let i=0; i<numMax; i++) {
         particles[i] = new Particle(random(-m, m), random(-m, m), random(-m, m), t, h);
     }
     
+    
 }
-
 
 function draw(){
     
@@ -123,52 +109,56 @@ function draw(){
     // BG
     background(0);
     
-    rotateX(1.3);
-    rotateZ(3.9);
-    translate(0,0,-9);
-    
+    rotateX(-0.5);
+    rotateY(PI/2+0.7);
+    let hu = 0;
     beginShape(POINTS);
     for (let v of points) {
-        stroke(128, 200, 255);
-        strokeWeight(0.15);
+        stroke(hu, 193, 255);
+        strokeWeight(0.09);
         vertex(v.x, v.y, v.z);
         
+        hu += 1;
+        if (hu > 255) {
+            hu = 0;
+        }
     }
     endShape();
     
-    if(parDef.Particles==true){
     //updating and displaying the particles
     for (let i=particles.length-1; i>=0; i-=1) {
         let p = particles[i];
         p.update();
         p.display();
-        if ( p.x > 100 ||  p.y > 100 || p.z > 100 || p.x < -100 ||  p.y < -100 || p.z < -100 ) {
+        if ( p.x > 80 ||  p.y > 80 || p.z > 80 || p.x < -80 ||  p.y < -80 || p.z < -80 ) {
             particles.splice(i,1);
             currentParticle--;
-            particles.push(new Particle(random(-5,5),random(-5,5),random(-5,5),t,h) );
+            particles.push(new Particle(random(-10,10),random(-10,10), random(-10,10), t, h) );
         }
-    }
     }
     
     // gizmo
-    strokeWeight(0.1);
-    stroke(255, 32,  0); line(0,0,0,2,0,0);
-    stroke( 32,255, 32); line(0,0,0,0,2,0);
-    stroke(  0, 32,255); line(0,0,0,0,0,2);
+    //strokeWeight(0.1);
+    //stroke(255, 32,  0); line(0,0,0,2,0,0);
+    //stroke( 32,255, 32); line(0,0,0,0,2,0);
+    //stroke(  0, 32,255); line(0,0,0,0,0,2);
+    
+    
+    
     
 }
 
 
 function componentFX(t, x, y, z){
-    return 1 * parDef.Speed * ( -(y+z) );//Change this function
+    return parDef.Speed * ( -parDef.a * x -4 * y-4 * z-y * y );//Change this function
 }
 
 function componentFY(t, x, y, z){
-    return 1 * parDef.Speed * ( x + attractor.a * y );//Change this function
+    return parDef.Speed * ( -parDef.a * y-4 * z-4 * x-z * z  );//Change this function
 }
 
 function componentFZ(t, x, y, z){
-    return 1 * parDef.Speed * ( attractor.b + z * ( x - attractor.c ));//Change this function
+    return parDef.Speed * ( -parDef.a * z-4 * x-4 * y-x * x );//Change this function
 }
 
 //Particle definition and motion
@@ -179,11 +169,12 @@ class Particle{
         this.y = _y;
         this.z = _z;
         this.time = _t;
-        this.radius = 0.2;
+        this.radius = random(0.11,0.11);
         this.h = _h;
+        this.op = random(150,200);
         this.r = random(255);
         this.g = random(200,255);
-        this.b = random(200, 255);
+        this.b = random(200,255);
     }
     
     update() {
@@ -210,51 +201,9 @@ class Particle{
         translate(this.x, this.y, this.z);
         ambientMaterial(this.r, this.b, this.g);
         noStroke();
-        sphere(this.radius, 7, 6);
+        sphere(this.radius, 6, 6);
         pop();
+        //sphere(-(this.x), this.y, this.z, 2*this.radius, 2*this.radius);
     }
-    
-}
-
-function RosslerAttractor() {
-    
-    this.speed = 0.5;
-    
-    this.a = 0.2;
-    this.b = 0.2;
-    this.c = 5.7;
-    
-    this.x = 10;
-    this.y = 0;
-    this.z = 10;
-    
-    
-    this.h = 0.03;
-    this.scale = 1;
-    
-}
-
-RosslerAttractor.prototype.generatePoint = function( x, y, z ) {
-    
-    
-    var nx = this.speed * (-(y + z)) ;
-    var ny =  this.speed * (  x + this.a * y ) ;
-    var nz =  this.speed * (this.b + z * ( x - this.c ));
-    
-    x += this.h * nx; y += this.h * ny; z += this.h * nz;
-    
-    return { x: x, y: y, z: z }
-    
-}
-
-RosslerAttractor.prototype.randomize = function() {
-    
-    this.a = random( 0.1, 1 );
-    this.b = random( 0.1, 1 );
-    this.c = random( 0.1, 10 );
-    
-    this.x = random( -10, 10 );
-    this.y = random( -10, 10 );
-    this.z = random( -10, 10);
     
 }

@@ -102,7 +102,7 @@ function initSketch(){
         
         if( isNaN( p.x ) || isNaN( p.y ) || isNaN( p.z ) ) {
             console.log( 'Failed, retry' );
-            initScene( id, randomize );
+            randomCurve();
             return;
         }
         

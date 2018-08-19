@@ -100,6 +100,12 @@ function initSketch(){
         
         p = attractor.generatePoint( p.x, p.y, p.z );
         
+        if( isNaN( p.x ) || isNaN( p.y ) || isNaN( p.z ) ) {
+            console.log( 'Failed, retry' );
+            randomCurve();
+            return;
+        }
+        
         points.push(new p5.Vector(attractor.scale * p.x,attractor.scale * p.y, attractor.scale * p.z));
         
     }
