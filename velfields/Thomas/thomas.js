@@ -12,20 +12,20 @@ let points = [];
 
 let attractor = new ThomasAttractor();
 
-let NUM_POINTS = 2500;//num of points in curve
+let NUM_POINTS = 4000;//num of points in curve
 
 let numMax = 600;//num of particles
 let t = 0;
-let h = 0.01;
+let h = 0.027;
 let currentParticle = 0;
 
 // settings and presets
 let parDef = {
 Attractor: 'Thomas',
-Speed: 7,
+Speed: 4,
 Particles: true,
 Preset: function() {
-    this.Speed = 7;
+    this.Speed = 4;
     this.Particles = true;
     attractor.b = 0.208186;
     attractor.x = 1.1;
@@ -51,7 +51,7 @@ function setup() {
     // create gui (dat.gui)
     let gui = new dat.GUI();
     gui.add(parDef, 'Attractor');
-    gui.add(parDef, 'Speed', 0, 10, 0.01).listen();
+    gui.add(parDef, 'Speed', 0, 6, 0.01).listen();
     gui.add(parDef, 'Particles' );
     gui.add(parDef, 'Randomize'  );
     gui.add(parDef, 'Preset'  );
@@ -223,7 +223,7 @@ function ThomasAttractor() {
     this.y = 1.1;
     this.z = -0.01;
     
-    this.h = .03;
+    this.h = .027;
     this.scale = 1;
     
 }
