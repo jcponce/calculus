@@ -13,7 +13,7 @@ let attractor = new RabinovichFabrikantAttractor();
 
 let NUM_POINTS = 4000;//num of points in curve
 
-let numMax = 600;
+let numMax = 500;
 let t = 0;
 let h = 0.05;
 let currentParticle = 0;
@@ -64,7 +64,7 @@ function setup() {
     
     console.log(Dw.EasyCam.INFO);
     
-    easycam = new Dw.EasyCam(this._renderer, {distance : 8});
+    easycam = new Dw.EasyCam(this._renderer, {distance : 7});
     
     // place initial samples
     initSketch();
@@ -108,7 +108,7 @@ function initSketch(){
     }
     let m = 2;
     for (var i=0; i < numMax; i++) {
-        particles[i] = new Particle(random(-m, m), random(-m, m), random(-m, m), t, h);
+        particles[i] = new Particle(random(-m, m), random(-m, m), random(0, m), t, h);
     }
     
 }
@@ -127,7 +127,7 @@ function draw(){
     beginShape(POINTS);
     for (let v of points) {
         stroke(255, 51, 153);
-        strokeWeight(0.03);
+        strokeWeight(0.02);
         vertex(v.x, v.y, v.z);
         
     }
@@ -142,7 +142,7 @@ function draw(){
         if ( p.x > 10 ||  p.y > 10 || p.z > 10 || p.x < -10 ||  p.y < -10 || p.z < -10 ) {
             particles.splice(i,1);
             currentParticle--;
-            particles.push(new Particle(random(-3,3),random(-3,3),random(-3,3),t,h) );
+            particles.push(new Particle(random(-3,3),random(-3,3),random(0,3),t,h) );
         }
     }
     }
@@ -176,7 +176,7 @@ class Particle{
         this.y = _y;
         this.z = _z;
         this.time = _t;
-        this.radius = 0.04;
+        this.radius = 0.03;
         this.h = _h;
         this.op = random(90,250);
         this.r = random(100,254);
