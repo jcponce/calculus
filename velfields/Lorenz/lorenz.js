@@ -11,7 +11,7 @@ let points = [];
 
 let attractor = new LorenzAttractor();
 
-let NUM_POINTS = 2500;//num of points in curve
+let NUM_POINTS = 4000;//num of points in curve
 
 let numMax = 600;
 let t = 0;
@@ -225,9 +225,9 @@ function LorenzAttractor() {
     
     this.x = 1.1;
     this.y = 2;
-    this.z = 9;
+    this.z = 7;
     
-    this.h = 0.02;
+    this.h = 0.009;
     this.scale = 1;
     
 }
@@ -247,12 +247,12 @@ LorenzAttractor.prototype.generatePoint = function( x, y, z ) {
 
 LorenzAttractor.prototype.randomize = function() {
     
-    this.p = random( 1, 10 );
-    this.r = random( 20, 28 );
-    this.b = random( 0.5, 8.0 / 3.0 );
+    this.p = random( -10, 10 );
+    this.r = random( -10, 28 );
+    this.b = random( 0.01, 8.0 / 3.0 );
     
-    this.x = random( -5, 5 );
-    this.y = random( -5, 5 );
-    this.z = random( -9, 9 );
+    this.x = random( -10, 10 );
+    this.y = random( -10, 10 );
+    this.z = random( 0, 10 );
     
 }
