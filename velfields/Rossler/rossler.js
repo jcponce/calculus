@@ -11,7 +11,7 @@ let points = [];
 
 let attractor = new RosslerAttractor();
 
-let NUM_POINTS = 2500;//num of points in curve
+let NUM_POINTS = 3500;//num of points in curve
 
 let numMax = 600;
 let t = 0;
@@ -24,6 +24,7 @@ Attractor: 'Rössler',
 Speed: 1.0,
 Particles: true,
 Preset: function() {
+    removeElements();
     this.Speed = 1.0;
     this.Particles = true;
     attractor.a = 0.2;
@@ -78,6 +79,7 @@ function windowResized() {
 }
 
 function randomCurve() {
+    removeElements();
     for (var i = points.length-1; i>=0; i-=1){
         points.splice(i,1);
     }
@@ -87,6 +89,13 @@ function randomCurve() {
 }
 
 function initSketch(){
+    
+    var hleft = select('#hud-left');
+    var hright = select('#hud-right');
+    
+    createElement('li', 'a = '+ nfc(attractor.a,2) ).parent(hleft);
+    createElement('li', 'b = '+ nfc(attractor.b,2) ).parent(hleft);
+    createElement('li', 'c = '+ nfc(attractor.c,2) ).parent(hleft);
     
     let p = {
     x: attractor.x,
@@ -129,7 +138,7 @@ function draw(){
     
     beginShape(POINTS);
     for (let v of points) {
-        stroke(128, 200, 255);
+        stroke(209, 71, 163);
         strokeWeight(0.15);
         vertex(v.x, v.y, v.z);
         

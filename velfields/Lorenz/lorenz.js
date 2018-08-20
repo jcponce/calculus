@@ -24,6 +24,7 @@ Attractor: 'Lorenz',
 Speed: 1.0,
 Particles: true,
 Preset: function() {
+    removeElements();
     this.Speed = 1.0;
     this.Particles = true;
     attractor.p = 10.0;
@@ -78,6 +79,7 @@ function windowResized() {
 }
 
 function randomCurve() {
+    removeElements();
     for (var i = points.length-1; i>=0; i-=1){
         points.splice(i,1);
     }
@@ -87,6 +89,13 @@ function randomCurve() {
 }
 
 function initSketch(){
+    
+    var hleft = select('#hud-left');
+    var hright = select('#hud-right');
+    
+    createElement('li', 'p = '+ nfc(attractor.p,2) ).parent(hleft);
+    createElement('li', 'r = '+ nfc(attractor.r,2) ).parent(hleft);
+    createElement('li', 'b = '+ nfc(attractor.b,2) ).parent(hleft);
     
     let p = {
     x: attractor.x,

@@ -24,6 +24,7 @@ Attractor: 'Aizawa',
 Speed: 1.0,
 Particles: true,
 Preset: function() {
+    removeElements();
     this.Particles = true;
     this.Speed = 1.0;
     attractor.a = 0.95;
@@ -49,8 +50,8 @@ function backAttractors () {
 }
 
 
+
 function setup() {
-    
     
     // create gui (dat.gui)
     let gui = new dat.GUI();
@@ -81,6 +82,7 @@ function windowResized() {
 }
 
 function randomCurve() {
+    removeElements();
     for (var i = points.length-1; i>=0; i-=1){
         points.splice(i,1);
     }
@@ -90,6 +92,16 @@ function randomCurve() {
 }
 
 function initSketch(){
+    
+    var hleft = select('#hud-left');
+    var hright = select('#hud-right');
+    
+    createElement('li', 'a = '+ nfc(attractor.a,2) ).parent(hleft);
+    createElement('li', 'b = '+ nfc(attractor.b,2) ).parent(hleft);
+    createElement('li', 'c = '+ nfc(attractor.c,2) ).parent(hleft);
+    createElement('li', 'd = '+ nfc(attractor.d,2) ).parent(hleft);
+    createElement('li', 'e = '+ nfc(attractor.e,2) ).parent(hleft);
+    createElement('li', 'f = '+ nfc(attractor.f,2) ).parent(hleft);
     
     let p = {
     x: attractor.x,
@@ -258,10 +270,10 @@ AizawaAttractor.prototype.generatePoint = function( x, y, z ) {
 
 AizawaAttractor.prototype.randomize = function() {
     
-    this.a = random( 0.5, 0.95 );
-    this.b = random( 0.5, 0.8 );
-    this.c = random( 0.2, 0.8 );
-    this.d = random( 2, 3.5 );
+    this.a = random( 0.3, 0.95 );
+    this.b = random( 0.3, 0.8 );
+    this.c = random( 0.1, 0.8 );
+    this.d = random( 1, 3.5 );
     this.e = random( 0.01, 0.4 );
     this.f = random( 0.01, 0.4 );
     
@@ -270,3 +282,4 @@ AizawaAttractor.prototype.randomize = function() {
     this.z = random( -1, 1 );
     
 }
+

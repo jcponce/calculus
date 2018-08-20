@@ -24,6 +24,7 @@ Attractor: 'Rabinovich-Fabrikant',
 Speed: 1.0,
 Particles: true,
 Preset: function() {
+    removeElements();
     this.Speed = 1.0;
     this.Particles = true;
     attractor.alpha = 0.14;
@@ -77,6 +78,7 @@ function windowResized() {
 }
 
 function randomCurve() {
+    removeElements();
     for (var i = points.length-1; i>=0; i-=1){
         points.splice(i,1);
     }
@@ -86,6 +88,12 @@ function randomCurve() {
 }
 
 function initSketch(){
+    
+    var hleft = select('#hud-left');
+    var hright = select('#hud-right');
+    
+    createElement('li', 'alpha = '+ nfc(attractor.alpha,2) ).parent(hleft);
+    createElement('li', 'gamma = '+ nfc(attractor.gamma,2) ).parent(hleft);
     
     let p = {
     x: attractor.x,
