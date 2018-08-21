@@ -68,7 +68,7 @@ function setup() {
     
     console.log(Dw.EasyCam.INFO);
     
-    easycam = new Dw.EasyCam(this._renderer, {distance : 500});
+    easycam = new Dw.EasyCam(this._renderer, {distance : 400});
     
     // place initial samples
     initSketch();
@@ -144,7 +144,7 @@ function draw(){
     beginShape(POINTS);
     for (let v of points) {
         stroke(153, 102, 255);
-        strokeWeight(2);
+        strokeWeight(1);
         vertex(v.x, v.y, v.z);
         
     }

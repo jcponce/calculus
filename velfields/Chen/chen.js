@@ -175,7 +175,7 @@ function draw(){
     
     beginShape(POINTS);
     for (let n of points2) {
-        stroke(255, 100, 255);
+        stroke(153, 51, 255);
         strokeWeight(0.08);
         vertex(n.x, n.y, n.z);
         

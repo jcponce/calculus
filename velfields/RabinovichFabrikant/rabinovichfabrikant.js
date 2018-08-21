@@ -65,7 +65,7 @@ function setup() {
     
     console.log(Dw.EasyCam.INFO);
     
-    easycam = new Dw.EasyCam(this._renderer, {distance : 7});
+    easycam = new Dw.EasyCam(this._renderer, {distance : 6});
     
     // place initial samples
     initSketch();
@@ -131,11 +131,11 @@ function draw(){
     background(0);
     
     translate(0,0,-0.5);
-    rotateX(1.2);
+    rotateX(1);
     beginShape(POINTS);
     for (let v of points) {
         stroke(255, 51, 153);
-        strokeWeight(0.02);
+        strokeWeight(0.015);
         vertex(v.x, v.y, v.z);
         
     }
@@ -184,7 +184,7 @@ class Particle{
         this.y = _y;
         this.z = _z;
         this.time = _t;
-        this.radius = 0.03;
+        this.radius = 0.02;
         this.h = _h;
         this.op = random(90,250);
         this.r = random(100,254);
@@ -252,8 +252,8 @@ RabinovichFabrikantAttractor.prototype.generatePoint = function( x, y, z ) {
 
 RabinovichFabrikantAttractor.prototype.randomize = function() {
     
-    this.alpha = random( .1, 2 );
-    this.gamma = random( .1, 2 );
+    this.alpha = random( .1, 3 );
+    this.gamma = random( .1, 3 );
     
     this.x = random( -10, 10 );
     this.y = random( -1, 1 );
