@@ -68,7 +68,7 @@ function setup() {
     
     console.log(Dw.EasyCam.INFO);
     
-    easycam = new Dw.EasyCam(this._renderer, {distance : 400});
+    easycam = new Dw.EasyCam(this._renderer, {distance : 450});
     
     // place initial samples
     initSketch();
