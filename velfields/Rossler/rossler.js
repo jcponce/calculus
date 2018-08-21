@@ -113,7 +113,7 @@ function initSketch(){
             return;
         }
         
-        points.push(createVecor(attractor.scale * p.x,attractor.scale * p.y, attractor.scale * p.z));
+        points.push(createVector(attractor.scale * p.x,attractor.scale * p.y, attractor.scale * p.z));
         
     }
     let m = 20;
