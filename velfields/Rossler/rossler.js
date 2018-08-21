@@ -138,7 +138,7 @@ function draw(){
     
     beginShape(POINTS);
     for (let v of points) {
-        stroke(209, 71, 163);
+        stroke(255, 51, 0);
         strokeWeight(0.15);
         vertex(v.x, v.y, v.z);
         
@@ -190,7 +190,7 @@ class Particle{
         this.time = _t;
         this.radius = 0.2;
         this.h = _h;
-        this.r = random(255);
+        this.r = random(50,255);
         this.g = random(200,255);
         this.b = random(200, 255);
     }
