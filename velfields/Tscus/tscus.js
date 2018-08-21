@@ -27,15 +27,15 @@ Preset: function() {
     removeElements();
     this.Speed = 1.0;
     this.Particles = true;
-    attractor.a = 40;
-    attractor.b = 55;
-    attractor.c = 1.833;
-    attractor.d = 0.16;
-    attractor.e = 0.65;
-    attractor.f = 20;
-    attractor.x = -1;
-    attractor.y = 0;
-    attractor.z = 0.5;
+    attractor.a = 32.48;//40;
+    attractor.b = 45.84;//55;
+    attractor.c = 1.18;//11/6;
+    attractor.d = 0.13;//0.16;
+    attractor.e = 0.57;//0.65;
+    attractor.f = 14.7;//20;
+    attractor.x = -0.29;//0.1;
+    attractor.y = -0.25;//1.0;
+    attractor.z = -0.59;//0.1;
     for (let i=points.length-1; i>=0; i-=1){
         points.splice(i,1);
     }
@@ -235,16 +235,16 @@ function TscusAttractor() {
     
     this.speed = 0.5;
     
-    this.a = 40;
-    this.b = 55;
-    this.c = 11/6;
-    this.d = 0.16;
-    this.e = 0.65;
-    this.f = 20;
+    this.a = 32.48;//40;
+    this.b = 45.84;//55;
+    this.c = 1.18;//11/6;
+    this.d = 0.13;//0.16;
+    this.e = 0.57;//0.65;
+    this.f = 14.7;//20;
     
-    this.x = 0.1;
-    this.y = 1.0;
-    this.z = -0.1;
+    this.x = -0.29;//0.1;
+    this.y = -0.25;//1.0;
+    this.z = -0.59;//0.1;
     
     this.h = 0.0007;
     this.scale = 1;
