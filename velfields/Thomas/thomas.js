@@ -10,14 +10,14 @@ let easycam;
 let particles = [];
 let points = [];
 
-let attractor = new ThomasAttractor();
+let attractor = new ThomasAttractor();//Define attractor
 
 let NUM_POINTS = 4000;//num of points in curve
 
 let numMax = 600;//num of particles
 let t = 0;
 let h = 0.027;
-let currentParticle = 0;
+
 
 // settings and presets
 let parDef = {
@@ -45,8 +45,6 @@ function backAttractors () {
     window.location.href = "https://jcponce.github.io/strange-attractors";
 }
 
-let bText;
-
 function setup() {
     
     // create gui (dat.gui)
@@ -58,8 +56,6 @@ function setup() {
     gui.add(parDef, 'Preset'  );
     gui.add(this, 'backAttractors').name("Go Back");
  
-   
-    
     pixelDensity(1);
     
     let canvas = createCanvas(windowWidth, windowHeight, WEBGL);
@@ -82,7 +78,7 @@ function windowResized() {
 
 function randomCurve() {
     removeElements();
-        for (let i=points.length-1; i>=0; i-=1){
+        for (var i=points.length-1; i>=0; i-=1){
             points.splice(i,1);
         }
         attractor.randomize();
@@ -132,7 +128,7 @@ function draw(){
   background(0);
     
     beginShape(POINTS);
-    for (let v of points) {
+    for (var v of points) {
         stroke(204, 255, 255);
         strokeWeight(0.02);
         vertex(v.x, v.y, v.z);
@@ -147,7 +143,6 @@ if(parDef.Particles==true){
         p.display();
         if ( p.x > 80 ||  p.y > 80 || p.z > 80 || p.x < -80 ||  p.y < -80 || p.z < -80 ) {
             particles.splice(i,1);
-            currentParticle--;
             particles.push(new Particle(random(-7,7),random(-6,6), random(-6,6), t,h) );
         }
     }
@@ -162,6 +157,7 @@ if(parDef.Particles==true){
   
 }
 
+//Define system funtions for using in Particle class
 function componentFX(t, x, y, z){
     return parDef.Speed * ( sin(y) - attractor.b * x);//Change this function
 }
@@ -174,7 +170,7 @@ function componentFZ(t, x, y, z){
     return parDef.Speed * ( sin(x) - attractor.b * z  );//Change this function
 }
 
-//Particle definition and motion
+//Particle class definition and motion
 class Particle{
     
 	constructor(_x, _y, _z, _t, _h){
@@ -220,6 +216,7 @@ class Particle{
     
 }
 
+//Define attracto class for drawing the solution curve
 function ThomasAttractor() {
     
     this.speed = 10;
