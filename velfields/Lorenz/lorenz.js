@@ -31,8 +31,8 @@ Preset: function() {
     attractor.r = 28.0;
     attractor.b = 8.0 / 3.0;
     attractor.x = 1.1;
-    attractor.y = 1.1;
-    attractor.z = 2;
+    attractor.y = 2;
+    attractor.z = 7;
     for (let i=points.length-1; i>=0; i-=1){
         points.splice(i,1);
     }
