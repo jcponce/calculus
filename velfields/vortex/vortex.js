@@ -143,7 +143,7 @@ function draw() {
     textSize(16);
     fill(250);
     
-    text('w= '+nfc(sliderk.value(),1,1),-40, 200);//for slider k
+    text('w= '+nfc(sliderk.value(),1),-40, 200);//for slider k
     
     
 }
