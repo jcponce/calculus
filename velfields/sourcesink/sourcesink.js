@@ -144,7 +144,7 @@ function draw() {
     fill(250);
     
     text('w= '+nfc(sliderk.value(),1),-40, 200);//for slider k
-    
+    //console.log(starting);
     
 }
 
