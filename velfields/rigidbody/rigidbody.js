@@ -9,7 +9,6 @@
  Last update 23-June-2018
  */
 
-
 let numMax = 500;
 let t = 0;
 let h = 0.01;
