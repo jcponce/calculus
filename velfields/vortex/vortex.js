@@ -237,5 +237,3 @@ function field(_time) {
         }
     }
 }
-
-
