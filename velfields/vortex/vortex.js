@@ -20,8 +20,8 @@ let xmin = -3.5;
 let ymax = 3.5;
 let ymin = -3.5;
 let sc = 0.35;
-let xstep = 0.3;
-let ystep = 0.3;
+let xstep = 0.35;
+let ystep = 0.35;
 
 let WIDTH = 700;
 let HEIGHT = 500;
