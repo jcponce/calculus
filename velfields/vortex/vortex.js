@@ -20,8 +20,8 @@ let xmin = -3.5;
 let ymax = 3.5;
 let ymin = -3.5;
 let sc = 0.35;
-let xstep = 0.35;
-let ystep = 0.35;
+let xstep = 0.41;
+let ystep = 0.41;
 
 let WIDTH = 700;
 let HEIGHT = 500;
@@ -65,9 +65,9 @@ function fieldShow() {
         fshow = false;
     }
     
-    if(tshow==true) {
-        tshow = false;
-    }
+    //if(tshow==true) {
+    //    tshow = false;
+    //}
     
 }
 
@@ -78,9 +78,9 @@ function traceShow() {
         tshow = false;
     }
     
-    if(fshow==true) {
-        fshow = false;
-    }
+    //if(fshow==true) {
+     //   fshow = false;
+    //}
     
 }
 
