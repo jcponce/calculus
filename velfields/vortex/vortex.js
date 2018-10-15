@@ -65,9 +65,9 @@ function fieldShow() {
         fshow = false;
     }
     
-    //if(tshow==true) {
-    //    tshow = false;
-    //}
+    if(tshow==true) {
+        tshow = false;
+    }
     
 }
 
@@ -78,9 +78,9 @@ function traceShow() {
         tshow = false;
     }
     
-    //if(fshow==true) {
-     //   fshow = false;
-    //}
+    if(fshow==true) {
+        fshow = false;
+    }
     
 }
 
