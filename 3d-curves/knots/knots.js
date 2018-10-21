@@ -45,7 +45,7 @@ function setup() {
     gui.add(parDef, 'f'  , 0, 2 , 0.1 ).listen();
     gui.add(parDef, 'xyzAxes'  );
     gui.add(parDef, 'Random'  );
-    //gui.add(this, 'backAttractors').name("Go Back");
+    gui.add(this, 'backHome').name("Go Back");
     
     pixelDensity(1);
     
@@ -56,7 +56,10 @@ function setup() {
     
     easycam = new Dw.EasyCam(this._renderer, {distance : 7});
     
-    
+}
+
+function backHome() {
+    window.location.href = "https://jcponce.github.io/";
 }
 
 function windowResized() {
@@ -84,9 +87,11 @@ function draw(){
     rotateX(0.9)
     rotateY(0.0);
     rotateZ(0.3);
+    
+    
     beginShape();
     for(let i = 0; i <= 2*PI; i+=PI/900){
-        stroke(204, 255, 153);
+        stroke(255, 0, 0);
         strokeWeight(0.025);
         let phi = parDef.c*PI *sin(parDef.d*i);
         let r = parDef.f+parDef.a*sin(6*i+parDef.e);
@@ -95,14 +100,15 @@ function draw(){
         let yc = 1.5*(r*cos(phi)*sin(theta));
         let zc =  -1.5*sin(phi);
         vertex(xc, yc, zc);
+        
     }
     endShape(CLOSE);
     
     if(gizmo==true){
     // gizmo
     strokeWeight(0.04);
-    stroke(255, 32,  0); line(0,0,0,1.5,0,0);
-    stroke( 32,255, 32); line(0,0,0,0,1.5,0);
-    stroke(  0, 32,255); line(0,0,0,0,0,1.5);
+    stroke(255, 32,  0); line(0,0,0,1,0,0);
+    stroke( 32,255, 32); line(0,0,0,0,1,0);
+    stroke(  0, 32,255); line(0,0,0,0,0,1);
     }
 }

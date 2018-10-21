@@ -19,8 +19,6 @@
 
 let easycam;
 
-
-
 // settings and presets
 let parDef = {
 Curve: 'Torus knot',
@@ -41,7 +39,7 @@ function setup() {
     gui.add(parDef, 'xyzAxes'  );
     gui.add(parDef, 'Random'  );
     gui.add(parDef, 'Torus');
-    //gui.add(this, 'backAttractors').name("Go Back");
+    gui.add(this, 'backHome').name("Go Back");
     
     pixelDensity(1);
     
@@ -52,7 +50,10 @@ function setup() {
     
     easycam = new Dw.EasyCam(this._renderer, {distance : 7});
     
-    
+}
+
+function backHome() {
+    window.location.href = "https://jcponce.github.io/";
 }
 
 function windowResized() {
