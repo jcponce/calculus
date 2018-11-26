@@ -53,7 +53,7 @@ function setup() {
 }
 
 function backHome() {
-    window.location.href = "https://jcponce.github.io/";
+    window.location.href = "https://jcponce.github.io/3dcurves";
 }
 
 function windowResized() {
