@@ -278,9 +278,9 @@ TscusAttractor.prototype.randomize = function() {
     this.e = random( 0.01, 0.65);
     this.f = random( 10, 20);
     
-    this.x = random( -1, 1 );
-    this.y = random( -1, 1 );
-    this.z = random( -1, 1 );
+    this.x = random( -5, 5 );
+    this.y = random( -5, 5 );
+    this.z = random( -5, 5 );
     
 }
 

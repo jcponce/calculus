@@ -276,12 +276,12 @@ AizawaAttractor.prototype.generatePoint = function( x, y, z ) {
 
 AizawaAttractor.prototype.randomize = function() {
     
-    this.a = random( 0.3, 0.95 );
-    this.b = random( 0.3, 0.8 );
-    this.c = random( 0.1, 0.8 );
-    this.d = random( 1, 3.5 );
-    this.e = random( 0.01, 0.4 );
-    this.f = random( 0.01, 0.4 );
+    this.a = random( 0.3, 3 );
+    this.b = random( 0.3, 3 );
+    this.c = random( 0.1, 3 );
+    this.d = random( 1, 3 );
+    this.e = random( 0.01, 3 );
+    this.f = random( 0.01, 3 );
     
     this.x = random( -1.1, 1.1 );
     this.y = random( -1.1, 1.1 );

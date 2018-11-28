@@ -262,9 +262,9 @@ LorenzAttractor.prototype.generatePoint = function( x, y, z ) {
 
 LorenzAttractor.prototype.randomize = function() {
     
-    this.p = random( -10, 10 );
-    this.r = random( -10, 28 );
-    this.b = random( 0.01, 8.0 / 3.0 );
+    this.p = random( 0.1, 50 );
+    this.r = random( 0.5, 60 );
+    this.b = random( 0.1, 10 );
     
     this.x = random( -10, 10 );
     this.y = random( -10, 10 );

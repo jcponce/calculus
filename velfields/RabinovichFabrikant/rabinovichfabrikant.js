@@ -258,12 +258,12 @@ RabinovichFabrikantAttractor.prototype.generatePoint = function( x, y, z ) {
 
 RabinovichFabrikantAttractor.prototype.randomize = function() {
     
-    this.alpha = random( .1, 3 );
-    this.gamma = random( .1, 3 );
+    this.alpha = random( .1, 4 );
+    this.gamma = random( .1, 4 );
     
-    this.x = random( -10, 10 );
-    this.y = random( -1, 1 );
-    this.z = random( -10, 10 );
+    this.x = random( -5, 5 );
+    this.y = random( -8, 8 );
+    this.z = random( -0, 7 );
     
 }
 

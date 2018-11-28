@@ -166,10 +166,10 @@ function draw(){
     }
     
     // gizmo
-    strokeWeight(0.1);
-    stroke(255, 32,  0); line(0,0,0,2,0,0);
-    stroke( 32,255, 32); line(0,0,0,0,2,0);
-    stroke(  0, 32,255); line(0,0,0,0,0,2);
+    //strokeWeight(0.1);
+    //stroke(255, 32,  0); line(0,0,0,2,0,0);
+    //stroke( 32,255, 32); line(0,0,0,0,2,0);
+    //stroke(  0, 32,255); line(0,0,0,0,0,2);
     
 }
 
@@ -264,8 +264,8 @@ RosslerAttractor.prototype.generatePoint = function( x, y, z ) {
 
 RosslerAttractor.prototype.randomize = function() {
     
-    this.a = random( 0.1, 1 );
-    this.b = random( 0.1, 1 );
+    this.a = random( 0.1, 10 );
+    this.b = random( 0.1, 10 );
     this.c = random( 0.1, 10 );
     
     this.x = random( -10, 10 );

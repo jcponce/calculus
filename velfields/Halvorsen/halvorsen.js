@@ -258,7 +258,7 @@ HalvorsenAttractor.prototype.generatePoint = function( x, y, z ) {
 
 HalvorsenAttractor.prototype.randomize = function() {
     
-    this.a = random( 0.1,  5 );
+    this.a = random( 0.1,  3 );
     
     this.x = random( -5, 5 );
     this.y = random( -5, 5 );
