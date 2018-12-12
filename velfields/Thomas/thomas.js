@@ -95,9 +95,9 @@ function initSketch(){
     
     createElement('li', '----------' ).parent(hleft);
     
-    createElement('li', 'x0 = '+ nfc(attractor.x,2) ).parent(hleft);
-    createElement('li', 'y0 = '+ nfc(attractor.y,2) ).parent(hleft);
-    createElement('li', 'z0 = '+ nfc(attractor.z,2) ).parent(hleft);
+    createElement('li', 'x<sub>0</sub> = '+ nfc(attractor.x,2) ).parent(hleft);
+    createElement('li', 'y<sub>0</sub> = '+ nfc(attractor.y,2) ).parent(hleft);
+    createElement('li', 'z<sub>0</sub> = '+ nfc(attractor.z,2) ).parent(hleft);
     
     let p = {
     x: attractor.x,
