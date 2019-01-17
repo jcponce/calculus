@@ -21,7 +21,7 @@ let currentParticle = 0;
 // settings and presets
 let parDef = {
 Attractor: 'Lorenz-84',
-Speed: 0.8,
+Speed: 0.5,
 Particles: true,
 Preset: function() {
     removeElements();
