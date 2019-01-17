@@ -282,8 +282,8 @@ function Lorenz84Attractor() {
 Lorenz84Attractor.prototype.generatePoint = function( x, y, z ) {
     
     
-    var nx = this.speed * (-this.a * x - y * y - z * z + this.a * this.f) ;
-    var ny =  this.speed * (-y + x * y - this.b * x * z + this.g ) ;
+    var nx = this.speed * (-this.a * x - y * y - z * z + this.a * this.f);
+    var ny =  this.speed * (-y + x * y - this.b * x * z + this.g );
     var nz =  this.speed * (-z + this.b * x * y + x * z );
     
     x += this.h * nx; y += this.h * ny; z += this.h * nz;
