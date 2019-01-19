@@ -5,6 +5,7 @@
  */
 //J. C. Sprott. A dynamical system with a strange attractor and invariant tori
 //Physic Letters A, 378 (2014) 1361-1363.
+//sprott.physics.wisc.edu/pubs/paper423.pdf
 
 let easycam;
 let particles = [];
