@@ -4,12 +4,12 @@
  * Written by Juan Carlos Ponce Campuzano, 19-Jul-2018
  */
 
+// Updated Jan-2019
+
 let easycam;
 let particles = [];
 
 let points = [];
-
-let attractor = new AizawaAttractor();
 
 let NUM_POINTS = 2500;//num of points in curve
 
@@ -53,6 +53,7 @@ function backAttractors () {
 
 function setup() {
     
+    attractor = new AizawaAttractor();
     // create gui (dat.gui)
     let gui = new dat.GUI();
     gui.add(parDef, 'Attractor');
@@ -90,6 +91,8 @@ function randomCurve() {
     initSketch();
     
 }
+
+let attractor;
 
 function initSketch(){
     
@@ -241,8 +244,9 @@ class Particle{
     
 }
 
-function AizawaAttractor() {
+class AizawaAttractor {
     
+    constructor(){
     this.speed = 0.5;
     
     this.a = 0.95;
@@ -258,34 +262,34 @@ function AizawaAttractor() {
     
     this.h = .03;
     this.scale = 1;
+    }
+    
+    generatePoint( x, y, z ) {
+        
+        
+        var nx = this.speed * ((z - this.b) * x - this.d * y) ;
+        var ny =  this.speed * (this.d * x + (z - this.b) * y) ;
+        var nz =  this.speed * (this.c + this.a * z - z*z*z/3 - (x*x+y*y)*(1+this.e*z)+this.f*z*x*x*x);
+        
+        x += this.h * nx; y += this.h * ny; z += this.h * nz;
+        
+        return { x: x, y: y, z: z }
+        
+    }
+    
+    randomize() {
+        
+        this.a = random( 0.3, 3 );
+        this.b = random( 0.3, 3 );
+        this.c = random( 0.1, 3 );
+        this.d = random( 1, 3 );
+        this.e = random( 0.01, 3 );
+        this.f = random( 0.01, 3 );
+        
+        this.x = random( -1.1, 1.1 );
+        this.y = random( -1.1, 1.1 );
+        this.z = random( -1, 1 );
+        
+    }
     
 }
-
-AizawaAttractor.prototype.generatePoint = function( x, y, z ) {
-    
-    
-    var nx = this.speed * ((z - this.b) * x - this.d * y) ;
-    var ny =  this.speed * (this.d * x + (z - this.b) * y) ;
-    var nz =  this.speed * (this.c + this.a * z - z*z*z/3 - (x*x+y*y)*(1+this.e*z)+this.f*z*x*x*x);
-    
-    x += this.h * nx; y += this.h * ny; z += this.h * nz;
-    
-    return { x: x, y: y, z: z }
-    
-}
-
-AizawaAttractor.prototype.randomize = function() {
-    
-    this.a = random( 0.3, 3 );
-    this.b = random( 0.3, 3 );
-    this.c = random( 0.1, 3 );
-    this.d = random( 1, 3 );
-    this.e = random( 0.01, 3 );
-    this.f = random( 0.01, 3 );
-    
-    this.x = random( -1.1, 1.1 );
-    this.y = random( -1.1, 1.1 );
-    this.z = random( -1, 1 );
-    
-}
-

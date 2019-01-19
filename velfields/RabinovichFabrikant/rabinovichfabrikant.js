@@ -4,12 +4,14 @@
  * Written by Juan Carlos Ponce Campuzano, 19-Jul-2018
  */
 
+// Updated Jan-2019
+
 let easycam;
 let particles = [];
 
 let points = [];
 
-let attractor = new RabinovichFabrikantAttractor();
+let attractor;
 
 let NUM_POINTS = 4000;//num of points in curve
 
@@ -48,6 +50,7 @@ function backAttractors () {
 
 function setup() {
     
+    attractor = new RabinovichFabrikantAttractor();
     
     // create gui (dat.gui)
     let gui = new dat.GUI();
@@ -228,8 +231,9 @@ class Particle{
     
 }
 
-function RabinovichFabrikantAttractor() {
+class RabinovichFabrikantAttractor {
     
+    constructor(){
     this.speed = 0.5;
     
     this.alpha = 0.14;
@@ -241,29 +245,31 @@ function RabinovichFabrikantAttractor() {
     
     this.h = 0.05;
     this.scale = 1;
+    }
+    
+    generatePoint( x, y, z ) {
+        
+        var nx = this.speed* ( y * ( z - 1 + x * x ) + this.gamma * x);
+        var ny = this.speed* ( x * ( 3 * z + 1 - x * x ) + this.gamma * y);
+        var nz = this.speed* ( - 2 * z * ( this.alpha + x * y ));
+        
+        x += this.h * nx; y += this.h * ny; z += this.h * nz;
+        
+        return { x: x, y: y, z: z }
+        
+    }
+    
+    randomize() {
+        
+        this.alpha = random( .1, 4 );
+        this.gamma = random( .1, 4 );
+        
+        this.x = random( -5, 5 );
+        this.y = random( -8, 8 );
+        this.z = random( -0, 7 );
+        
+    }
     
 }
 
-RabinovichFabrikantAttractor.prototype.generatePoint = function( x, y, z ) {
-    
-    var nx = this.speed* ( y * ( z - 1 + x * x ) + this.gamma * x);
-    var ny = this.speed* ( x * ( 3 * z + 1 - x * x ) + this.gamma * y);
-    var nz = this.speed* ( - 2 * z * ( this.alpha + x * y ));
-    
-    x += this.h * nx; y += this.h * ny; z += this.h * nz;
-    
-    return { x: x, y: y, z: z }
-    
-}
-
-RabinovichFabrikantAttractor.prototype.randomize = function() {
-    
-    this.alpha = random( .1, 4 );
-    this.gamma = random( .1, 4 );
-    
-    this.x = random( -5, 5 );
-    this.y = random( -8, 8 );
-    this.z = random( -0, 7 );
-    
-}
 

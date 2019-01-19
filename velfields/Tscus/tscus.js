@@ -4,12 +4,14 @@
  * Written by Juan Carlos Ponce Campuzano, 19-Jul-2018
  */
 
+// Updated Jan-2019
+
 let easycam;
 let particles = [];
 
 let points = [];
 
-let attractor = new TscusAttractor();
+let attractor;
 
 let NUM_POINTS = 6500;//num of points in curve
 
@@ -51,6 +53,8 @@ function backAttractors () {
 
 
 function setup() {
+    
+    attractor  = new TscusAttractor();
     
     // create gui (dat.gui)
     let gui = new dat.GUI();
@@ -237,8 +241,9 @@ class Particle{
     
 }
 
-function TscusAttractor() {
+class TscusAttractor {
     
+    constructor(){
     this.speed = 0.5;
     
     this.a = 32.48;//40;
@@ -254,33 +259,34 @@ function TscusAttractor() {
     
     this.h = 0.0007;
     this.scale = 1;
+    }
     
-}
-
-TscusAttractor.prototype.generatePoint = function( x, y, z ) {
+    generatePoint( x, y, z ) {
+        
+        var nx = this.speed* ( this.a * ( y-x ) + this.d * x * z );
+        var ny = this.speed* ( this.b * x - x * z + this.f * y );
+        var nz = this.speed* ( this.c * z +x * y - this.e * x * x  );
+        
+        x += this.h * nx; y += this.h * ny; z += this.h * nz;
+        
+        return { x: x, y: y, z: z }
+        
+    }
     
-    var nx = this.speed* ( this.a * ( y-x ) + this.d * x * z );
-    var ny = this.speed* ( this.b * x - x * z + this.f * y );
-    var nz = this.speed* ( this.c * z +x * y - this.e * x * x  );
-    
-    x += this.h * nx; y += this.h * ny; z += this.h * nz;
-    
-    return { x: x, y: y, z: z }
-    
-}
-
-TscusAttractor.prototype.randomize = function() {
-    
-    this.a = random( 30, 40);
-    this.b = random( 30, 55);
-    this.c = random( 0.1, 11/6);
-    this.d = random( 0.01, 0.16);
-    this.e = random( 0.01, 0.65);
-    this.f = random( 10, 20);
-    
-    this.x = random( -5, 5 );
-    this.y = random( -5, 5 );
-    this.z = random( -5, 5 );
+    randomize() {
+        
+        this.a = random( 30, 40);
+        this.b = random( 30, 55);
+        this.c = random( 0.1, 11/6);
+        this.d = random( 0.01, 0.16);
+        this.e = random( 0.01, 0.65);
+        this.f = random( 10, 20);
+        
+        this.x = random( -5, 5 );
+        this.y = random( -5, 5 );
+        this.z = random( -5, 5 );
+        
+    }
     
 }
 

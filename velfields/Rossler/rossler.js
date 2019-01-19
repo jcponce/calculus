@@ -4,12 +4,14 @@
  * Written by Juan Carlos Ponce Campuzano, 19-Jul-2018
  */
 
+// Updated Jan-2019
+
 let easycam;
 let particles = [];
 
 let points = [];
 
-let attractor = new RosslerAttractor();
+let attractor;
 
 let NUM_POINTS = 3500;//num of points in curve
 
@@ -49,6 +51,7 @@ function backAttractors () {
 
 function setup() {
     
+    attractor = new RosslerAttractor();
     
     // create gui (dat.gui)
     let gui = new dat.GUI();
@@ -231,8 +234,9 @@ class Particle{
     
 }
 
-function RosslerAttractor() {
+class RosslerAttractor {
     
+    constructor(){
     this.speed = 0.5;
     
     this.a = 0.2;
@@ -246,30 +250,32 @@ function RosslerAttractor() {
     
     this.h = 0.03;
     this.scale = 1;
+    }
+    
+    generatePoint( x, y, z ) {
+        
+        
+        var nx = this.speed * (-(y + z)) ;
+        var ny =  this.speed * (  x + this.a * y ) ;
+        var nz =  this.speed * (this.b + z * ( x - this.c ));
+        
+        x += this.h * nx; y += this.h * ny; z += this.h * nz;
+        
+        return { x: x, y: y, z: z }
+        
+    }
+    
+    randomize() {
+        
+        this.a = random( 0.1, 10 );
+        this.b = random( 0.1, 10 );
+        this.c = random( 0.1, 10 );
+        
+        this.x = random( -10, 10 );
+        this.y = random( -10, 10 );
+        this.z = random( -10, 10);
+        
+    }
     
 }
 
-RosslerAttractor.prototype.generatePoint = function( x, y, z ) {
-    
-    
-    var nx = this.speed * (-(y + z)) ;
-    var ny =  this.speed * (  x + this.a * y ) ;
-    var nz =  this.speed * (this.b + z * ( x - this.c ));
-    
-    x += this.h * nx; y += this.h * ny; z += this.h * nz;
-    
-    return { x: x, y: y, z: z }
-    
-}
-
-RosslerAttractor.prototype.randomize = function() {
-    
-    this.a = random( 0.1, 10 );
-    this.b = random( 0.1, 10 );
-    this.c = random( 0.1, 10 );
-    
-    this.x = random( -10, 10 );
-    this.y = random( -10, 10 );
-    this.z = random( -10, 10);
-    
-}

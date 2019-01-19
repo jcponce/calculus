@@ -12,8 +12,6 @@ let particles = [];
 
 let points = [];
 
-let attractor = new SprottAttractor();
-
 let NUM_POINTS = 3800;//num of points in curve
 
 let numMax = 600;
@@ -24,17 +22,17 @@ let currentParticle = 0;
 // settings and presets
 let parDef = {
 Attractor: 'Sprott',
-Speed: 2.0,
+Speed: 3.0,
 Particles: true,
 Preset: function() {
     removeElements();
     this.Particles = true;
-    this.Speed = 2.0;
-    attractor.a = 2;
-    attractor.b = 2;
-    attractor.x = -0.98;
-    attractor.y = 0.4;
-    attractor.z = 0.63;
+    this.Speed = 3.0;
+    attractor.a = 2.07;
+    attractor.b = 1.79;
+    attractor.x = 0.63;
+    attractor.y = 0.47;
+    attractor.z = -0.54;
     for (let i=points.length-1; i>=0; i-=1){
         points.splice(i,1);
     }
@@ -52,6 +50,7 @@ function backAttractors () {
 
 function setup() {
     
+    attractor = new SprottAttractor();
     // create gui (dat.gui)
     let gui = new dat.GUI();
     gui.add(parDef, 'Attractor');
@@ -68,7 +67,7 @@ function setup() {
     
     console.log(Dw.EasyCam.INFO);
     
-    easycam = new Dw.EasyCam(this._renderer, {distance : 4});
+    easycam = new Dw.EasyCam(this._renderer, {distance : 3.5});
     
     // place initial samples
     initSketch();
@@ -89,6 +88,8 @@ function randomCurve() {
     initSketch();
     
 }
+
+let attractor;
 
 function initSketch(){
     
@@ -138,10 +139,10 @@ function draw(){
     
     // BG
     background(0);
-   
+    
     rotateX(1.4);
-    rotateY(0.2);
-    rotateZ(1.2)
+    rotateY(0.1);
+    rotateZ(1.7)
     let hu = 0;
     beginShape(POINTS);
     for (let v of points) {
@@ -157,17 +158,17 @@ function draw(){
     endShape();
     
     if(parDef.Particles==true){
-    //updating and displaying the particles
-    for (let i=particles.length-1; i>=0; i-=1) {
-        let p = particles[i];
-        p.update();
-        p.display();
-        if ( p.x > 5 ||  p.y > 5 || p.z > 5 || p.x < -5 ||  p.y < -5 || p.z < -5 ) {
-            particles.splice(i,1);
-            currentParticle--;
-            particles.push(new Particle(random(-5,5),random(-5,5),random(-5,5),t,h) );
+        //updating and displaying the particles
+        for (let i=particles.length-1; i>=0; i-=1) {
+            let p = particles[i];
+            p.update();
+            p.display();
+            if ( p.x > 5 ||  p.y > 5 || p.z > 5 || p.x < -5 ||  p.y < -5 || p.z < -5 ) {
+                particles.splice(i,1);
+                currentParticle--;
+                particles.push(new Particle(random(-5,5),random(-5,5),random(-5,5),t,h) );
+            }
         }
-    }
     }
     
     // gizmo
@@ -236,44 +237,46 @@ class Particle{
     }
     
 }
-
-function SprottAttractor() {
+//A solution curve
+class SprottAttractor {
     
-    this.speed = 0.5;
+    constructor(){
+        this.speed = 0.6;
+        
+        this.a = 2.07;
+        this.b = 1.79;
+        
+        this.x = 0.63;
+        this.y = 0.47;
+        this.z = -0.54;
+        
+        this.h = .03;
+        this.scale = 1;
+    }
     
-    this.a = 2;
-    this.b = 2;
+    generatePoint( x, y, z ) {
+        
+        
+        var nx = this.speed * (y + this.a * x * y + x * z) ;
+        var ny =  this.speed * (1 - this.b * x * x + y * z) ;
+        var nz =  this.speed * (x - x * x - y * y);
+        
+        x += this.h * nx; y += this.h * ny; z += this.h * nz;
+        
+        return { x: x, y: y, z: z }
+        
+    }
     
-    this.x = 0.98;//0.49;
-    this.y = -0.8;//-0.08;
-    this.z = 0.63;//0.34;
+    randomize() {
+        
+        this.a = random( 1.4, 2.4 );
+        this.b = random( 1.4, 2.4 );
+        
+        this.x = random( -1, 1 );
+        this.y = random( -1, 1 );
+        this.z = random( -1, 1 );
+        
+    }
     
-    this.h = .03;
-    this.scale = 1;
     
 }
-
-SprottAttractor.prototype.generatePoint = function( x, y, z ) {
-    
-    
-    var nx = this.speed * (y + this.a * x * y + x * z) ;
-    var ny =  this.speed * (1 - this.b * x * x + y * z) ;
-    var nz =  this.speed * (x - x * x - y * y);
-    
-    x += this.h * nx; y += this.h * ny; z += this.h * nz;
-    
-    return { x: x, y: y, z: z }
-    
-}
-
-SprottAttractor.prototype.randomize = function() {
-    
-    this.a = random( 1.4, 2.4 );
-    this.b = random( 1.4, 2.4 );
-    
-    this.x = random( -1, 1 );
-    this.y = random( -1, 1 );
-    this.z = random( -1, 1 );
-    
-}
-

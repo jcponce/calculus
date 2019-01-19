@@ -4,13 +4,15 @@
  * Written by Juan Carlos Ponce Campuzano, 19-Jul-2018
  */
 
+// Updated Jan-2019
+
 let easycam;
 let particles = [];
 
 let points = [];
 let points2 = [];
 
-let attractor = new ChenAttractor();
+let attractor;
 
 let NUM_POINTS = 3500;//num of points in curve
 
@@ -54,6 +56,7 @@ function backAttractors () {
 
 function setup() {
     
+    attractor = new ChenAttractor();
     
     // create gui (dat.gui)
     let gui = new dat.GUI();
@@ -269,8 +272,9 @@ class Particle{
     
 }
 
-function ChenAttractor() {
+class ChenAttractor {
     
+    constructor(){
     this.speed = 0.5;
     
     this.alpha = 5.0;
@@ -287,34 +291,35 @@ function ChenAttractor() {
     
     this.h = .02;
     this.scale = 1;
+    }
     
-}
-
-ChenAttractor.prototype.generatePoint = function( x, y, z ) {
+    generatePoint( x, y, z ) {
+        
+        
+        var nx = this.speed * (this.alpha * x- y * z ) ;
+        var ny =  this.speed * (this.beta * y + x * z) ;
+        var nz =  this.speed * (this.delta * z + x * y/3);
+        
+        x += this.h * nx; y += this.h * ny; z += this.h * nz;
+        
+        return { x: x, y: y, z: z }
+        
+    }
     
-    
-    var nx = this.speed * (this.alpha * x- y * z ) ;
-    var ny =  this.speed * (this.beta * y + x * z) ;
-    var nz =  this.speed * (this.delta * z + x * y/3);
-    
-    x += this.h * nx; y += this.h * ny; z += this.h * nz;
-    
-    return { x: x, y: y, z: z }
-    
-}
-
-ChenAttractor.prototype.randomize = function() {
-    
-    this.alpha = random( 3, 5 );
-    this.beta = random( -10, -8 );
-    this.delta = random( -0.5, -0.1 );
-    
-    this.x = random( -5, 5 );
-    this.y = random( -5, 10 );
-    this.z = random( -10, 10 );
-    
-    this.x2 = random( -5, 5 );
-    this.y2 = random( -5, 10 );
-    this.z2 = random( -10, 10 );
+    randomize() {
+        
+        this.alpha = random( 3, 5 );
+        this.beta = random( -10, -8 );
+        this.delta = random( -0.5, -0.1 );
+        
+        this.x = random( -5, 5 );
+        this.y = random( -5, 10 );
+        this.z = random( -10, 10 );
+        
+        this.x2 = random( -5, 5 );
+        this.y2 = random( -5, 10 );
+        this.z2 = random( -10, 10 );
+        
+    }
     
 }

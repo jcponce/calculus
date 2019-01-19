@@ -3,17 +3,18 @@
  * https://creativecommons.org/licenses/by-sa/4.0/
  * Written by Juan Carlos Ponce Campuzano, 19-Jul-2018
  */
-
-// Updated Jan-2019
+//J. C. Sprott. A dynamical system with a strange attractor and invariant tori
+//Physic Letters A, 378 (2014) 1361-1363.
+//sprott.physics.wisc.edu/pubs/paper423.pdf
 
 let easycam;
 let particles = [];
 
 let points = [];
 
-let attractor;
 
-let NUM_POINTS = 3500;//num of points in curve
+
+let NUM_POINTS = 3800;//num of points in curve
 
 let numMax = 600;
 let t = 0;
@@ -22,21 +23,18 @@ let currentParticle = 0;
 
 // settings and presets
 let parDef = {
-Attractor: 'Dadras',
-Speed: 1.0,
+Attractor: 'Sprott',
+Speed: 3.0,
 Particles: true,
 Preset: function() {
     removeElements();
-    this.Speed = 1.0;
     this.Particles = true;
-    attractor.a = 3.0;
-    attractor.b = 2.7;
-    attractor.c = 1.7;
-    attractor.d = 2.0;
-    attractor.e = 9.0;
-    attractor.x = 1.1;
-    attractor.y = 2.1;
-    attractor.z = -2.0;
+    this.Speed = 3.0;
+    attractor.a = 2.07;
+    attractor.b = 1.79;
+    attractor.x = 0.63;
+    attractor.y = 0.47;
+    attractor.z = -0.54;
     for (let i=points.length-1; i>=0; i-=1){
         points.splice(i,1);
     }
@@ -51,14 +49,14 @@ function backAttractors () {
 }
 
 
+
 function setup() {
     
-    attractor = new DadrasAttractor();
-    
+    attractor = new SprottAttractor();
     // create gui (dat.gui)
     let gui = new dat.GUI();
     gui.add(parDef, 'Attractor');
-    gui.add(parDef, 'Speed', 0, 3, 0.01).listen();
+    gui.add(parDef, 'Speed', 0, 5, 0.01).listen();
     gui.add(parDef, 'Particles' );
     gui.add(parDef, 'Randomize'  );
     gui.add(parDef, 'Preset'  );
@@ -71,7 +69,7 @@ function setup() {
     
     console.log(Dw.EasyCam.INFO);
     
-    easycam = new Dw.EasyCam(this._renderer, {distance : 20});
+    easycam = new Dw.EasyCam(this._renderer, {distance : 3.5});
     
     // place initial samples
     initSketch();
@@ -93,6 +91,8 @@ function randomCurve() {
     
 }
 
+let attractor;
+
 function initSketch(){
     
     var hleft = select('#hud-left');
@@ -100,9 +100,6 @@ function initSketch(){
     
     createElement('li', 'a = '+ nfc(attractor.a,2) ).parent(hleft);
     createElement('li', 'b = '+ nfc(attractor.b,2) ).parent(hleft);
-    createElement('li', 'c = '+ nfc(attractor.c,2) ).parent(hleft);
-    createElement('li', 'd = '+ nfc(attractor.d,2) ).parent(hleft);
-    createElement('li', 'e = '+ nfc(attractor.e,2) ).parent(hleft);
     
     createElement('li', '----------' ).parent(hleft);
     
@@ -129,7 +126,7 @@ function initSketch(){
         points.push(new p5.Vector(attractor.scale * p.x,attractor.scale * p.y, attractor.scale * p.z));
         
     }
-    let m = 14;
+    let m = 2;
     for (var i=0; i < numMax; i++) {
         particles[i] = new Particle(random(-m, m), random(-m, m), random(-m, m), t, h);
     }
@@ -144,15 +141,21 @@ function draw(){
     
     // BG
     background(0);
-    
-    //translate(0,0,-23);
-    
+   
+    rotateX(1.4);
+    rotateY(0.2);
+    rotateZ(1.2)
+    let hu = 0;
     beginShape(POINTS);
     for (let v of points) {
-        stroke(128, 193, 255);
-        strokeWeight(0.08);
+        stroke(hu, 193, 25);
+        strokeWeight(0.01);
         vertex(v.x, v.y, v.z);
         
+        hu += 1;
+        if (hu > 255) {
+            hu = 0;
+        }
     }
     endShape();
     
@@ -162,7 +165,7 @@ function draw(){
         let p = particles[i];
         p.update();
         p.display();
-        if ( p.x > 100 ||  p.y > 100 || p.z > 100 || p.x < -100 ||  p.y < -100 || p.z < -100 ) {
+        if ( p.x > 5 ||  p.y > 5 || p.z > 5 || p.x < -5 ||  p.y < -5 || p.z < -5 ) {
             particles.splice(i,1);
             currentParticle--;
             particles.push(new Particle(random(-5,5),random(-5,5),random(-5,5),t,h) );
@@ -180,15 +183,15 @@ function draw(){
 
 
 function componentFX(t, x, y, z){
-    return 1 * parDef.Speed * ( y - attractor.a *x + attractor.b * y * z );//Change this function
+    return   parDef.Speed * ( y + attractor.a * x * y + x * z );//Change this function
 }
 
 function componentFY(t, x, y, z){
-    return 1 * parDef.Speed * ( attractor.c * y - x * z +z);//Change this function
+    return    parDef.Speed * (1 - attractor.b * x * x + y * z );//Change this function
 }
 
 function componentFZ(t, x, y, z){
-    return 1 * parDef.Speed * ( attractor.d * x * y - attractor.e * z );//Change this function
+    return  parDef.Speed * ( x - x * x - y * y  );//Change this function
 }
 
 //Particle definition and motion
@@ -199,11 +202,12 @@ class Particle{
         this.y = _y;
         this.z = _z;
         this.time = _t;
-        this.radius = 0.12;
+        this.radius = random(0.018,0.018);
         this.h = _h;
-        this.r = random(129,255);
-        this.g = random(200,255);
-        this.b = random(100,255);
+        this.op = random(200,200);
+        this.r = random(200, 255);
+        this.g = random(100, 200);
+        this.b = random(255);
     }
     
     update() {
@@ -236,31 +240,28 @@ class Particle{
     
 }
 
-class DadrasAttractor {
+class SprottAttractor {
     
-    constructor(){
-    this.speed = 0.5;
+    constructor(x, y, z){
+    this.speed = 0.6;
     
-    this.a = 3.0;
-    this.b = 2.7;
-    this.c = 1.7;
-    this.d = 2.0;
-    this.e = 9.0;
+    this.a = 2.07;
+    this.b = 1.79;
     
-    this.x = 1.1;
-    this.y = 2.1;
-    this.z = -2.0;
+    this.x = 0.63;
+    this.y = 0.47;
+    this.z = -0.54;
     
-    this.h = 0.02;
+    this.h = .03;
     this.scale = 1;
     }
     
     generatePoint( x, y, z ) {
         
         
-        var nx = this.speed * (y - this.a *x + this.b * y * z ) ;
-        var ny =  this.speed * (this.c * y - x * z +z) ;
-        var nz =  this.speed * (this.d * x * y - this.e * z);
+        var nx = this.speed * (y + this.a * x * y + x * z) ;
+        var ny =  this.speed * (1 - this.b * x * x + y * z) ;
+        var nz =  this.speed * (x - x * x - y * y);
         
         x += this.h * nx; y += this.h * ny; z += this.h * nz;
         
@@ -270,16 +271,18 @@ class DadrasAttractor {
     
     randomize() {
         
-        this.a = random( 1, 3 );
-        this.b = random( 0.2, 3 );
-        this.c = random( 0.1, 2 );
-        this.d = random( 1, 3 );
-        this.e = random( 5, 10 );
+        this.a = random( 1.4, 2.4 );
+        this.b = random( 1.4, 2.4 );
         
-        this.x = random( -1.5, 1.5 );
-        this.y = random( -2, 2 );
-        this.z = random( -5, 5 );
+        this.x = random( -1, 1 );
+        this.y = random( -1, 1 );
+        this.z = random( -1, 1 );
         
     }
+
     
 }
+
+
+
+

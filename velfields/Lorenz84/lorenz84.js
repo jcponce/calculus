@@ -4,12 +4,14 @@
  * Written by Juan Carlos Ponce Campuzano, 19-Jul-2018
  */
 
+// Updated Jan-2019
+
 let easycam;
 let particles = [];
 
 let points = [];
 
-let attractor = new Lorenz84Attractor();
+let attractor;
 
 let NUM_POINTS = 3500;//num of points in curve
 
@@ -27,13 +29,13 @@ Preset: function() {
     removeElements();
     this.Speed = 1.0;
     this.Particles = true;
-    attractor.a = 0.25;
-    attractor.b = 4.0;
-    attractor.f = 8.0;
-    attractor.g = 1.0;
-    attractor.x = -3;
-    attractor.y = 3;
-    attractor.z = 0;
+    attractor.a = 0.95;
+    attractor.b = 7.91;
+    attractor.f = 4.83;
+    attractor.g = 4.66;
+    attractor.x = -0.20;
+    attractor.y = -2.82;
+    attractor.z = 2.71;
     for (let i=points.length-1; i>=0; i-=1){
         points.splice(i,1);
     }
@@ -50,6 +52,7 @@ function backAttractors () {
 
 function setup() {
     
+    attractor = new Lorenz84Attractor();
     
     // create gui (dat.gui)
     let gui = new dat.GUI();
@@ -67,7 +70,7 @@ function setup() {
     
     console.log(Dw.EasyCam.INFO);
     
-    easycam = new Dw.EasyCam(this._renderer, {distance : 5 });
+    easycam = new Dw.EasyCam(this._renderer, {distance : 7 });
     
     // place initial samples
     initSketch();
@@ -118,7 +121,7 @@ function initSketch(){
         points.push(new p5.Vector(attractor.scale * p.x,attractor.scale * p.y, attractor.scale * p.z));
         
     }
-    let m = 1.5;
+    let m = 4.5;
     for (var i=0; i < numMax; i++) {
         particles[i] = new Particle(random(-m, m), random(-m, m), random(-m, m), t, h);
     }
@@ -135,11 +138,12 @@ function draw(){
     background(0);
     
     //translate(0,0,-23);
+    rotateY(0.2);
     
     beginShape(POINTS);
     for (let v of points) {
         stroke(128, 193, 255);
-        strokeWeight(0.01);
+        strokeWeight(0.02);
         vertex(v.x, v.y, v.z);
         
     }
@@ -151,7 +155,7 @@ function draw(){
         let p = particles[i];
         p.update();
         p.display();
-        if ( p.x > 100 ||  p.y > 100 || p.z > 100 || p.x < -100 ||  p.y < -100 || p.z < -100 ) {
+        if ( p.x > 70 ||  p.y > 70 || p.z > 70 || p.x < -70 ||  p.y < -70 || p.z < -70 ) {
             particles.splice(i,1);
             currentParticle--;
             particles.push(new Particle(random(-5,5),random(-5,5),random(-5,5),t,h) );
@@ -225,47 +229,49 @@ class Particle{
     
 }
 
-function Lorenz84Attractor() {
+class Lorenz84Attractor {
     
+    constructor(){
     this.speed = 1;
     
-    this.a = 0.25;
-    this.b = 4.0;
-    this.f = 8.0;
-    this.g = 1.0;
+    this.a = 0.95;
+    this.b = 7.91;
+    this.f = 4.83;
+    this.g = 4.66;
     
-    this.x = -3;
-    this.y = 3;
-    this.z = 0;
+    this.x = -0.20;
+    this.y = -2.82;
+    this.z = 2.71;
     
     this.h = 0.01;
     this.scale = 1;
+    }
     
-}
-
-Lorenz84Attractor.prototype.generatePoint = function( x, y, z ) {
+    generatePoint( x, y, z ) {
+        
+        
+        var nx = this.speed * (-this.a * x - y * y - z * z + this.a * this.f) ;
+        var ny =  this.speed * (-y + x * y - this.b * x * z + this.g ) ;
+        var nz =  this.speed * (-z + this.b * x * y + x * z );
+        
+        x += this.h * nx; y += this.h * ny; z += this.h * nz;
+        
+        return { x: x, y: y, z: z }
+        
+    }
     
-    
-    var nx = this.speed * (-this.a * x - y * y - z * z + this.a * this.f) ;
-    var ny =  this.speed * (-y + x * y - this.b * x * z + this.g ) ;
-    var nz =  this.speed * (-z + this.b * x * y + x * z );
-    
-    x += this.h * nx; y += this.h * ny; z += this.h * nz;
-    
-    return { x: x, y: y, z: z }
-    
-}
-
-Lorenz84Attractor.prototype.randomize = function() {
-    
-    this.a = random( 0.01, 5 );
-    this.b = random( 1, 9 );
-    this.f = random( 3, 9 );
-    this.g = random( 0.1, 9);
-    
-    this.x = random( -4,4 );
-    this.y = random( -4,4 );
-    this.z = random( -4,4 );
-    
+    randomize() {
+        
+        this.a = random( 0.01, 5 );
+        this.b = random( 1, 9 );
+        this.f = random( 3, 9 );
+        this.g = random( 0.1, 9);
+        
+        this.x = random( -4,4 );
+        this.y = random( -4,4 );
+        this.z = random( -4,4 );
+        
+        
+    }
     
 }

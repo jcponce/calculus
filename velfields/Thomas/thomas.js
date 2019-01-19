@@ -4,13 +4,14 @@
  * Written by Juan Carlos Ponce Campuzano, 19-Jul-2018
  */
  
+// Updated Jan-2019
 
 let easycam;
 
 let particles = [];
 let points = [];
 
-let attractor = new ThomasAttractor();//Define attractor
+let attractor;//Define attractor
 
 let NUM_POINTS = 4000;//num of points in curve
 
@@ -46,6 +47,8 @@ function backAttractors () {
 }
 
 function setup() {
+    
+    attractor = new ThomasAttractor();
     
     // create gui (dat.gui)
     let gui = new dat.GUI();
@@ -223,8 +226,9 @@ class Particle{
 }
 
 //Define attracto class for drawing the solution curve
-function ThomasAttractor() {
+class ThomasAttractor {
     
+    constructor(){
     this.speed = 10;
     
     this.b = 0.208186;
@@ -235,27 +239,28 @@ function ThomasAttractor() {
     
     this.h = .027;
     this.scale = 1;
+    }
     
-}
-
-ThomasAttractor.prototype.generatePoint = function( x, y, z ) {
+    generatePoint( x, y, z ) {
+        
+        var nx = this.speed * (Math.sin( y ) - this.b * x);
+        var ny =  this.speed * (Math.sin( z ) - this.b * y);
+        var nz =  this.speed * (Math.sin( x ) - this.b * z);
+        
+        x += this.h * nx; y += this.h * ny; z += this.h * nz;
+        
+        return { x: x, y: y, z: z }
+        
+    }
     
-    var nx = this.speed * (Math.sin( y ) - this.b * x);
-    var ny =  this.speed * (Math.sin( z ) - this.b * y);
-    var nz =  this.speed * (Math.sin( x ) - this.b * z);
-    
-    x += this.h * nx; y += this.h * ny; z += this.h * nz;
-    
-    return { x: x, y: y, z: z }
-    
-}
-
-ThomasAttractor.prototype.randomize = function() {
-    
-    this.b =random( 0.01, 0.4 );
-    
-    this.x = random( -1.1, 1.1 );
-    this.y = random( -1.1, 1.1 );
-    this.z = random( -1, 1 );
+    randomize() {
+        
+        this.b =random( 0.01, 0.4 );
+        
+        this.x = random( -1.1, 1.1 );
+        this.y = random( -1.1, 1.1 );
+        this.z = random( -1, 1 );
+        
+    }
     
 }

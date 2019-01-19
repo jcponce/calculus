@@ -4,12 +4,14 @@
  * Written by Juan Carlos Ponce Campuzano, 19-Jul-2018
  */
 
+// Updated Jan-2019
+
 let easycam;
 let particles = [];
 
 let points = [];
 
-let attractor = new HalvorsenAttractor();
+let attractor;
 
 let NUM_POINTS = 3500;//num of points in curve
 
@@ -47,6 +49,7 @@ function backAttractors () {
 
 function setup() {
     
+    attractor = new HalvorsenAttractor();
     
     // create gui (dat.gui)
     let gui = new dat.GUI();
@@ -228,8 +231,9 @@ class Particle{
     
 }
 
-function HalvorsenAttractor() {
+class HalvorsenAttractor {
     
+    constructor(){
     this.speed = 0.5;
     
     this.a = 1.89;
@@ -241,9 +245,9 @@ function HalvorsenAttractor() {
     this.h = 0.03;
     this.scale = 1;
     
-}
+    }
 
-HalvorsenAttractor.prototype.generatePoint = function( x, y, z ) {
+   generatePoint( x, y, z ) {
     
     
     var nx = this.speed * (-this.a * x -4 * y-4 * z-y * y ) ;
@@ -256,7 +260,7 @@ HalvorsenAttractor.prototype.generatePoint = function( x, y, z ) {
     
 }
 
-HalvorsenAttractor.prototype.randomize = function() {
+    randomize() {
     
     this.a = random( 0.1,  3 );
     
@@ -264,4 +268,6 @@ HalvorsenAttractor.prototype.randomize = function() {
     this.y = random( -5, 5 );
     this.z = random( -5, 5 );
     
+}
+
 }

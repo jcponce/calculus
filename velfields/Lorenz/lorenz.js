@@ -4,12 +4,14 @@
  * Written by Juan Carlos Ponce Campuzano, 19-Jul-2018
  */
 
+// Updated Jan-2019
+
 let easycam;
 let particles = [];
 
 let points = [];
 
-let attractor = new LorenzAttractor();
+let attractor;
 
 let NUM_POINTS = 4000;//num of points in curve
 
@@ -49,7 +51,7 @@ function backAttractors () {
 
 function setup() {
     
-    
+    attractor = new LorenzAttractor();
     // create gui (dat.gui)
     let gui = new dat.GUI();
     gui.add(parDef, 'Attractor');
@@ -230,8 +232,9 @@ class Particle{
     
 }
 
-function LorenzAttractor() {
+class LorenzAttractor {
     
+    constructor(){
     this.speed = 0.5;
     
     this.p = 10.0;
@@ -247,7 +250,7 @@ function LorenzAttractor() {
     
 }
 
-LorenzAttractor.prototype.generatePoint = function( x, y, z ) {
+   generatePoint( x, y, z ) {
     
     
     var nx = this.speed * (this.p * (-x + y)) ;
@@ -260,7 +263,7 @@ LorenzAttractor.prototype.generatePoint = function( x, y, z ) {
     
 }
 
-LorenzAttractor.prototype.randomize = function() {
+    randomize() {
     
     this.p = random( 0.1, 50 );
     this.r = random( 0.5, 60 );
@@ -270,4 +273,6 @@ LorenzAttractor.prototype.randomize = function() {
     this.y = random( -10, 10 );
     this.z = random( 0, 10 );
     
+}
+
 }
