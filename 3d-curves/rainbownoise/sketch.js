@@ -17,29 +17,34 @@
  * 
  */
 
-let easycam;
+/*
+ Inspired by the Conding Challenge # 3??
+ Link:
+ Written by Juan Carlos Ponce Campuzano
+ https://jcponce.github.io/
+ 21-Feb-2019
+*/
 
+let easycam;
 
 // settings and presets
 let parDef = {
-INFO: 'Drag with mouse',
-p: 2,
-q: 3,
+View: 'Drag with mouse',
+horn: false,
 xyzAxes: axesSketch,
-Random: function() { this.p = floor(random(-40,40)); this.q = floor(random(-39,39)); },
-Torus: showTorus,
+Rotating: true,
 };
 
 function setup() {
     
     // create gui (dat.gui)
     let gui = new dat.GUI();
-    gui.add(parDef, 'INFO');
-    //gui.add(parDef, 'p'  , -50, 50 ,1 ).listen();
-    //gui.add(parDef, 'q'  , -49, 49 ,1 ).listen();
+    gui.closed = true;
+    gui.add(parDef, 'View');
     gui.add(parDef, 'xyzAxes'  );
-    //gui.add(parDef, 'Random'  );
-    //gui.add(parDef, 'Torus');
+    gui.add(parDef, 'Rotating'  );
+    gui.add(parDef, 'horn').name("Horn");
+    gui.add(this, 'sourceCode').name("Source");
     gui.add(this, 'backHome').name("Go Back");
     
     colorMode(HSB,1);
@@ -51,13 +56,17 @@ function setup() {
     
     console.log(Dw.EasyCam.INFO);
     
-    easycam = new Dw.EasyCam(this._renderer, {distance : 600});
+    easycam = new Dw.EasyCam(this._renderer, {distance : 500});
     mic = new p5.AudioIn();
     mic.start();
 }
 
 function backHome() {
     window.location.href = "https://jcponce.github.io/3dcurves";
+}
+
+function sourceCode() {
+    window.location.href = "https://github.com/jcponce/calculus/tree/gh-pages/3d-curves/rainbownoise";
 }
 
 function windowResized() {
@@ -70,13 +79,6 @@ function axesSketch(){
     if(gizmo == false){
         return gizmo = true;
     }else gizmo = false;
-}
-
-let showt = false;
-function showTorus(){
-    if(showt == false){
-        return showt = true;
-    }else showt = false;
 }
 
 let phase = 0;
@@ -93,36 +95,33 @@ function draw(){
     // BG
     background(0);
     
-    noFill();
+   
     
     rotateX(3)
     rotateY(rot/2);
     rotateZ(0.4);
-    let hu = 50;
     
-    //noiseCircle(1, -60);
-    //noiseCircle(1/2, 0);
-    //noiseCircle(1/3, 60);
-    for(let i=1; i<=15; i++){
-        noiseCircle(1/i, i*70-70, (15-i)/5, (i-1)/15);
+    
+    for(let i=1; i<=35; i++){
+        if(parDef.horn==true){
+           //size, posz, strSize, hu
+           noiseCircle(1/i, (i*70-70)/5, (35-i)/13, (i-1)/35);
+        } else noiseCircle(1, (i*70-70)/5, (35-i)/13, (i-1)/35);
     }
 
     phase+=0.001;
     zoff += 0.001;
-    rot += 0.001;
-    if(showt){
-    stroke(0);
-    strokeWeight(0.015);
-    fill(102, 140, 255);
-    torus(2, 0.99);
-    }
+    
+    if(parDef.Rotating==true){
+      rot += 0.006;
+    } else rot += 0.0;
     
     if(gizmo==true){
     // gizmo
     strokeWeight(2);
-    stroke(1); line(0,0,0,40,0,0);
-    stroke(1); line(0,0,0,0,40,0);
-    stroke(1); line(0,0,0,0,0,40);
+    stroke(1, 1, 1); line(0,0,0,90,0,0);
+    stroke(0.6, 1, 1); line(0,0,0,0,90,0);
+    stroke(0.3, 1, 1); line(0,0,0,0,0,90);
     }
 }
 
@@ -131,18 +130,7 @@ function noiseCircle(size, posz, strSize, hu){
     
     beginShape();
     strokeWeight(2.5);
-    //let noiseMax = 70;
-    /*for (let a = 0; a < TWO_PI; a+=0.05) {
-     let xoff = map(cos(a+phase),-1,1,0,noiseMax);
-     let yoff = map(sin(a+phase),-1,1,0,noiseMax);
-     let r = map(noise(xoff, yoff, zoff), 0, 1, 100, 200);
-     let x = r * cos(a);
-     let y = r * sin(a);
-     vertex(x,y);*/
-    
-    let noiseMax = mic.getLevel() * 50;
-    //for(i = -2; i<=-2; i++){
-    
+    let noiseMax = mic.getLevel() * 60;
     for (let a = 0; a < TWO_PI; a += 0.03) {
         let xoff = map(cos(a + phase), -1, 1, 0, noiseMax);
         let yoff = map(sin(a + phase), -1, 1, 0, noiseMax);
@@ -155,9 +143,6 @@ function noiseCircle(size, posz, strSize, hu){
         
         vertex(x, y, posz);
     }
-    
-    //}
-    
     endShape(CLOSE);
     
 }
