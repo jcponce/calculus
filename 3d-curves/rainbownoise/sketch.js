@@ -18,11 +18,11 @@
  */
 
 /*
- Inspired by the Conding Challenge # 3??
+ Inspired by the Conding Challenge #136
  Link:
  Written by Juan Carlos Ponce Campuzano
  https://jcponce.github.io/
- 21-Feb-2019
+ 26-Feb-2019
 */
 
 let easycam;
@@ -62,7 +62,7 @@ function setup() {
 }
 
 function backHome() {
-    window.location.href = "https://jcponce.github.io/3dcurves";
+    window.location.href = "https://jcponce.github.io/";
 }
 
 function sourceCode() {
@@ -105,7 +105,7 @@ function draw(){
     for(let i=1; i<=35; i++){
         if(parDef.horn==true){
            //size, posz, strSize, hu
-           noiseCircle(1/i, (i*70-70)/5, (35-i)/13, (i-1)/35);
+           noiseCircle(1/i, ((i+0.2)*70-70)/8, (35-i)/13, (i-1)/35);
         } else noiseCircle(1, (i*70-70)/5, (35-i)/13, (i-1)/35);
     }
 
