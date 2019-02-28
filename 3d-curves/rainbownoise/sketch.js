@@ -37,6 +37,8 @@ Micro: false,
 level: 15
 };
 
+let mic;
+
 function setup() {
     
     // create gui (dat.gui)
@@ -47,10 +49,6 @@ function setup() {
     gui.add(parDef, 'Rotating'  );
     gui.add(parDef, 'level',  0.0, 30).name("Noise").step(0.01).listen();
     gui.add(parDef, 'horn').name("Horn");
-    
-    //let cadjust = gui.addFolder('Adjust');
-    
-    
     gui.add(parDef, 'Micro').name("Micro").onChange(startMicro);
     gui.add(this, 'sourceCode').name("Source");
     gui.add(this, 'backHome').name("Go Back");
@@ -66,7 +64,6 @@ function setup() {
     
     easycam = new Dw.EasyCam(this._renderer, {distance : 500});
     
-    //startMicro();
     mic = new p5.AudioIn();
     startMicro();
 }
@@ -101,8 +98,6 @@ function axesSketch(){
 
 let phase = 0;
 let zoff = 0;
-let mic;
-
 let rot=0;
 
 function draw(){
@@ -113,13 +108,12 @@ function draw(){
     // BG
     background(0);
     
-   
-    
+    //Adjust the view
     rotateX(3)
     rotateY(rot/2);
     rotateZ(0.4);
     
-    
+    //Create the rainbow loops
     for(let i=1; i<=35; i++){
         if(parDef.horn==true){
            //size, posz, strSize, hu
@@ -127,6 +121,7 @@ function draw(){
         } else noiseCircle(1, (i*70-70)/5, (35-i)/18, (i-1)/35);
     }
 
+    //Update values
     phase+=0.003;
     zoff += 0.01;
     
@@ -134,8 +129,8 @@ function draw(){
       rot += 0.006;
     } else rot += 0.0;
     
+    //Axes
     if(gizmo==true){
-    // gizmo
     strokeWeight(2);
     stroke(1, 1, 1); line(0,0,0,90,0,0);
     stroke(0.6, 1, 1); line(0,0,0,0,90,0);
