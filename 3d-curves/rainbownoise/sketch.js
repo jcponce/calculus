@@ -33,6 +33,8 @@ View: 'Drag with mouse',
 horn: false,
 xyzAxes: axesSketch,
 Rotating: true,
+Micro: false,
+level: 15
 };
 
 function setup() {
@@ -43,7 +45,13 @@ function setup() {
     gui.add(parDef, 'View');
     gui.add(parDef, 'xyzAxes'  );
     gui.add(parDef, 'Rotating'  );
+    gui.add(parDef, 'level',  0.0, 30).name("Noise").step(0.01).listen();
     gui.add(parDef, 'horn').name("Horn");
+    
+    //let cadjust = gui.addFolder('Adjust');
+    
+    
+    gui.add(parDef, 'Micro').name("Micro").onChange(startMicro);
     gui.add(this, 'sourceCode').name("Source");
     gui.add(this, 'backHome').name("Go Back");
     
@@ -57,8 +65,18 @@ function setup() {
     console.log(Dw.EasyCam.INFO);
     
     easycam = new Dw.EasyCam(this._renderer, {distance : 500});
+    
+    //startMicro();
     mic = new p5.AudioIn();
-    mic.start();
+    startMicro();
+}
+
+function startMicro(){
+    if(parDef.Micro==false){
+       mic.stop();
+    }else{
+        mic.start();
+    }
 }
 
 function backHome() {
@@ -105,12 +123,12 @@ function draw(){
     for(let i=1; i<=35; i++){
         if(parDef.horn==true){
            //size, posz, strSize, hu
-           noiseCircle(1/i, ((i+0.2)*70-70)/8, (35-i)/13, (i-1)/35);
-        } else noiseCircle(1, (i*70-70)/5, (35-i)/13, (i-1)/35);
+           noiseCircle(1/i, ((i+0.2)*70-70)/8, (35-i)/15, (i-1)/35);
+        } else noiseCircle(1, (i*70-70)/5, (35-i)/18, (i-1)/35);
     }
 
-    phase+=0.001;
-    zoff += 0.001;
+    phase+=0.003;
+    zoff += 0.01;
     
     if(parDef.Rotating==true){
       rot += 0.006;
@@ -130,7 +148,12 @@ function noiseCircle(size, posz, strSize, hu){
     
     beginShape();
     strokeWeight(2.5);
-    let noiseMax = mic.getLevel() * 60;
+    let noiseMax;
+    if(parDef.Micro==true){
+        noiseMax = mic.getLevel() * (parDef.level+30);
+    }else{
+        noiseMax = parDef.level;
+    }
     for (let a = 0; a < TWO_PI; a += 0.03) {
         let xoff = map(cos(a + phase), -1, 1, 0, noiseMax);
         let yoff = map(sin(a + phase), -1, 1, 0, noiseMax);
