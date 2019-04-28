@@ -21,7 +21,7 @@ let currentParticle = 0;
 
 // settings and presets
 let parDef = {
-Attractor: 'Wang-Su',
+Attractor: 'Wang-Sun',
 Speed: 3.0,
 Particles: true,
 Preset: function() {
