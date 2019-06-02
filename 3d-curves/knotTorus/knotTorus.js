@@ -31,7 +31,7 @@ xyzAxes: axesSketch,
 Random: function() { this.p = floor(random(-40,40)); this.q = floor(random(-39,39)); },
 Torus: showTorus,
 Save: function () {
-    save('knot.png');
+    save('torus-knot.png');
 },
 };
 
