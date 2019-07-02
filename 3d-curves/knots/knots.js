@@ -28,8 +28,14 @@ c: 0.2,
 d: 6,
 e: 1.57,
 f: 1.2,
+Red: 250,
+Green: 250,
+Blue: 50,
 xyzAxes: axesSketch,
 Random: function() { this.a = random(-2,2); this.b = floor(random(0,10)); this.c = random(0,2); this.d = floor(random(0,12)); this.e = random(0, 2*PI); this.f = random(0,2); },
+Save: function () {
+    save('knot.png');
+},
 };
 
 function setup() {
@@ -43,8 +49,12 @@ function setup() {
     gui.add(parDef, 'd'  , 0, 12 , 1 ).listen();
     gui.add(parDef, 'e'  , 0, 2*PI , 0.1 ).listen();
     gui.add(parDef, 'f'  , 0, 2 , 0.1 ).listen();
+    gui.add(parDef, 'Red' , 0, 255, 1 ).listen();
+    gui.add(parDef, 'Green' , 0, 255, 1 ).listen();
+    gui.add(parDef, 'Blue' , 0, 255, 1 ).listen();
     gui.add(parDef, 'xyzAxes'  );
     gui.add(parDef, 'Random'  );
+    gui.add(parDef, 'Save').name("Save png");
     gui.add(this, 'backHome').name("Go Back");
     
     pixelDensity(1);
@@ -88,11 +98,12 @@ function draw(){
     rotateY(0.0);
     rotateZ(0.3);
     
+    stroke(parDef.Red, parDef.Green, parDef.Blue);
+    strokeWeight(0.02);
     
     beginShape();
     for(let i = 0; i <= 2*PI; i+=PI/900){
-        stroke(255, 0, 0);
-        strokeWeight(0.025);
+        
         let phi = parDef.c*PI *sin(parDef.d*i);
         let r = parDef.f+parDef.a*sin(6*i+parDef.e);
         let theta = parDef.b*i;

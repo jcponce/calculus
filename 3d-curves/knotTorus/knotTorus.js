@@ -24,9 +24,15 @@ let parDef = {
 Curve: 'Torus knot',
 p: 2,
 q: 3,
+Red: 50,
+Green: 200,
+Blue: 200,
 xyzAxes: axesSketch,
 Random: function() { this.p = floor(random(-40,40)); this.q = floor(random(-39,39)); },
 Torus: showTorus,
+Save: function () {
+    save('torus-knot.png');
+},
 };
 
 function setup() {
@@ -34,11 +40,15 @@ function setup() {
     // create gui (dat.gui)
     let gui = new dat.GUI();
     gui.add(parDef, 'Curve');
-    gui.add(parDef, 'p'  , -50, 50 ,1 ).listen();
-    gui.add(parDef, 'q'  , -49, 49 ,1 ).listen();
+    gui.add(parDef, 'p'  , -50, 50, 1 ).listen();
+    gui.add(parDef, 'q'  , -49, 49, 1 ).listen();
+    gui.add(parDef, 'Red' , 0, 255, 1 ).listen();
+    gui.add(parDef, 'Green' , 0, 255, 1 ).listen();
+    gui.add(parDef, 'Blue' , 0, 255, 1 ).listen();
     gui.add(parDef, 'xyzAxes'  );
     gui.add(parDef, 'Random'  );
     gui.add(parDef, 'Torus');
+    gui.add(parDef, 'Save').name("Save png");
     gui.add(this, 'backHome').name("Go Back");
     
     pixelDensity(1);
@@ -88,17 +98,24 @@ function draw(){
     rotateX(0.9)
     rotateY(0.0);
     rotateZ(0.3);
-    let hu = 50;
+    
+    push();
     beginShape();
-    for(let i = 0; i <= 2*PI; i+=PI/1000){
-        stroke(hu, 255, 255);
+    for(let i = 0; i <= 1; i+=0.0001){
+        stroke(parDef.Red, parDef.Green, parDef.Blue);
         strokeWeight(0.02);
-        let xc = 1*(cos(parDef.q*i)+2)*cos(parDef.p * i);
-        let yc = 1*(cos(parDef.q*i)+2)*sin(parDef.p * i);
-        let zc =  -1*sin(parDef.q * i);
-        vertex(xc, yc, zc);
+        let x0 = 1*(cos(2*PI* parDef.q*i)+2)*cos(2*PI*parDef.p * i);
+        let y0 = 1*(cos(2*PI* parDef.q*i)+2)*sin(2*PI*parDef.p * i);
+        let z0 =  -1*sin(2*PI*parDef.q * i);
+        //let x1 = 1*(cos(2*PI*parDef.q*(i+0.005))+2)*cos(2*PI*parDef.p * (i+0.005));
+        //let y1 = 1*(cos(2*PI*parDef.q*(i+0.005))+2)*sin(2*PI*parDef.p * (i+0.005));
+        //let z1 =  -1*sin(2*PI*parDef.q * (i+0.005));
+        
+        //line(x0, y0, z0, x1, y1, z1);
+        vertex(x0, y0, z0);
     }
     endShape(CLOSE);
+    pop();
     
     if(showt){
     stroke(0);
