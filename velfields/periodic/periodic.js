@@ -38,6 +38,7 @@ function setup() {
     
     createCanvas(WIDTH, HEIGHT);
     controls();
+    cursor(HAND);
     
 }
 

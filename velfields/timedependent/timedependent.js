@@ -45,6 +45,7 @@ function setup() {
     createCanvas(WIDTH, HEIGHT);
     controls();
     smooth();
+    cursor(HAND);
     
 }
 

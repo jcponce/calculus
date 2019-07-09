@@ -40,6 +40,7 @@ function setup() {
     controls();
     frameRate(60);
     smooth();
+    cursor(HAND);
     
 }
 

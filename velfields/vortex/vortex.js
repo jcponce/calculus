@@ -40,6 +40,7 @@ let sliderk;
 
 function setup() {
     createCanvas(WIDTH, HEIGHT);
+    cursor(HAND);
     controls();
     resetSketch();
 }
