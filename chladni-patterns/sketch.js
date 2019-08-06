@@ -262,6 +262,22 @@ function mouseReleased() {
   }
 }
 
+function touchStarted() {
+    for (let drag of ptsD) {
+        drag.pressed();
+        cursor('grab');
+    }
+    textIni = false;
+}
+
+function touchEnded() {
+    for (let drag of ptsD) {
+        // Quit dragging
+        drag.released();
+        cursor(ARROW);
+    }
+}
+
 
 let ptsD = [];
 // Make a new circle
