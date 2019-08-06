@@ -47,10 +47,10 @@ class Draggable {
       stroke(255);
       strokeWeight(1.5);
     } else if (this.rollover) {
-      fill(200);
+      fill(250);
       
     } else {
-      fill(45, 250, 255, 150);
+      fill(200, 150);
     }
     ellipse(this.x, this.y, this.d, this.d);
   }

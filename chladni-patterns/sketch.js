@@ -54,12 +54,13 @@ let dif;
 function setup() {
 
   createCanvas(windowWidth, windowHeight);
+  pixelDensity(1);
 
   let gui = new dat.GUI();
   gui.add(parDef, 'play').name('Animation');
-  gui.add(parDef, 'frq', 0.001, 1, 0.001).name('Frequency').listen();
+  gui.add(parDef, 'frq', 0.001, 0.6, 0.001).name('Frequency').listen();
   gui.add(parDef, 'nPoints', 1, 10, 1).name('Sources').listen();
-  gui.add(this, 'resetPoints').name("Set Points");
+  gui.add(this, 'resetPoints').name("Center Points");
 
   gui.add(parDef, 'Save').name('Save (jpg)');
 
@@ -102,6 +103,7 @@ function setup() {
   }
 
   frameRate(60);
+    blendMode(BLEND);
 
 
 } // setup()
