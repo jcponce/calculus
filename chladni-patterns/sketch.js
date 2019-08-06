@@ -17,7 +17,7 @@
  *
  */
 
-let N = 3000;
+let N = 3500;
 //let NNmax = 8;
 let V = 0.5;
 //let F = 0.15;
