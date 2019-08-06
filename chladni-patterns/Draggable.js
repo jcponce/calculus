@@ -20,8 +20,10 @@ class Draggable {
     if (mouseX > this.x - this.bs && mouseX < this.x + this.bs &&
       mouseY > this.y - this.bs && mouseY < this.y + this.bs) {
       this.rollover = true;
+        
     } else {
       this.rollover = false;
+        
     }
 
   }
@@ -45,7 +47,7 @@ class Draggable {
       stroke(255);
       strokeWeight(1.5);
     } else if (this.rollover) {
-      fill(100);
+      fill(200);
       
     } else {
       fill(45, 250, 255, 150);
@@ -58,10 +60,12 @@ class Draggable {
     if (mouseX > this.x - this.bs && mouseX < this.x + this.bs &&
       mouseY > this.y - this.bs && mouseY < this.y + this.bs) {
       this.dragging = true;
+        
       // If so, keep track of relative location of click to corner of rectangle
       this.offsetX = this.x - mouseX;
       this.offsetY = this.y - mouseY;
     }
+      
   }
 
   released() {

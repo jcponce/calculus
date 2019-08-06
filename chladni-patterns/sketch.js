@@ -1,9 +1,23 @@
-// Orinal version by KaijinQ https://www.openprocessing.org/user/44852
+/* p5.js (https://p5js.org/)
+ * Under Creative Commons License
+ * https://creativecommons.org/licenses/by-sa/4.0/
+ * Written by Juan Carlos Ponce Campuzano, 06-Aug-2019
+ * https://jcponce.github.io/
+ *
+ * This Chladni patterns simulation is based upon the work
+ * of KaijinQ https://www.openprocessing.org/user/44852
+ * The original sketch can me found here:
+ * ChladniModoki_2.0 https://www.openprocessing.org/sketch/715119
+ *
+ * In this version, I added some draggable points to play with
+ * different patterns and some parameters that the user can modified.
+ *
+ * I still want to figure out how to make a class for the Chladni particles,
+ * which I will do later. For now, it looks pretty cool.
+ *
+ */
 
-//ChladniModoki_2.0 https://www.openprocessing.org/sketch/715119
-
-
-let N = 2000;
+let N = 3000;
 //let NNmax = 8;
 let V = 0.5;
 //let F = 0.15;
@@ -15,16 +29,7 @@ let PY = [];
 let NN;
 let SX = [];
 let SY = [];
-let I;
-let II;
-let L;
-let R;
-let D;
-let C;
-let VX;
-let VY;
-let T;
-let TT;
+let I, II,L, R, D, C, VX, VY, T, TT;
 
 
 // settings and presets
@@ -50,12 +55,10 @@ function setup() {
 
   createCanvas(windowWidth, windowHeight);
 
-  cursor(HAND);
-  // create gui (dat.gui)
   let gui = new dat.GUI();
   gui.add(parDef, 'play').name('Animation');
   gui.add(parDef, 'frq', 0.001, 1, 0.001).name('Frequency').listen();
-  gui.add(parDef, 'nPoints', 1, 10, 1).name('N. particles').listen();
+  gui.add(parDef, 'nPoints', 1, 10, 1).name('Sources').listen();
   gui.add(this, 'resetPoints').name("Set Points");
 
   gui.add(parDef, 'Save').name('Save (jpg)');
@@ -73,9 +76,10 @@ function setup() {
   backGUI.add(parDef, 'opt', 0, 200, 1).name('Opacity').listen();
 
   gui.add(this, 'infoChladni').name("Chladni Info");
-  gui.add(this, 'sourceCode').name("Source Code");
-  gui.add(this, 'backHome').name("Back Home");
   gui.add(this, 'refreshPage').name("Restart");
+    gui.add(this, 'sourceCode').name("Source Code");
+  gui.add(this, 'backHome').name("Back Home");
+  
   gui.close();
   
   textSize(24);
@@ -224,7 +228,7 @@ function infoChladni() {
 }
 
 function sourceCode() {
-  window.location.href = "https://github.com/jcponce/jcponce.github.io/tree/master/sketches/flockcreatures";
+  window.location.href = "https://github.com/jcponce/calculus/tree/gh-pages/chladni-patterns";
 }
 
 function backHome() {
@@ -242,6 +246,7 @@ function mousePressed() {
 
   for (let drag of ptsD) {
     drag.pressed();
+      cursor('grab');
   }
   textIni = false;
 
@@ -253,6 +258,7 @@ function mouseReleased() {
   for (let drag of ptsD) {
     // Quit dragging
     drag.released();
+      cursor(ARROW);
   }
 }
 
@@ -260,6 +266,6 @@ function mouseReleased() {
 let ptsD = [];
 // Make a new circle
 function pushRandomCircle() {
-  let dragP = new Draggable(); // Create a new boid
-  ptsD.push(dragP); // Add the new boid to the flock
+  let dragP = new Draggable(); // Create a new circle
+  ptsD.push(dragP); // Add the new circle to the points
 }
