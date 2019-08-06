@@ -2,7 +2,10 @@ html, body {
   margin: 0;
   padding: 0;
   background-color: #595959;
+  height: 100%;
+  overflow: hidden
 }
 canvas {
   display: block;
 }
+
