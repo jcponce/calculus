@@ -40,7 +40,7 @@ let parDef = {
   bckgR: 0,
   bckgG: 0,
   bckgB: 0,
-  opt: 200,
+  opt: 100,
   red: 255,
   green: 255,
   blue: 255,
@@ -69,12 +69,13 @@ function setup() {
   pointsGUI.add(parDef, 'red', 0, 255, 1).name('Red').listen();
   pointsGUI.add(parDef, 'green', 0, 255, 1).name('Green').listen();
   pointsGUI.add(parDef, 'blue', 0, 255, 1).name('Blue').listen();
+  pointsGUI.add(parDef, 'opt', 5, 100, 1).name('Trace').listen();
 
-  let backGUI = gui.addFolder('Background settings');
+  //let backGUI = gui.addFolder('Background settings');
   //backGUI.add(parDef, 'bckgR', 0, 255, 1).name('Red').listen();
   //backGUI.add(parDef, 'bckgG', 0, 255, 1).name('Green').listen();
   //backGUI.add(parDef, 'bckgB', 0, 255, 1).name('Blue').listen();
-  backGUI.add(parDef, 'opt', 0, 200, 1).name('Opacity').listen();
+  //backGUI.add(parDef, 'opt', 5, 100, 1).name('Trace').listen();
 
   gui.add(this, 'infoChladni').name("Chladni Info");
   gui.add(this, 'refreshPage').name("Restart");
