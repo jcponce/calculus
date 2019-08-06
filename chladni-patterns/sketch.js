@@ -113,11 +113,20 @@ function windowResized() {
 
 function resetPoints() {
   dif = width * 1 / 2 * 0.3;
+    
+    let nx, ny;
 
   for (let i = 0; i < ptsD.length; i++) {
-
-    let nx = map(cos(2 * PI * i / ptsD.length), 0, 2 * PI, 0, width);
-    let ny = map(sin(2 * PI * i / ptsD.length), 0, 2 * PI, 0, height);
+      if(parDef.nPoints===1){
+          nx = 0;
+          ny = 0;
+      }else if(parDef.nPoints===4){
+          nx = map(cos(2 * PI * i / ptsD.length)-sin(2 * PI * i / ptsD.length), 0, 2 * PI, 0, width);
+          ny = map(cos(2 * PI * i / ptsD.length)+sin(2 * PI * i / ptsD.length), 0, 2 * PI, 0, height);
+      } else{
+          nx = map(cos(2 * PI * i / ptsD.length), 0, 2 * PI, 0, width);
+          ny = map(sin(2 * PI * i / ptsD.length), 0, 2 * PI, 0, height);
+      }
 
     ptsD[i].x = nx + width / 2;
     ptsD[i].y = ny + height / 2;
