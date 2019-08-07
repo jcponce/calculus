@@ -102,6 +102,7 @@ function draw() {
   time = millis()/1000;
   
   chl.run();//Chladni is updated
+    chl.F = parDef.frq;
   
   //Draggable objects
   if(parDef.showOcs===true){
