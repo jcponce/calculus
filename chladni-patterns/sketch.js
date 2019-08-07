@@ -9,8 +9,9 @@
  * The original sketch written in Processing can me found here:
  * ChladniModoki_2.0 https://www.openprocessing.org/sketch/715119
  *
- * In this p5 version, I added some draggable points to play with
- * different patterns and some parameters that can be modified by user.
+ * In this p5 version, I rewrote the Chladni particles as a class and
+ * added some draggable points to play with different patterns and 
+ * some parameters that can be modified by user.
  *
  * I still learning about the maths behind these amazing patterns.
  * For now, it looks pretty cool.
