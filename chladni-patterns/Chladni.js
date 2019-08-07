@@ -11,7 +11,7 @@ class Chladni {
         this.PV = -1.5;
         this.d = 1;
         
-        this.pts = pts_; //Osicllators
+        this.pts = pts_; //Nodes
         
         this.T = 0;
         this.TT = 1;
@@ -19,8 +19,6 @@ class Chladni {
     
     init() {
         for (let i = 0; i < this.N; i++) {
-            //this.PX[i] = random(0, width);
-            //this.PY[i] = random(0, height);
             this.p[i] = createVector(random(0, width), random(0, height));
         }
     }
