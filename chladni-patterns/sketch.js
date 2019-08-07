@@ -6,10 +6,10 @@
  *
  * This Chladni patterns simulation is based upon the work
  * of KaijinQ https://www.openprocessing.org/user/44852
- * The original sketch can me found here:
+ * The original sketch written in Processing can me found here:
  * ChladniModoki_2.0 https://www.openprocessing.org/sketch/715119
  *
- * In this version, I added some draggable points to play with
+ * In this p5 version, I added some draggable points to play with
  * different patterns and some parameters that the user can modified.
  *
  * I still want to figure out how to make a class for the Chladni particles,
@@ -51,7 +51,7 @@ function setup() {
   blendMode(BLEND);
 
   //Gui controls
-  let gui = new dat.GUI();
+  let gui = new dat.GUI( { width: 290 } );
   gui.add(this, 'infoChladni').name("Chladni Info");
   gui.add(parDef, 'play').name('Animation');
   gui.add(parDef, 'frq', 0.001, 0.6, 0.001).name('Frequency').listen();

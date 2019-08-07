@@ -2,8 +2,11 @@ html, body {
   margin: 0;
   padding: 0;
   background-color: #404040;
-  height: 100%;
-  overflow: hidden
+  overflow: hidden;
+  /*max-width:100%;
+  max-height:100%;
+  
+  position: fixed;*/
 }
 
 canvas {
@@ -18,3 +21,4 @@ canvas {
     left: 0;
     right: 0;
 }
+
