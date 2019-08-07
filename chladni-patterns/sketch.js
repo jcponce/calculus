@@ -10,10 +10,12 @@
  * ChladniModoki_2.0 https://www.openprocessing.org/sketch/715119
  *
  * In this p5 version, I added some draggable points to play with
- * different patterns and some parameters that the user can modified.
+ * different patterns and some parameters that can be modified by user.
  *
- * I still want to figure out how to make a class for the Chladni particles,
- * which I will do later. For now, it looks pretty cool.
+ * I still learning about the maths behind these amazing patterns.
+ * For now, it looks pretty cool.
+ *
+ * Last update: ??-??-??
  *
  */
 
@@ -35,6 +37,7 @@ let parDef = {
   red: 255,
   green: 255,
   blue: 255,
+  hsbMod: false,
   Save: function() {
     save('chladni-pattern.jpg');
   },
@@ -48,8 +51,8 @@ function setup() {
   createCanvas(550, 550);
   pixelDensity(1);
   //frameRate(60);
-  blendMode(BLEND);
-
+  //blendMode(BLEND);
+    //colorMode(HSB, 255);
   //Gui controls
   let gui = new dat.GUI( { width: 290 } );
   gui.add(this, 'infoChladni').name("Chladni Info");
@@ -63,9 +66,12 @@ function setup() {
     ocsGUI.add(this, 'resetPoints').name('Set position');
     
   let pointsGUI = gui.addFolder('Particles settings');
-    pointsGUI.add(parDef, 'red', 0, 255, 1).name('Red').listen();
-    pointsGUI.add(parDef, 'green', 0, 255, 1).name('Green').listen();
-    pointsGUI.add(parDef, 'blue', 0, 255, 1).name('Blue').listen();
+    pointsGUI.add(parDef, 'hsbMod').name('HSB');
+    pointsGUI.add(parDef, 'red', 0, 255, 1).name('Red/Hue').listen();
+    pointsGUI.add(parDef, 'green', 0, 255, 1).name('Green/Sat').listen();
+    pointsGUI.add(parDef, 'blue', 0, 255, 1).name('Blue/Bri').listen();
+    
+    
     pointsGUI.add(parDef, 'opt', 5, 100, 1).name('Trace').listen();
     
   gui.add(this, 'refreshPage').name('Restart');
@@ -101,8 +107,12 @@ function draw() {
   
   time = millis()/1000;
   
+  if(parDef.hsbMod===true){
+      colorMode(HSB, 255, 255, 255, 200);
+  } else colorMode(RGB, 255, 255, 255);
+    
   chl.run();//Chladni is updated
-    chl.F = parDef.frq;
+  chl.F = parDef.frq;
   
   //Draggable objects
   if(parDef.showOcs===true){
