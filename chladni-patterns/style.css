@@ -1,11 +1,20 @@
 html, body {
   margin: 0;
   padding: 0;
-  background-color: #595959;
+  background-color: #404040;
   height: 100%;
   overflow: hidden
 }
-canvas {
-  display: block;
-}
 
+canvas {
+    padding: 0;
+    margin: auto;
+    display: block;
+    width: 550px;
+    height: 550px;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+}
