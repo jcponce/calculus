@@ -6,14 +6,13 @@
  *
  * This Chladni patterns simulation is based upon the work
  * of KaijinQ https://www.openprocessing.org/user/44852
- * The original sketch written in Processing can me found here:
- * ChladniModoki_2.0 https://www.openprocessing.org/sketch/715119
+ * The original sketch was written in Processing and can be
+ * found here: https://www.openprocessing.org/sketch/715119
+ * In this p5 version, I rewrote the Chladni particles as a
+ * class and added some draggable points to play with different
+ * patterns and some parameters that can be modified by the user.
  *
- * In this p5 version, I rewrote the Chladni particles as a class and
- * added some draggable points to play with different patterns and 
- * some parameters that can be modified by user.
- *
- * I still learning about the maths behind these amazing patterns.
+ * I am still learning about the maths behind these amazing patterns.
  * For now, it looks pretty cool.
  *
  * Last update: ??-??-??
@@ -53,15 +52,16 @@ function setup() {
   pixelDensity(1);
   //frameRate(60);
   //blendMode(BLEND);
-    //colorMode(HSB, 255);
+  //colorMode(HSB, 255);
+    
   //Gui controls
   let gui = new dat.GUI( { width: 290 } );
-  gui.add(this, 'infoChladni').name("Chladni Info");
+  //gui.add(this, 'infoChladni').name("Chladni Info");
   gui.add(parDef, 'play').name('Animation');
   gui.add(parDef, 'frq', 0.001, 0.6, 0.001).name('Frequency').listen();
   gui.add(parDef, 'canvasSize', ['Square', 'Landscape', 'Full-Screen'] ).name("Size: ").onChange(screenSize);
     
-  let ocsGUI = gui.addFolder('Ocillators');
+  let ocsGUI = gui.addFolder('Sources');
     ocsGUI.add(parDef, 'showOcs').name('Show');
     ocsGUI.add(parDef, 'nPoints', 1, 10, 1).name('n =').listen();
     ocsGUI.add(this, 'resetPoints').name('Set position');
@@ -70,12 +70,12 @@ function setup() {
     pointsGUI.add(parDef, 'hsbMod').name('HSB');
     pointsGUI.add(parDef, 'red', 0, 255, 1).name('Red/Hue').listen();
     pointsGUI.add(parDef, 'green', 0, 255, 1).name('Green/Sat').listen();
-    pointsGUI.add(parDef, 'blue', 0, 255, 1).name('Blue/Bri').listen();
+    pointsGUI.add(parDef, 'blue', 0, 255, 1).name('Blue/Brt').listen();
     
     
     pointsGUI.add(parDef, 'opt', 5, 100, 1).name('Trace').listen();
     
-  gui.add(this, 'refreshPage').name('Restart');
+  //gui.add(this, 'refreshPage').name('Restart');
   
   gui.add(parDef, 'Save').name('Save (jpg)');
     
@@ -86,7 +86,7 @@ function setup() {
   //backGUI.add(parDef, 'opt', 5, 100, 1).name('Trace').listen();
   
   gui.add(this, 'sourceCode').name('Source Code');
-  gui.add(this, 'backHome').name('Back Home');
+  //gui.add(this, 'backHome').name('Back Home');
   
   gui.close();
   //Ends GUI controls
