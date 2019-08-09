@@ -46,9 +46,10 @@ class Draggable {
       fill(60);
       stroke(255);
       strokeWeight(1.5);
+        cursor('grab');
     } else if (this.rollover) {
       fill(250);
-      
+        cursor(HAND);
     } else {
       fill(200, 150);
     }

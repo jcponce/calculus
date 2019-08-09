@@ -15,7 +15,7 @@
  * I am still learning about the maths behind these amazing patterns.
  * For now, it looks pretty cool.
  *
- * Last update: ??-??-??
+ * Last update: 09-Aug-19
  *
  */
 
@@ -105,7 +105,7 @@ function setup() {
 function draw() {
 
   background(parDef.bckgR, parDef.bckgG, parDef.bckgB, parDef.opt);
-  
+  cursor(ARROW)
   time = millis()/1000;
   
   if(parDef.hsbMod===true){
@@ -246,7 +246,7 @@ function mousePressed() {
 
   for (let drag of ptsD) {
     drag.pressed();
-      cursor('grab');
+      //cursor('grab');
   }
   textIni = false;
 
@@ -256,7 +256,7 @@ function mouseReleased() {
   for (let drag of ptsD) {
     // Quit dragging
     drag.released();
-      cursor(ARROW);
+      //cursor(ARROW);
   }
 }
 
@@ -272,7 +272,7 @@ function touchEnded() {
     for (let drag of ptsD) {
         // Quit dragging
         drag.released();
-        cursor(ARROW);
+        //cursor(ARROW);
     }
 }
 

@@ -58,7 +58,7 @@
 <link rel="icon" type="image/png" href="https://jcponce.github.io/assets/img/png/icon/infinity16.png" sizes="16x16">
 
 <link rel="stylesheet" href="https://jcponce.github.io/assets/style/w3.css">
-<link rel="stylesheet" href="https://jcponce.github.io/domain-coloring/styledc.css">
+<link rel="stylesheet" href="libraries/stylecp.css">
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.0/css/all.css" integrity="sha384-lKuwvrZot6UHsBSfcMvOkWwlCMgc0TaWr+30HWe3a4ltaBwTZhyTEggF5tJv8tbt" crossorigin="anonymous">
 
 <style>
@@ -101,19 +101,23 @@
                 <p><strong>Historical background</strong></p>
                 
                 <p>We now know that sound propagates in waves through a solid, gas, or liquid medium — but we didn't always know this. In the late 1700s, the German scientist Ernst Chladni was the first to show that sound travels via waves by devising a way to visualize their vibrations.</p>
+                <figure class="w3-center" ><img src="https://upload.wikimedia.org/wikipedia/commons/d/d1/Echladni.jpg"  class="w3- center w3-border w3-padding" alt="Chladni experiment" style="width:100%;max-width:200px"></img>
+                    <figcaption class="w3-center w3-small w3-text-grey">Ernst Chladni.<br> Image in the public domain in the <br>United States, via <a class="w3-hover-text-blue" href="https://commons.wikimedia.org/wiki/File:Echladni.jpg" >Wikimedia Commons</a>.</figcaption>
+                </figure>
+                
                 
                 <p>One of Chladni's best-known achievements was inventing a technique to show the various modes of vibration on a rigid surface. When resonating, a plate or membrane is divided into regions that vibrate in opposite directions, bounded by lines where no vibration occurs (nodal lines)</p>
                 
                 <p>Chladni's technique, first published in 1787 in his book <em><a class="w3-hover-text-blue" href="http://echo.mpiwg-berlin.mpg.de/ECHOdocuView?url=/permanent/library/5M6VYMSC/pageimg&mode=imagepath&pn=5">Entdeckungen über die Theorie des Klanges</a></em> ("Discoveries in the Theory of Sound"), consisted of drawing a bow over a piece of metal whose surface was lightly covered with sand. The plate was bowed until it reached resonance, when the vibration causes the sand to move and concentrate along the nodal lines where the surface is still, outlining the nodal lines. The patterns formed by these lines are what are now called <em><a class="w3-hover-text-blue" href="https://publicdomainreview.org/collections/chladni-figures-1787/">Chladni figures</a></em>.</p>
                 
                 <figure class="w3-center" ><img src="https://upload.wikimedia.org/wikipedia/commons/0/03/Bowing_chladni_plate.png"  class="w3- center w3-border w3-padding" alt="Chladni experiment" style="width:100%;max-width:300px"></img>
-                <figcaption class="w3-center w3-small w3-text-grey">Illustration of the Chladni plate technique. Image in the public domain in the United States, via <a class="w3-hover-text-blue" href="https://commons.wikimedia.org/wiki/File:Bowing_chladni_plate.png" >Wikimedia Commons</a>.</figcaption>
+                <figcaption class="w3-center w3-small w3-text-grey">Illustration of the Chladni plate technique. <br>Image in the public domain in the <br>United States, via <a class="w3-hover-text-blue" href="https://commons.wikimedia.org/wiki/File:Bowing_chladni_plate.png" >Wikimedia Commons</a>.</figcaption>
                 </figure>
                 
                 <br><hr><br>
                 <p><strong>Mathematical model</strong></p>
                 
-                <p>The deformation of an elastic plate under an external force was a very difficult problem and there were many attempts to solve it. It was until 1850 that the definitive breakthrough was achieved in a long article by <a class="w3-hover-text-blue" href="https://eudml.org/doc/147439">G. Kirchhoff</a> in the form of the differential equation
+                <p>The deformation of an elastic plate under an external force was a very difficult problem and there were many attempts to solve it. It was until 1850 that the definitive breakthrough was achieved in a long <a class="w3-hover-text-blue" href="https://eudml.org/doc/147439">article</a> by G. Kirchhoff</a> in the form of the differential equation
                 <div href="w3-responsive">
                     \[
                     \Delta \Delta w = \frac{\partial^4 w}{\partial x^4}+2\frac{\partial^4 w}{\partial x^2 \partial y^2}+\frac{\partial^4 w}{\partial y^4} = f(x,y)
@@ -149,7 +153,7 @@
                 <p>One way to approximate Chladni figures is by using sine and cosine functions. In particular,  this simulation shows a unclamped plate with a finite number of sources $A_i = (x_i, y_i)$. This is a simplified model which solution can be approximated by the function
                 <div href="w3-responsive">
                     \begin{eqnarray*}
-                    S(x,y)={\LARGE\sum_{i}} \dfrac{\sin \Bigg( F \left( T- \dfrac{\sqrt{(x-x_i)^2+(y-y_i)^2}\;\;}{V} \right) \Bigg)}{\sqrt{(x-x_i)^2+(y-y_i)^2 }}
+                    \mathbf S(x,y)={\LARGE\sum_{i}} \dfrac{\sin \Bigg( F\cdot  \left( T- \frac{\sqrt{\left(x-x_i\right)^2+\left(y-y_i\right)^2}\;\;}{V} \right) \Bigg)}{\sqrt{\left(x-x_i\right)^2+\left(y-y_i\right)^2 }}
                     \end{eqnarray*}
                 </div>
                 where $T$ is the phase, $F$ is the frequency and $V$ is the speed.</p>
@@ -168,9 +172,9 @@
                 
                 
                 <p><span style="font-weight: bold;" class="w3-large">That's it!</span>
-                If you found this tool useful, or an issue, please let me know: <a href="mailto:j.ponce@uq.edu.au">j.ponce@uq.edu.au</a></p>
+                If you found this tool useful,  please let me know: <a href="mailto:j.ponce@uq.edu.au">j.ponce@uq.edu.au</a></p>
                 
-                <p class="w3-center"><i class="fas fa-infinity"></i></p>
+                <p class="w3-center w3-xlarge"><i class="fas fa-infinity"></i></p>
                 <br><br>
             </div>
             
