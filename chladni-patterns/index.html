@@ -9,11 +9,14 @@
      <script src="p5.sound.min.js"></script>-->
     <script language="javascript" type="text/javascript" src="libraries/p5.min.js"></script>
     
+    <script src="Chladni.js"></script>
+    <script src="Draggable.js"></script>
+    <script src="sketch.js"></script>
+    
     <script language="javascript" src="libraries/dat.gui.min.js"></script>
     <link rel="stylesheet" type="text/css" href="libraries/style.css">
     <link rel="stylesheet" type="text/css" href="libraries/dat-gui-light-theme.css">
-    <link rel="icon" type="image/png" href="https://jcponce.github.io/assets/img/png/icon/infinity32.png" sizes="32x32">
-    <link rel="icon" type="image/png" href="https://jcponce.github.io/assets/img/png/icon/infinity16.png" sizes="16x16">
+
     <meta charset="utf-8">
         
 <!-- Global site tag (gtag.js) - Google Analytics -->
@@ -26,11 +29,238 @@
     gtag('config', 'UA-121691678-1');
 </script>
 
-  </head>
-  <body>
-    <script src="Chladni.js"></script>
-    <script src="Draggable.js"></script>
-    <script src="sketch.js"></script>
-  
+<!--MathJax starts-->
+      <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+      TeX: { equationNumbers: { autoNumber: "AMS" } }
+            });
+       </script>
+       <script type="text/x-mathjax-config">
+        MathJax.Hub.Config({tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]}});
+       </script>
+<!---<script type="text/x-mathjax-config">//left-side eq
+         MathJax.Hub.Config({
+               displayAlign: "left",
+               displayIndent: "5em"
+               });
+</script>--->
+<script type="text/javascript" async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/MathJax.js?config=TeX-AMS_CHTML">
+</script>
+<!--MathJax Ends-->
 
-</body></html>
+<script>
+    function myFunction() {
+        location.reload();
+    }
+</script>
+<!-- OK, YOU CAN MAKE CHANGES BELOW THIS LINE AGAIN -->
+<link rel="icon" type="image/png" href="https://jcponce.github.io/assets/img/png/icon/infinity32.png" sizes="32x32">
+<link rel="icon" type="image/png" href="https://jcponce.github.io/assets/img/png/icon/infinity16.png" sizes="16x16">
+
+<link rel="stylesheet" href="https://jcponce.github.io/assets/style/w3.css">
+<link rel="stylesheet" href="https://jcponce.github.io/domain-coloring/styledc.css">
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.0/css/all.css" integrity="sha384-lKuwvrZot6UHsBSfcMvOkWwlCMgc0TaWr+30HWe3a4ltaBwTZhyTEggF5tJv8tbt" crossorigin="anonymous">
+
+<style>
+ div.sticky {
+  position: -webkit-sticky;
+  position: sticky;
+  top: 0;
+}
+</style>
+
+</head>
+<body>
+
+      <!-- Navbar Stars-->
+<div class="w3-container w3-black w3-xlarge sticky">
+<div class="w3-display-topmiddle">
+    <a href="https://jcponce.github.io/#sketches" class="w3-button w3-hover-light-grey w3-opacity w3-round-xxlarge">  <i class="fas fa-arrow-circle-left"></i></a>
+&nbsp;
+<a onclick="myFunction()" class="w3-button w3-hover-light-grey w3-opacity w3-round-xxlarge">  <i class="fas fa-redo"></i></a>
+&nbsp;
+<a class="myBtn_multi w3-button w3-hover-light-grey w3-opacity w3-round-xxlarge" id="myBtn"> <i class="fas fa-question"></i> </a>
+
+</div>
+</div>
+<!-- Navbar Ends-->
+
+  <!-- The Modal -->
+        <div class="modal modal_multi">
+            
+            <!-- Modal content -->
+            <div class="modal-content w3-large">
+                <span class="close close_multi">&times;</span>
+                <div style="text-align:center">
+                <p class="w3-large"><b class="w3-xlarge">Chladni Patterns</b>
+                
+                <br>
+                
+                </div>
+                
+                <p><strong>Historical background</strong></p>
+                
+                <p>We now know that sound propagates in waves through a solid, gas, or liquid medium — but we didn't always know this. In the late 1700s, the German scientist Ernst Chladni was the first to show that sound travels via waves by devising a way to visualize their vibrations.</p>
+                
+                <p>One of Chladni's best-known achievements was inventing a technique to show the various modes of vibration on a rigid surface. When resonating, a plate or membrane is divided into regions that vibrate in opposite directions, bounded by lines where no vibration occurs (nodal lines)</p>
+                
+                <p>Chladni's technique, first published in 1787 in his book <em><a class="w3-hover-text-blue" href="http://echo.mpiwg-berlin.mpg.de/ECHOdocuView?url=/permanent/library/5M6VYMSC/pageimg&mode=imagepath&pn=5">Entdeckungen über die Theorie des Klanges</a></em> ("Discoveries in the Theory of Sound"), consisted of drawing a bow over a piece of metal whose surface was lightly covered with sand. The plate was bowed until it reached resonance, when the vibration causes the sand to move and concentrate along the nodal lines where the surface is still, outlining the nodal lines. The patterns formed by these lines are what are now called <em><a class="w3-hover-text-blue" href="https://publicdomainreview.org/collections/chladni-figures-1787/">Chladni figures</a></em>.</p>
+                
+                <figure class="w3-center" ><img src="https://upload.wikimedia.org/wikipedia/commons/0/03/Bowing_chladni_plate.png"  class="w3- center w3-border w3-padding" alt="Chladni experiment" style="width:100%;max-width:300px"></img>
+                <figcaption class="w3-center w3-small w3-text-grey">Illustration of the Chladni plate technique. Image in the public domain in the United States, via <a class="w3-hover-text-blue" href="https://commons.wikimedia.org/wiki/File:Bowing_chladni_plate.png" >Wikimedia Commons</a>.</figcaption>
+                </figure>
+                
+                <br><hr><br>
+                <p><strong>Mathematical model</strong></p>
+                
+                <p>The deformation of an elastic plate under an external force was a very difficult problem and there were many attempts to solve it. It was until 1850 that the definitive breakthrough was achieved in a long article by <a class="w3-hover-text-blue" href="https://eudml.org/doc/147439">G. Kirchhoff</a> in the form of the differential equation
+                <div href="w3-responsive">
+                    \[
+                    \Delta \Delta w = \frac{\partial^4 w}{\partial x^4}+2\frac{\partial^4 w}{\partial x^2 \partial y^2}+\frac{\partial^4 w}{\partial y^4} = f(x,y)
+                    \]
+                    </div>
+                to which suitable boundary conditions must be added. If the plate is assumed to be clamped on all sides, we have
+                <div href="w3-responsive">
+                    \[
+                    w=0\quad \text{and} \quad \frac{\partial w}{\partial n} =0\quad  \text{on} \quad \partial \Omega.
+                    \]
+                </div>
+                Based on Kirchhoff's equations, the mathematical model for Chladni figures on a square plate correspond to eigenpairs (eigenvalues and corresponding eigenfunctions) of the biharmonic operator
+                <div href="w3-responsive">
+                    \[
+                    \Delta ^2 w=\lambda \quad  \text{in} \quad \partial \Omega := (-1,1)^2
+                    \]
+                </div>
+                with free boundary conditions
+                <div href="w3-responsive">
+                    \begin{eqnarray*}
+                    \frac{\partial}{\partial x}\left( \frac{\partial^2 w}{\partial x^2} +(2-\mu)\frac{\partial^2 w}{\partial y^2} \right),\; \frac{\partial^2 w}{\partial x^2}+\mu \frac{\partial^2 w}{\partial y^2}=0,\; x=\{-1,1\}\\
+                    \frac{\partial}{\partial x}\left( \frac{\partial^2 w}{\partial y^2} +(2-\mu)\frac{\partial^2 w}{\partial x^2} \right),\; \frac{\partial^2 w}{\partial y^2}+\mu \frac{\partial^2 w}{\partial x^2}=0,\; y=\{-1,1\}
+                    \end{eqnarray*}
+                </div>
+                where $\mu$ here is the elasticity constant.
+                </p>
+                
+                <p>To know more details about the solution of this problem and its history, I recomend to consult the following paper <a class="w3-hover-text-blue" href="https://epubs.siam.org/doi/abs/10.1137/100804036"><em>From Euler, Ritz, and Galerkin to Modern Computing</a></em> by Martin J. Gander and Gerhard Wanner.</p>
+                
+                <br><hr><br>
+                <p><strong>About this simulation</strong></p>
+                
+                <p>One way to approximate Chladni figures is by using sine and cosine functions. In particular,  this simulation shows a unclamped plate with a finite number of sources $A_i = (x_i, y_i)$. This is a simplified model which solution can be approximated by the function
+                <div href="w3-responsive">
+                    \begin{eqnarray*}
+                    S(x,y)={\LARGE\sum_{i}} \dfrac{\sin \Bigg( F \left( T- \dfrac{\sqrt{(x-x_i)^2+(y-y_i)^2}\;\;}{V} \right) \Bigg)}{\sqrt{(x-x_i)^2+(y-y_i)^2 }}
+                    \end{eqnarray*}
+                </div>
+                where $T$ is the phase, $F$ is the frequency and $V$ is the speed.</p>
+                
+                <p>Open the <strong>Controls</strong> to change parameters or modify the size of the plate and the color of the particles. You can also save your favorite Chladni pattern.</p>
+                
+                <!--<p><span style="font-weight: bold;" class="w3-xlarge">Level curves:</span>
+                Draw level curves. Select an option 'Phase', 'Modulus', 'Phase/Modulus' or 'None'.</p>
+                
+                
+                <p><span style="font-weight: bold;" class="w3-xlarge">|Re z|&lt;:</span>
+                Drag or enter a positive number to define the domain (square/rectangle) for plotting the function.</p>
+                
+                <!--<p><span style="font-weight: bold;" class="w3-large">Update values:</span>
+                Click to update all new values.</p>-->
+                
+                
+                <p><span style="font-weight: bold;" class="w3-large">That's it!</span>
+                If you found this tool useful, or an issue, please let me know: <a href="mailto:j.ponce@uq.edu.au">j.ponce@uq.edu.au</a></p>
+                
+                <p class="w3-center"><i class="fas fa-infinity"></i></p>
+                <br><br>
+            </div>
+            
+        </div>
+
+</body>
+
+<script>
+    //XXXXXXXXXX    script for Modal button instructions    XXXXXXXXXXXXXXXXXX
+    // Get the modal
+    
+    var modalparent = document.getElementsByClassName("modal_multi");
+    
+    // Get the button that opens the modal
+    
+    var modal_btn_multi = document.getElementsByClassName("myBtn_multi");
+    
+    // Get the <span> element that closes the modal
+    var span_close_multi = document.getElementsByClassName("close_multi");
+    
+    // When the user clicks the button, open the modal
+    function setDataIndex() {
+        
+        for (i = 0; i < modal_btn_multi.length; i++)
+        {
+            modal_btn_multi[i].setAttribute('data-index', i);
+            modalparent[i].setAttribute('data-index', i);
+            span_close_multi[i].setAttribute('data-index', i);
+        }
+    }
+
+
+
+for (i = 0; i < modal_btn_multi.length; i++)
+{
+    modal_btn_multi[i].onclick = function() {
+        var ElementIndex = this.getAttribute('data-index');
+        modalparent[ElementIndex].style.display = "block";
+    };
+    
+    // When the user clicks on <span> (x), close the modal
+    span_close_multi[i].onclick = function() {
+        var ElementIndex = this.getAttribute('data-index');
+        modalparent[ElementIndex].style.display = "none";
+    };
+    
+}
+
+window.onload = function() {
+    
+    setDataIndex();
+};
+
+window.onclick = function(event) {
+    if (event.target === modalparent[event.target.getAttribute('data-index')]) {
+        modalparent[event.target.getAttribute('data-index')].style.display = "none";
+    }
+    
+    // OLD CODE
+    //if (event.target === modal) {
+    //    modal.style.display = "none";
+    //}
+};
+
+//XXXXXXXXXXXXXXXXXXXXXXX    Modified old code    XXXXXXXXXXXXXXXXXXXXXXXXXX
+/*
+ // Get the modal
+ 
+ var modal = document.getElementById('myModal');
+ 
+ // Get the button that opens the modal
+ var btn = document.getElementById("myBtn");
+ 
+ // Get the <span> element that closes the modal
+ var span = modal.getElementsByClassName("close")[0]; // Modified by dsones uk
+ 
+ // When the user clicks on the button, open the modal
+ 
+ btn.onclick = function() {
+ 
+ modal.style.display = "block";
+ }
+ 
+ // When the user clicks on <span> (x), close the modal
+ span.onclick = function() {
+ modal.style.display = "none";
+ }
+ */
+
+
+</script>
+
+</html>
