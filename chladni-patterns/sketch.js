@@ -19,7 +19,7 @@
  *
  */
 
-let N = 3500;//number of particles
+let N = 2000;//number of particles
 let chl;
 let time; //Does not run forever
 
@@ -33,6 +33,7 @@ let parDef = {
   bckgR: 0,
   bckgG: 0,
   bckgB: 0,
+  color: [ 0, 128, 255, 0.3 ],
   opt: 100,
   red: 255,
   green: 255,
@@ -50,6 +51,7 @@ function setup() {
   //createCanvas(windowWidth, windowHeight);
   createCanvas(550, 550);
   pixelDensity(1);
+    smooth();
   //frameRate(60);
   //blendMode(BLEND);
   //colorMode(HSB, 255);
@@ -72,18 +74,16 @@ function setup() {
     pointsGUI.add(parDef, 'green', 0, 255, 1).name('Green/Sat').listen();
     pointsGUI.add(parDef, 'blue', 0, 255, 1).name('Blue/Brt').listen();
     
-    
+    //pointsGUI.add(parDef, 'color').name('Background').listen();
+    let backGUI = gui.addFolder('Background settings');
+    backGUI.add(parDef, 'bckgR', 0, 255, 1).name('Red').listen();
+    backGUI.add(parDef, 'bckgG', 0, 255, 1).name('Green').listen();
+    backGUI.add(parDef, 'bckgB', 0, 255, 1).name('Blue').listen();
     pointsGUI.add(parDef, 'opt', 5, 100, 1).name('Trace').listen();
     
   //gui.add(this, 'refreshPage').name('Restart');
   
   gui.add(parDef, 'Save').name('Save (jpg)');
-    
-  //let backGUI = gui.addFolder('Background settings');
-  //backGUI.add(parDef, 'bckgR', 0, 255, 1).name('Red').listen();
-  //backGUI.add(parDef, 'bckgG', 0, 255, 1).name('Green').listen();
-  //backGUI.add(parDef, 'bckgB', 0, 255, 1).name('Blue').listen();
-  //backGUI.add(parDef, 'opt', 5, 100, 1).name('Trace').listen();
   
   gui.add(this, 'sourceCode').name('Source Code');
   //gui.add(this, 'backHome').name('Back Home');
@@ -146,7 +146,7 @@ function draw() {
 
   //initial message
   if (textIni === true && time < 25) {
-    noStroke()
+    stroke(0)
     fill(70);
     rectMode(CENTER);
     rect(width / 2, 64, 260, 60, 20);
