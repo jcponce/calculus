@@ -19,7 +19,7 @@
  *
  */
 
-let N = 2000;//number of particles
+let N = 2500;//number of particles
 let chl;
 let time; //Does not run forever
 
@@ -49,7 +49,7 @@ let parDef = {
 function setup() {
 
   //createCanvas(windowWidth, windowHeight);
-  createCanvas(550, 550);
+  createCanvas(500, 500);
   pixelDensity(1);
     smooth();
   //frameRate(60);
@@ -75,10 +75,10 @@ function setup() {
     pointsGUI.add(parDef, 'blue', 0, 255, 1).name('Blue/Brt').listen();
     
     //pointsGUI.add(parDef, 'color').name('Background').listen();
-    let backGUI = gui.addFolder('Background settings');
-    backGUI.add(parDef, 'bckgR', 0, 255, 1).name('Red').listen();
-    backGUI.add(parDef, 'bckgG', 0, 255, 1).name('Green').listen();
-    backGUI.add(parDef, 'bckgB', 0, 255, 1).name('Blue').listen();
+    //let backGUI = gui.addFolder('Background settings');
+    //backGUI.add(parDef, 'bckgR', 0, 255, 1).name('Red').listen();
+    //backGUI.add(parDef, 'bckgG', 0, 255, 1).name('Green').listen();
+    //backGUI.add(parDef, 'bckgB', 0, 255, 1).name('Blue').listen();
     pointsGUI.add(parDef, 'opt', 5, 100, 1).name('Trace').listen();
     
   //gui.add(this, 'refreshPage').name('Restart');
@@ -195,9 +195,9 @@ function refreshPage(){
 
 function screenSize() {
     if (parDef.canvasSize == 'Square') {
-        resizeCanvas(550, 550);
+        resizeCanvas(500, 500);
     } else if (parDef.canvasSize == 'Landscape') {
-        resizeCanvas(750, 550);
+        resizeCanvas(700, 500);
     } else if (parDef.canvasSize == 'Full-Screen') {
         resizeCanvas(windowWidth, windowHeight);
     }
