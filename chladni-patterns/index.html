@@ -102,7 +102,7 @@
                 <h3>Historical background</h3>
                 
                 <p>We now know that sound propagates in waves through a solid, gas, or liquid medium — but we didn't always know this. In the late 1700s, the German scientist Ernst Chladni was the first to show that sound travels via waves by devising a way to visualize their vibrations.</p>
-                <figure class="w3-center" ><img src="https://upload.wikimedia.org/wikipedia/commons/d/d1/Echladni.jpg"  class="w3- center w3-border w3-padding" alt="Ernst Chladni" style="width:100%;max-width:200px"></img>
+                <figure class="w3-center" ><img src="https://upload.wikimedia.org/wikipedia/commons/d/d1/Echladni.jpg"  class="w3- center w3-border w3-padding" alt="Ernst Chladni" style="width:100%;max-width:300px"></img>
                     <figcaption class="w3-center w3-small w3-text-grey">Ernst Chladni.<br> Image in the public domain in the <br>United States, via <a class="w3-hover-text-blue" href="https://commons.wikimedia.org/wiki/File:Echladni.jpg" >Wikimedia Commons</a>.</figcaption>
                 </figure>
                 
@@ -151,17 +151,17 @@
                 <br><hr><br>
                 <h3>About this simulation</h3>
                 
-                <p>One way to approximate Chladni figures is by using sine and cosine functions. In particular,  this simulation shows a unclamped plate with a finite number of sources $A_i = (x_i, y_i)$. This is a simplified model approximated with the function
+                <p>One way to approximate Chladni figures is by using sine and cosine functions. In particular,  this simulation shows an unclamped plate with a finite number of sources $A_i = (x_i, y_i)$. This is a simplified model approximated with the function
                 <div href="w3-responsive">
                     \begin{eqnarray*}
-                    \mathbf S(x,y)={\Large\sum_{i}} \frac{g(x,y)}{\sqrt{\left| g(x,y) \right| } }
+                    \mathbf S(x,y)={\Large\sum_{i=1}^{n}} \frac{g_i(x,y)}{\sqrt{\left| g_i(x,y) \right| } }
                     \end{eqnarray*}
                 </div>
-                with $$g(x,y) = \sin \left( F\cdot  \left( T- \frac{\sqrt{\left(x-x_i\right)^2+\left(y-y_i\right)^2}\;\;}{V} \right) \right)$$
-                and parameters $T$ the phase shift, $F$ the frequency, and  $V$ the speed.
+                with $$g_i(x,y) = \sin \left(\frac{2\pi \cdot F}{60} \cdot  \left( T- \frac{\sqrt{\left(x-x_i\right)^2+\left(y-y_i\right)^2}}{V} \right) \right)$$
+                where  $F$ is frequency; $T$ is the phase shift;  and  $V$ is the speed.
                 </p>
                 
-                <figure class="w3-center" ><img src="3d-chladni.gif"  class="w3- center w3-border w3-padding" alt="Chladni experiment" style="width:100%;max-width:300px"></img>
+                <figure class="w3-center" ><img src="3d-chladni.gif"  class="w3- center w3-border w3-padding" alt="Chladni experiment" style="width:100%;max-width:400px"></img>
                     <figcaption class="w3-center w3-small w3-text-grey">3D plot of $ \mathbf S(x,y)$ with two sources.</figcaption>
                 </figure>
                 
