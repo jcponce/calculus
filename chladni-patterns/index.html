@@ -157,8 +157,8 @@
                     \mathbf S(x,y)={\Large\sum_{i=1}^{n}} \frac{g_i(x,y)}{\sqrt{\left| g_i(x,y) \right| } }
                     \end{eqnarray*}
                 </div>
-                with $$g_i(x,y) = \sin \left(\frac{2\pi \cdot F}{60} \cdot  \left( T- \frac{\sqrt{\left(x-x_i\right)^2+\left(y-y_i\right)^2}}{V} \right) \right)$$
-                where  $F$ is frequency; $T$ is the phase shift;  and  $V$ is the speed.
+                with $$g_i(x,y) = \sin \left(\frac{2\pi \cdot F}{60} \cdot  \left( T- \frac{1}{V}\cdot \sqrt{\left(x-x_i\right)^2+\left(y-y_i\right)^2} \right) \right)$$
+                where  $F$ is frequency; $T$ is the phase shift;  and  $V$ is the elasticity constant.
                 </p>
                 
                 <figure class="w3-center" ><img src="3d-chladni.gif"  class="w3- center w3-border w3-padding" alt="Chladni experiment" style="width:100%;max-width:400px"></img>
