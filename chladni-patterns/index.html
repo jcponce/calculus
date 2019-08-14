@@ -92,16 +92,17 @@
             <div class="modal-content w3-large">
                 <span class="close close_multi">&times;</span>
                 <div style="text-align:center">
-                <p class="w3-large"><b class="w3-xlarge">Chladni Patterns</b>
+                <!--<p class="w3-large"><b class="w3-xlarge">Chladni Patterns</b>-->
+                <h1>Chladni Patterns</h1>
+                <hr>
                 
-                <br>
                 
                 </div>
                 
-                <p><strong>Historical background</strong></p>
+                <h3>Historical background</h3>
                 
                 <p>We now know that sound propagates in waves through a solid, gas, or liquid medium — but we didn't always know this. In the late 1700s, the German scientist Ernst Chladni was the first to show that sound travels via waves by devising a way to visualize their vibrations.</p>
-                <figure class="w3-center" ><img src="https://upload.wikimedia.org/wikipedia/commons/d/d1/Echladni.jpg"  class="w3- center w3-border w3-padding" alt="Chladni experiment" style="width:100%;max-width:200px"></img>
+                <figure class="w3-center" ><img src="https://upload.wikimedia.org/wikipedia/commons/d/d1/Echladni.jpg"  class="w3- center w3-border w3-padding" alt="Ernst Chladni" style="width:100%;max-width:300px"></img>
                     <figcaption class="w3-center w3-small w3-text-grey">Ernst Chladni.<br> Image in the public domain in the <br>United States, via <a class="w3-hover-text-blue" href="https://commons.wikimedia.org/wiki/File:Echladni.jpg" >Wikimedia Commons</a>.</figcaption>
                 </figure>
                 
@@ -115,7 +116,7 @@
                 </figure>
                 
                 <br><hr><br>
-                <p><strong>Mathematical model</strong></p>
+                <h3>Mathematical model</h3>
                 
                 <p>The deformation of an elastic plate under an external force was a very difficult problem and there were many attempts to solve it. It was until 1850 that the definitive breakthrough was achieved in a long <a class="w3-hover-text-blue" href="https://eudml.org/doc/147439">article</a> by G. Kirchhoff</a> in the form of the differential equation
                 <div href="w3-responsive">
@@ -148,15 +149,24 @@
                 <p>To know more details about the solution of this problem and its history, I recomend to consult the following paper <a class="w3-hover-text-blue" href="https://epubs.siam.org/doi/abs/10.1137/100804036"><em>From Euler, Ritz, and Galerkin to Modern Computing</a></em> by Martin J. Gander and Gerhard Wanner.</p>
                 
                 <br><hr><br>
-                <p><strong>About this simulation</strong></p>
+                <h3>About this simulation</h3>
                 
-                <p>One way to approximate Chladni figures is by using sine and cosine functions. In particular,  this simulation shows a unclamped plate with a finite number of sources $A_i = (x_i, y_i)$. This is a simplified model which solution can be approximated by the function
+                <p>One way to approximate Chladni figures is by using sine and cosine functions. In particular,  this simulation shows an unclamped plate with a finite number of sources $A_i = (x_i, y_i)$. This is a simplified model approximated with the function
                 <div href="w3-responsive">
                     \begin{eqnarray*}
-                    \mathbf S(x,y)={\LARGE\sum_{i}} \dfrac{\sin \Bigg( F\cdot  \left( T- \frac{\sqrt{\left(x-x_i\right)^2+\left(y-y_i\right)^2}\;\;}{V} \right) \Bigg)}{\sqrt{\left(x-x_i\right)^2+\left(y-y_i\right)^2 }}
+                    \mathbf S(x,y)={\Large\sum_{i=1}^{n}} \frac{g_i(x,y)}{\sqrt{\left| g_i(x,y) \right| } }
                     \end{eqnarray*}
                 </div>
-                where $T$ is the phase, $F$ is the frequency and $V$ is the speed.</p>
+                with $$g_i(x,y) = \sin \left(\frac{2\pi \cdot F}{60} \cdot  \left( T- \frac{\sqrt{\left(x-x_i\right)^2+\left(y-y_i\right)^2}}{V} \right) \right)$$
+                where  $F$ is frequency; $T$ is the phase shift;  and  $V$ is the speed.
+                </p>
+                
+                <figure class="w3-center" ><img src="3d-chladni.gif"  class="w3- center w3-border w3-padding" alt="Chladni experiment" style="width:100%;max-width:400px"></img>
+                    <figcaption class="w3-center w3-small w3-text-grey">3D plot of $ \mathbf S(x,y)$ with two sources.</figcaption>
+                </figure>
+                
+               <!--<video>  <source src="movie/3d-chladni.mp4" type="video/mp4" controls autoplay  loop></video>-->
+                
                 
                 <p>Open the <strong>Controls</strong> to change parameters or modify the size of the plate and the color of the particles. You can also save your favorite Chladni pattern.</p>
                 

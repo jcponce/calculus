@@ -19,7 +19,7 @@
  *
  */
 
-let N = 2000;//number of particles
+let N = 2500;//number of particles
 let chl;
 let time; //Does not run forever
 
@@ -27,6 +27,7 @@ let time; //Does not run forever
 let parDef = {
   play: true,
   frq: 0.15,
+  //elasticity: 0.5,
   showOcs: true,
   nPoints: 4,
   canvasSize: 'Square',
@@ -49,7 +50,7 @@ let parDef = {
 function setup() {
 
   //createCanvas(windowWidth, windowHeight);
-  createCanvas(550, 550);
+  createCanvas(500, 500);
   pixelDensity(1);
     smooth();
   //frameRate(60);
@@ -58,9 +59,9 @@ function setup() {
     
   //Gui controls
   let gui = new dat.GUI( { width: 290 } );
-  //gui.add(this, 'infoChladni').name("Chladni Info");
   gui.add(parDef, 'play').name('Animation');
-  gui.add(parDef, 'frq', 0.001, 0.6, 0.001).name('Frequency').listen();
+  gui.add(parDef, 'frq', 0, 0.7, 0.001).name('Frequency').listen();
+  //gui.add(parDef, 'elasticity', 0.001, 2, 0.001).name('Elasticity').listen();
   gui.add(parDef, 'canvasSize', ['Square', 'Landscape', 'Full-Screen'] ).name("Size: ").onChange(screenSize);
     
   let ocsGUI = gui.addFolder('Sources');
@@ -75,19 +76,16 @@ function setup() {
     pointsGUI.add(parDef, 'blue', 0, 255, 1).name('Blue/Brt').listen();
     
     //pointsGUI.add(parDef, 'color').name('Background').listen();
-    let backGUI = gui.addFolder('Background settings');
-    backGUI.add(parDef, 'bckgR', 0, 255, 1).name('Red').listen();
-    backGUI.add(parDef, 'bckgG', 0, 255, 1).name('Green').listen();
-    backGUI.add(parDef, 'bckgB', 0, 255, 1).name('Blue').listen();
+    //let backGUI = gui.addFolder('Background settings');
+    //backGUI.add(parDef, 'bckgR', 0, 255, 1).name('Red').listen();
+    //backGUI.add(parDef, 'bckgG', 0, 255, 1).name('Green').listen();
+    //backGUI.add(parDef, 'bckgB', 0, 255, 1).name('Blue').listen();
     pointsGUI.add(parDef, 'opt', 5, 100, 1).name('Trace').listen();
     
-  //gui.add(this, 'refreshPage').name('Restart');
-  
   gui.add(parDef, 'Save').name('Save (jpg)');
   
   gui.add(this, 'sourceCode').name('Source Code');
-  //gui.add(this, 'backHome').name('Back Home');
-  
+
   gui.close();
   //Ends GUI controls
 
@@ -158,7 +156,7 @@ function draw() {
     //text("Change values with controls", width / 2, 110)
   }
     
-    if(time > 6 * 60){//6 minutes time, so it does not run forever :)
+  if(time > 6 * 60){//6 minutes max runnig time, so it does not crash :)
     noStroke()
     fill(70);
     rectMode(CENTER);
@@ -170,6 +168,8 @@ function draw() {
     text("Please, refresh your browser!", width / 2, 70);
     noLoop();
   }
+    
+    //chl.V = parDef.elasticy;
 
 } // draw()
 
@@ -195,9 +195,9 @@ function refreshPage(){
 
 function screenSize() {
     if (parDef.canvasSize == 'Square') {
-        resizeCanvas(550, 550);
+        resizeCanvas(500, 500);
     } else if (parDef.canvasSize == 'Landscape') {
-        resizeCanvas(750, 550);
+        resizeCanvas(700, 500);
     } else if (parDef.canvasSize == 'Full-Screen') {
         resizeCanvas(windowWidth, windowHeight);
     }
