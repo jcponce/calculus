@@ -3,10 +3,8 @@
 class Chladni {
     constructor(N_, pts_) {
         this.N = N_; //number of particles
-        this.PX = []; //Initial position x
-        this.PY = []; //initial position y
         this.p = [];
-        this.V = 0.5;
+        this.V = 0.5;//elasticity
         this.F = parDef.frq;
         this.PV = -1.5;
         this.d = 1;
