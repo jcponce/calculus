@@ -60,7 +60,7 @@ function setup() {
   //Gui controls
   let gui = new dat.GUI( { width: 290 } );
   gui.add(parDef, 'play').name('Animation');
-  gui.add(parDef, 'frq', 0, 0.7, 0.001).name('Frequency').listen();
+  gui.add(parDef, 'frq', 0.03, 0.6, 0.001).name('Frequency').listen();
   //gui.add(parDef, 'elasticity', 0.001, 2, 0.001).name('Elasticity').listen();
   gui.add(parDef, 'canvasSize', ['Square', 'Landscape', 'Full-Screen'] ).name("Size: ").onChange(screenSize);
     
