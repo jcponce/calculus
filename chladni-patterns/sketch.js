@@ -15,7 +15,7 @@
  * I am still learning about the maths behind these amazing patterns.
  * For now, it looks pretty cool.
  *
- * Last update: 09-Aug-19
+ * Last update: 15-Aug-19
  *
  */
 
