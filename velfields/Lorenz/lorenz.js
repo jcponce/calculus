@@ -181,7 +181,7 @@ function draw(){
     beginShape(POINTS);
     for (let k=0; k<addPoints;k++) {
         stroke(128, 200, 255);
-        strokeWeight(0.15);
+        strokeWeight(0.1);
         vertex(points[k].x, points[k].y, points[k].z);
         
     }
@@ -190,7 +190,7 @@ function draw(){
     beginShape(POINTS);
     for (let l=0; l<addPoints;l++) {
         stroke(255, 102, 163);
-        strokeWeight(0.15);
+        strokeWeight(0.1);
         vertex(points2[l].x, points2[l].y, points2[l].z);
     }
     endShape();
