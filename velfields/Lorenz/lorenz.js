@@ -14,7 +14,7 @@ let points2 = [];
 
 let attractor;
 
-let NUM_POINTS = 3000;//num of points in curve
+let NUM_POINTS = 3300;//num of points in curve
 
 let numMax = 550;
 let t = 0;
@@ -166,7 +166,7 @@ function initSketch(){
     
 }
 
-let addPoints = 3000;
+let addPoints = 3200;
 
 function draw(){
     
@@ -216,7 +216,7 @@ function draw(){
     //stroke(  0, 32,255); line(0,0,0,0,0,2);
     if(parDef.Animate === false){
         addPoints+=0;
-        addPoints=3000;
+        addPoints=3200;
     }else {
         addPoints+=2;
         if(addPoints>points.length-2){
