@@ -10,12 +10,13 @@ let easycam;
 let particles = [];
 
 let points = [];
+let points2 = [];
 
 let attractor;
 
-let NUM_POINTS = 4000;//num of points in curve
+let NUM_POINTS = 2900;//num of points in curve
 
-let numMax = 600;
+let numMax = 500;
 let t = 0;
 let h = 0.009;
 let currentParticle = 0;
@@ -25,6 +26,7 @@ let parDef = {
 Attractor: 'Lorenz',
 Speed: 1.0,
 Particles: true,
+Animate: false,
 Preset: function() {
     removeElements();
     this.Speed = 1.0;
@@ -37,6 +39,7 @@ Preset: function() {
     attractor.z = 7;
     for (let i=points.length-1; i>=0; i-=1){
         points.splice(i,1);
+        points2.splice(i,1);
     }
     initSketch();
 },
@@ -57,6 +60,7 @@ function setup() {
     gui.add(parDef, 'Attractor');
     gui.add(parDef, 'Speed', 0, 3, 0.01).listen();
     gui.add(parDef, 'Particles' );
+    gui.add(parDef, 'Animate' ).name("Compare");
     gui.add(parDef, 'Randomize'  );
     gui.add(parDef, 'Preset'  );
     gui.add(this, 'backAttractors').name("Go Back");
@@ -84,6 +88,7 @@ function randomCurve() {
     removeElements();
     for (var i = points.length-1; i>=0; i-=1){
         points.splice(i,1);
+        points2.splice(i,1);
     }
     attractor.randomize();
     initSketch();
@@ -100,10 +105,17 @@ function initSketch(){
     createElement('li', 'b = '+ nfc(attractor.b,2) ).parent(hleft);
     
     createElement('li', '----------' ).parent(hleft);
+    createElement('li', 'In. Cond.' ).parent(hleft);
     
-    createElement('li', 'x<sub>0</sub> = '+ nfc(attractor.x,2) ).parent(hleft);
-    createElement('li', 'y<sub>0</sub> = '+ nfc(attractor.y,2) ).parent(hleft);
-    createElement('li', 'z<sub>0</sub> = '+ nfc(attractor.z,2) ).parent(hleft);
+    createElement('li', 'x<sub>1</sub> = '+ nfc(attractor.x,2) ).parent(hleft);
+    createElement('li', 'y<sub>1</sub> = '+ nfc(attractor.y,2) ).parent(hleft);
+    createElement('li', 'z<sub>1</sub> = '+ nfc(attractor.z,2) ).parent(hleft);
+    
+    createElement('li', '----------' ).parent(hleft);
+    
+    createElement('li', 'x<sub>2</sub> = '+ nfc(attractor.x2,2) ).parent(hleft);
+    createElement('li', 'y<sub>2</sub> = '+ nfc(attractor.y2,2) ).parent(hleft);
+    createElement('li', 'z<sub>2</sub> = '+ nfc(attractor.z2,2) ).parent(hleft);
     
     let p = {
     x: attractor.x,
@@ -124,6 +136,26 @@ function initSketch(){
         points.push(new p5.Vector(attractor.scale * p.x,attractor.scale * p.y, attractor.scale * p.z));
         
     }
+    
+    let q = {
+    x: attractor.x2,
+    y: attractor.y2,
+    z: attractor.z2
+    }
+    for( var j = 0; j < NUM_POINTS; j++ ) {
+        
+        q = attractor.generatePoint( q.x, q.y, q.z );
+        
+        if( isNaN( q.x ) || isNaN( q.y ) || isNaN( q.z ) ) {
+            console.log( 'Failed, retry' );
+            randomCurve();
+            return;
+        }
+        
+        points2.push(new p5.Vector(attractor.scale * q.x,attractor.scale * q.y, attractor.scale * q.z));
+        
+    }
+    
     let m = 30;
     for (var i=0; i < numMax; i++) {
         particles[i] = new Particle(random(-m, m), random(-m, m), random(-m, m), t, h);
@@ -131,6 +163,7 @@ function initSketch(){
     
 }
 
+let addPoints;
 
 function draw(){
     
@@ -143,11 +176,19 @@ function draw(){
     translate(0,0,-23);
     
     beginShape(POINTS);
-    for (let v of points) {
+    for (let k=0; k<addPoints;k++) {
         stroke(128, 200, 255);
         strokeWeight(0.15);
-        vertex(v.x, v.y, v.z);
+        vertex(points[k].x, points[k].y, points[k].z);
         
+    }
+    endShape();
+    
+    beginShape(POINTS);
+    for (let l=0; l<addPoints;l++) {
+        stroke(255, 102, 163);
+        strokeWeight(0.15);
+        vertex(points2[l].x, points2[l].y, points2[l].z);
     }
     endShape();
     
@@ -170,6 +211,17 @@ function draw(){
     //stroke(255, 32,  0); line(0,0,0,2,0,0);
     //stroke( 32,255, 32); line(0,0,0,0,2,0);
     //stroke(  0, 32,255); line(0,0,0,0,0,2);
+    if(parDef.Animate === false){
+        addPoints+=0;
+        addPoints=points.length;
+    }else {
+        addPoints+=2;
+        if(addPoints>points.length-1){
+            addPoints=2;
+        }
+    }
+    
+    
     
 }
 
@@ -197,9 +249,9 @@ class Particle{
         this.radius = 0.3;
         this.h = _h;
         this.op = random(190,200);
-        this.r = random(20,204);
-        this.g = random(180,192);
-        this.b = random(190,255);
+        this.r = random(10,124);
+        this.g = random(100,192);
+        this.b = random(100,255);
     }
     
     update() {
@@ -244,8 +296,12 @@ class LorenzAttractor {
     this.x = 1.1;
     this.y = 2;
     this.z = 7;
+        
+    this.x2 = 1.1;
+    this.y2 = 2.05;
+    this.z2 = 7;
     
-    this.h = 0.009;
+    this.h = 0.01;
     this.scale = 1;
     
 }
@@ -272,6 +328,10 @@ class LorenzAttractor {
     this.x = random( -10, 10 );
     this.y = random( -10, 10 );
     this.z = random( 0, 10 );
+        
+    this.x2 = random( -10, 10 );
+    this.y2 = random( -10, 10 );
+    this.z2 = random( 0, 10 );
     
 }
 
