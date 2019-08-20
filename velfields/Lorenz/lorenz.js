@@ -14,7 +14,7 @@ let points2 = [];
 
 let attractor;
 
-let NUM_POINTS = 2900;//num of points in curve
+let NUM_POINTS = 3000;//num of points in curve
 
 let numMax = 500;
 let t = 0;
@@ -37,6 +37,9 @@ Preset: function() {
     attractor.x = 1.1;
     attractor.y = 2;
     attractor.z = 7;
+    attractor.x2 = 1.1;
+    attractor.y2 = 2.05;
+    attractor.z2 = 7;
     for (let i=points.length-1; i>=0; i-=1){
         points.splice(i,1);
         points2.splice(i,1);
@@ -248,10 +251,10 @@ class Particle{
         this.time = _t;
         this.radius = 0.3;
         this.h = _h;
-        this.op = random(190,200);
-        this.r = random(10,124);
-        this.g = random(100,192);
-        this.b = random(100,255);
+        this.op = random(210,250);
+        this.r = random(80,224);
+        this.g = random(10,252);
+        this.b = random(200,255);
     }
     
     update() {
