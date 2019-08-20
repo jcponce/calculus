@@ -166,7 +166,7 @@ function initSketch(){
     
 }
 
-let addPoints;
+let addPoints = 3000;
 
 function draw(){
     
@@ -216,10 +216,10 @@ function draw(){
     //stroke(  0, 32,255); line(0,0,0,0,0,2);
     if(parDef.Animate === false){
         addPoints+=0;
-        addPoints=points.length;
+        addPoints=3000;
     }else {
         addPoints+=2;
-        if(addPoints>points.length-1){
+        if(addPoints>points.length-2){
             addPoints=2;
         }
     }
