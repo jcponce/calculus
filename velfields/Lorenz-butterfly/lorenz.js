@@ -285,10 +285,10 @@ class Particle{
         push();
         translate(this.x, this.y, this.z);
         //ambientMaterial(this.r, this.b, this.g);
-        texture(img);
-        noStroke();
-        sphere(this.radius, 7, 6);
-        //image(img, 0, 0, 20, 20);
+        //texture(img);
+        //noStroke();
+        //sphere(this.radius, 7, 6);
+        image(img, 0, 0, 20, 20);
         pop();
     }
     
