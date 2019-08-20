@@ -16,7 +16,7 @@ let attractor;
 
 let NUM_POINTS = 3000;//num of points in curve
 
-let numMax = 500;
+let numMax = 550;
 let t = 0;
 let h = 0.009;
 let currentParticle = 0;

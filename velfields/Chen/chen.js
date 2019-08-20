@@ -109,10 +109,17 @@ function initSketch(){
     createElement('li', 'delta = '+ nfc(attractor.delta,2) ).parent(hleft);
     
     createElement('li', '----------' ).parent(hleft);
+    createElement('li', 'In. Cond.' ).parent(hleft);
     
-    createElement('li', 'x<sub>0</sub> = '+ nfc(attractor.x,2) ).parent(hleft);
-    createElement('li', 'y<sub>0</sub> = '+ nfc(attractor.y,2) ).parent(hleft);
-    createElement('li', 'z<sub>0</sub> = '+ nfc(attractor.z,2) ).parent(hleft);
+    createElement('li', 'x<sub>1</sub> = '+ nfc(attractor.x,2) ).parent(hleft);
+    createElement('li', 'y<sub>1</sub> = '+ nfc(attractor.y,2) ).parent(hleft);
+    createElement('li', 'z<sub>1</sub> = '+ nfc(attractor.z,2) ).parent(hleft);
+    
+    createElement('li', '----------' ).parent(hleft);
+    
+    createElement('li', 'x<sub>2</sub> = '+ nfc(attractor.x2,2) ).parent(hleft);
+    createElement('li', 'y<sub>2</sub> = '+ nfc(attractor.y2,2) ).parent(hleft);
+    createElement('li', 'z<sub>2</sub> = '+ nfc(attractor.z2,2) ).parent(hleft);
     
     let p = {
     x: attractor.x,
@@ -309,8 +316,8 @@ class ChenAttractor {
     randomize() {
         
         this.alpha = random( 3, 5 );
-        this.beta = random( -10, -8 );
-        this.delta = random( -0.5, -0.1 );
+        this.beta = random( -10, -7 );
+        this.delta = random( -0.5, 0.1 );
         
         this.x = random( -5, 5 );
         this.y = random( -5, 10 );
