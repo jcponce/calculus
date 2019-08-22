@@ -47,7 +47,7 @@ Randomize: randomCurve,
 
 
 function backAttractors () {
-    window.location.href = "https://jcponce.github.io/strange-attractors";
+    window.location.href = "https://jcponce.github.io/strange-attractors/#dadras";
 }
 
 

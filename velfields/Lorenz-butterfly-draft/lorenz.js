@@ -6,38 +6,48 @@
 
 // Updated Jan-2019
 
+let img;
+function preload() {
+    img = loadImage('blue-violet-wings-butterfly.jpg');
+}
+
 let easycam;
 let particles = [];
 
 let points = [];
+let points2 = [];
 
-let NUM_POINTS = 3900;//num of points in curve
+let attractor;
 
-let numMax = 600;
+let NUM_POINTS = 3300;//num of points in curve
+
+let numMax = 550;
 let t = 0;
-let h = 0.01;
+let h = 0.009;
 let currentParticle = 0;
 
 // settings and presets
 let parDef = {
-Attractor: 'Aizawa',
-Speed: 2.0,
+Attractor: 'Lorenz',
+Speed: 1.0,
 Particles: true,
+Animate: false,
 Preset: function() {
     removeElements();
+    this.Speed = 1.0;
     this.Particles = true;
-    this.Speed = 2.0;
-    attractor.a = 0.95;
-    attractor.b = 0.7;
-    attractor.c = 0.6;
-    attractor.d = 3.5;
-    attractor.e = 0.25;
-    attractor.f = 0.1;
-    attractor.x = 0.1;
-    attractor.y = 1;
-    attractor.z = 0.01;
+    attractor.p = 10.0;
+    attractor.r = 28.0;
+    attractor.b = 8.0 / 3.0;
+    attractor.x = 1.1;
+    attractor.y = 2;
+    attractor.z = 7;
+    attractor.x2 = 1.1;
+    attractor.y2 = 2.05;
+    attractor.z2 = 7;
     for (let i=points.length-1; i>=0; i-=1){
         points.splice(i,1);
+        points2.splice(i,1);
     }
     initSketch();
 },
@@ -46,19 +56,19 @@ Randomize: randomCurve,
 
 
 function backAttractors () {
-    window.location.href = "https://jcponce.github.io/strange-attractors/#aizawa";
+    window.location.href = "https://jcponce.github.io/strange-attractors";
 }
-
 
 
 function setup() {
     
-    attractor = new AizawaAttractor();
+    attractor = new LorenzAttractor();
     // create gui (dat.gui)
     let gui = new dat.GUI();
     gui.add(parDef, 'Attractor');
-    gui.add(parDef, 'Speed', 0, 5, 0.01).listen();
+    gui.add(parDef, 'Speed', 0, 3, 0.01).listen();
     gui.add(parDef, 'Particles' );
+    gui.add(parDef, 'Animate' ).name("Compare");
     gui.add(parDef, 'Randomize'  );
     gui.add(parDef, 'Preset'  );
     gui.add(this, 'backAttractors').name("Go Back");
@@ -70,7 +80,7 @@ function setup() {
     
     console.log(Dw.EasyCam.INFO);
     
-    easycam = new Dw.EasyCam(this._renderer, {distance : 4.5});
+    easycam = new Dw.EasyCam(this._renderer, {distance : 60});
     
     // place initial samples
     initSketch();
@@ -86,31 +96,34 @@ function randomCurve() {
     removeElements();
     for (var i = points.length-1; i>=0; i-=1){
         points.splice(i,1);
+        points2.splice(i,1);
     }
     attractor.randomize();
     initSketch();
     
 }
 
-let attractor;
-
 function initSketch(){
     
     var hleft = select('#hud-left');
     var hright = select('#hud-right');
     
-    createElement('li', 'a = '+ nfc(attractor.a,2) ).parent(hleft);
+    createElement('li', 'p = '+ nfc(attractor.p,2) ).parent(hleft);
+    createElement('li', 'r = '+ nfc(attractor.r,2) ).parent(hleft);
     createElement('li', 'b = '+ nfc(attractor.b,2) ).parent(hleft);
-    createElement('li', 'c = '+ nfc(attractor.c,2) ).parent(hleft);
-    createElement('li', 'd = '+ nfc(attractor.d,2) ).parent(hleft);
-    createElement('li', 'e = '+ nfc(attractor.e,2) ).parent(hleft);
-    createElement('li', 'f = '+ nfc(attractor.f,2) ).parent(hleft);
+    
+    createElement('li', '----------' ).parent(hleft);
+    createElement('li', 'In. Cond.' ).parent(hleft);
+    
+    createElement('li', 'x<sub>1</sub> = '+ nfc(attractor.x,2) ).parent(hleft);
+    createElement('li', 'y<sub>1</sub> = '+ nfc(attractor.y,2) ).parent(hleft);
+    createElement('li', 'z<sub>1</sub> = '+ nfc(attractor.z,2) ).parent(hleft);
     
     createElement('li', '----------' ).parent(hleft);
     
-    createElement('li', 'x<sub>0</sub> = '+ nfc(attractor.x,2) ).parent(hleft);
-    createElement('li', 'y<sub>0</sub> = '+ nfc(attractor.y,2) ).parent(hleft);
-    createElement('li', 'z<sub>0</sub> = '+ nfc(attractor.z,2) ).parent(hleft);
+    createElement('li', 'x<sub>2</sub> = '+ nfc(attractor.x2,2) ).parent(hleft);
+    createElement('li', 'y<sub>2</sub> = '+ nfc(attractor.y2,2) ).parent(hleft);
+    createElement('li', 'z<sub>2</sub> = '+ nfc(attractor.z2,2) ).parent(hleft);
     
     let p = {
     x: attractor.x,
@@ -131,13 +144,34 @@ function initSketch(){
         points.push(new p5.Vector(attractor.scale * p.x,attractor.scale * p.y, attractor.scale * p.z));
         
     }
-    let m = 2;
+    
+    let q = {
+    x: attractor.x2,
+    y: attractor.y2,
+    z: attractor.z2
+    }
+    for( var j = 0; j < NUM_POINTS; j++ ) {
+        
+        q = attractor.generatePoint( q.x, q.y, q.z );
+        
+        if( isNaN( q.x ) || isNaN( q.y ) || isNaN( q.z ) ) {
+            console.log( 'Failed, retry' );
+            randomCurve();
+            return;
+        }
+        
+        points2.push(new p5.Vector(attractor.scale * q.x,attractor.scale * q.y, attractor.scale * q.z));
+        
+    }
+    
+    let m = 30;
     for (var i=0; i < numMax; i++) {
-        particles[i] = new Particle(random(-m, m), random(-m, m), random(0, m), t, h);
+        particles[i] = new Particle(random(-m, m), random(-m, m), random(-m, m), t, h);
     }
     
 }
 
+let addPoints = 3200;
 
 function draw(){
     
@@ -147,20 +181,22 @@ function draw(){
     // BG
     background(0);
     
-    rotateX(0.9);
-    rotateY(0);
-    rotateZ(0.9)
-    let hu = 0;
+    translate(0,0,-23);
+    
     beginShape(POINTS);
-    for (let v of points) {
-        stroke(hu, 193, 255);
-        strokeWeight(0.01);
-        vertex(v.x, v.y, v.z);
+    for (let k=0; k<addPoints;k++) {
+        stroke(128, 200, 255);
+        strokeWeight(0.1);
+        vertex(points[k].x, points[k].y, points[k].z);
         
-        hu += 1;
-        if (hu > 255) {
-            hu = 0;
-        }
+    }
+    endShape();
+    
+    beginShape(POINTS);
+    for (let l=0; l<addPoints;l++) {
+        stroke(255, 102, 163);
+        strokeWeight(0.1);
+        vertex(points2[l].x, points2[l].y, points2[l].z);
     }
     endShape();
     
@@ -170,10 +206,10 @@ function draw(){
         let p = particles[i];
         p.update();
         p.display();
-        if ( p.x > 8 ||  p.y > 8 || p.z > 8 || p.x < -8 ||  p.y < -8 || p.z < -8 ) {
+        if ( p.x > 100 ||  p.y > 100 || p.z > 100 || p.x < -100 ||  p.y < -100 || p.z < -100 ) {
             particles.splice(i,1);
             currentParticle--;
-            particles.push(new Particle(random(-5,5),random(-5,5),random(0,5),t,h) );
+            particles.push(new Particle(random(-5,5),random(-5,5),random(-5,5),t,h) );
         }
     }
     }
@@ -183,20 +219,31 @@ function draw(){
     //stroke(255, 32,  0); line(0,0,0,2,0,0);
     //stroke( 32,255, 32); line(0,0,0,0,2,0);
     //stroke(  0, 32,255); line(0,0,0,0,0,2);
+    if(parDef.Animate === false){
+        addPoints+=0;
+        addPoints=3200;
+    }else {
+        addPoints+=2;
+        if(addPoints>points.length-2){
+            addPoints=2;
+        }
+    }
+    
+    
     
 }
 
 
 function componentFX(t, x, y, z){
-    return  ( parDef.Speed * ((z - attractor.b) * x - attractor.d * y) );//Change this function
+    return 0.5 * parDef.Speed * ( attractor.p * (-x + y) );//Change this function
 }
 
 function componentFY(t, x, y, z){
-    return  (  parDef.Speed * (attractor.d * x + (z - attractor.b) * y) );//Change this function
+    return 0.5 * parDef.Speed * (  -x * z + attractor.r * x - y );//Change this function
 }
 
 function componentFZ(t, x, y, z){
-    return ( parDef.Speed * (attractor.c + attractor.a * z - z*z*z/3 - (x*x+y*y)*(1+attractor.e*z)+attractor.f*z*x*x*x)  );//Change this function
+    return 0.5 * parDef.Speed * ( x * y - attractor.b * z );//Change this function
 }
 
 //Particle definition and motion
@@ -207,12 +254,12 @@ class Particle{
         this.y = _y;
         this.z = _z;
         this.time = _t;
-        this.radius = random(0.018,0.018);
+        this.radius = 0.3;
         this.h = _h;
-        this.op = random(200,200);
-        this.r = random(255,255);
-        this.g = random(255);
-        this.b = random(255);
+        this.op = random(210,250);
+        this.r = random(80,224);
+        this.g = random(10,252);
+        this.b = random(200,255);
     }
     
     update() {
@@ -237,60 +284,65 @@ class Particle{
     display() {
         push();
         translate(this.x, this.y, this.z);
-        ambientMaterial(this.r, this.b, this.g);
-        noStroke();
-        sphere(this.radius, 7, 6);
+        //ambientMaterial(this.r, this.b, this.g);
+        //texture(img);
+        //noStroke();
+        //sphere(this.radius, 7, 6);
+        image(img, 0, 0, 20, 20);
         pop();
     }
     
 }
 
-class AizawaAttractor {
+class LorenzAttractor {
     
     constructor(){
     this.speed = 0.5;
     
-    this.a = 0.95;
-    this.b = 0.7;
-    this.c = 0.6;
-    this.d = 3.5;
-    this.e = 0.25;
-    this.f = 0.1;
+    this.p = 10.0;
+    this.r = 28.0;
+    this.b = 8.0 / 3.0;
     
-    this.x = 0.1;
-    this.y = 1;
-    this.z = 0.01;
+    this.x = 1.1;
+    this.y = 2;
+    this.z = 7;
+        
+    this.x2 = 1.1;
+    this.y2 = 2.05;
+    this.z2 = 7;
     
-    this.h = .03;
+    this.h = 0.01;
     this.scale = 1;
-    }
     
-    generatePoint( x, y, z ) {
-        
-        
-        var nx = this.speed * ((z - this.b) * x - this.d * y) ;
-        var ny =  this.speed * (this.d * x + (z - this.b) * y) ;
-        var nz =  this.speed * (this.c + this.a * z - z*z*z/3 - (x*x+y*y)*(1+this.e*z)+this.f*z*x*x*x);
-        
-        x += this.h * nx; y += this.h * ny; z += this.h * nz;
-        
-        return { x: x, y: y, z: z }
-        
-    }
+}
+
+   generatePoint( x, y, z ) {
     
+    
+    var nx = this.speed * (this.p * (-x + y)) ;
+    var ny =  this.speed * ( -x * z + this.r * x - y) ;
+    var nz =  this.speed * (x * y - this.b * z);
+    
+    x += this.h * nx; y += this.h * ny; z += this.h * nz;
+    
+    return { x: x, y: y, z: z }
+    
+}
+
     randomize() {
-        
-        this.a = random( 0.3, 3 );
-        this.b = random( 0.3, 3 );
-        this.c = random( 0.1, 3 );
-        this.d = random( 1, 3 );
-        this.e = random( 0.01, 3 );
-        this.f = random( 0.01, 3 );
-        
-        this.x = random( -1.1, 1.1 );
-        this.y = random( -1.1, 1.1 );
-        this.z = random( -1, 1 );
-        
-    }
     
+    this.p = random( 0.1, 50 );
+    this.r = random( 0.5, 60 );
+    this.b = random( 0.1, 10 );
+    
+    this.x = random( -10, 10 );
+    this.y = random( -10, 10 );
+    this.z = random( 0, 10 );
+        
+    this.x2 = random( -10, 10 );
+    this.y2 = random( -10, 10 );
+    this.z2 = random( 0, 10 );
+    
+}
+
 }
