@@ -147,12 +147,12 @@ function draw() {
     fill(0);
     noStroke();
     rect(5, 10, 90, 20);
-    textAlign(LEFT);
+    
     fill(255);
     stroke(0);
     strokeWeight(1);
     textSize(20);
-    text('n = ' +length, 10, 20);
+    text('n = ' +length, 50, 20);
   //console.log(length);
   //noLoop();
 }
