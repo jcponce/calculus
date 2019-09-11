@@ -82,7 +82,7 @@ function draw() {
     noStroke();
     fill(255);
     textSize(40);
-    text("Press to add particles", centerX, centerY);
+    text("Use mouse to add particles", centerX, centerY);
     return;
   }
 
@@ -140,7 +140,7 @@ function draw() {
       blobs.splice(i, 1);
     }
   }
-  console.log(length);
+  //console.log(length);
   //noLoop();
 }
 
