@@ -44,7 +44,7 @@ function setup() {
   let gui = new dat.GUI({
     width: 270
   });
-  gui.add(clts, 'ode', ["y'=cos(xy)", "y'=x+y", "y'=sin(x)cos(y)", "y'=cos(x)*y^2", "y'=log(x)log(y)", "y'=tan(x)cos(y)", "y'=4cos(y)(1-y)", "Pendulum", "Oval", "x''=-g*x'-sin(x)+F", "Lotka-Volterra", "Spiral", "Diamons periodic", "Diamonds sinks", "Random linear", "Double rotational", "Circle attractor", "Non Linear 1", "van der Pol", "Non Linear 2", "Source & Sink", "Doublet"]).name("Select:").onChange(userSelection);
+  gui.add(clts, 'ode', ["y'=cos(xy)", "y'=x+y", "y'=sin(x)cos(y)", "y'=cos(x)*y^2", "y'=log(x)log(y)", "y'=tan(x)cos(y)", "y'=4cos(y)(1-y)", "Pendulum", "Oval", "x''=-g*x'-sin(x)+F", "Lotka-Volterra", "Spiral", "Diamonds periodic", "Diamonds sinks", "Random linear", "Double rotational", "Circle attractor", "Non Linear 1", "van der Pol", "Non Linear 2", "Source & Sink", "Doublet"]).name("Select:").onChange(userSelection);
   gui.add(clts, 'nparticles', 0, 5000, 1).name(" Max n = ");
   gui.add(clts, 'trace').name("Streamlines");
     gui.add(clts, 'neg', ["Positive", "Negative", "Pos/Neg"]).name("Direction");//.onChange(userDirection);
@@ -132,7 +132,7 @@ function draw() {
   //	if(variation>11) variation = 0;
   //}
 
-  var stepsize = deltaTime * 0.0008;
+  var stepsize = deltaTime * 0.0009;
   for (var i = length - 1; i >= 0; i--) {
     let blob = blobs[i];
 
