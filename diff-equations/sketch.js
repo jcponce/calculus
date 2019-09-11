@@ -44,7 +44,7 @@ function setup() {
   let gui = new dat.GUI({
     width: 270
   });
-  gui.add(clts, 'ode', ["y'=cos(xy)", "y'=x+y", "y'=sin(x)cos(y)", "y'=cos(x)*y^2", "y'=log(x)log(y)", "y'=tan(x)cos(y)", "y'=4cos(y)(1-y)", "Pendulum", "Oval", "x''=-g*x'-sin(x)+F", "Lotka-Volterra", "Strudel", "Rauten", "Rauten2", "Random linear", "Duffing", "BSP Seite 11", "Sonstiges", "van der Pol", "Non linear", "Source & Sink", "Doublet"]).name("Select:").onChange(userSelection);
+  gui.add(clts, 'ode', ["y'=cos(xy)", "y'=x+y", "y'=sin(x)cos(y)", "y'=cos(x)*y^2", "y'=log(x)log(y)", "y'=tan(x)cos(y)", "y'=4cos(y)(1-y)", "Pendulum", "Oval", "x''=-g*x'-sin(x)+F", "Lotka-Volterra", "Spiral", "Diamons periodic", "Diamonds sinks", "Random linear", "Double rotational", "Circle attractor", "Non Linear 1", "van der Pol", "Non Linear 2", "Source & Sink", "Doublet"]).name("Select:").onChange(userSelection);
   gui.add(clts, 'nparticles', 0, 5000, 1).name(" Max n = ");
   gui.add(clts, 'trace').name("Streamlines");
     gui.add(clts, 'neg', ["Positive", "Negative", "Pos/Neg"]).name("Direction");//.onChange(userDirection);
@@ -142,17 +142,17 @@ function draw() {
     var k1x = getSlopeX(x, y);
     var k1y = getSlopeY(x, y);
 
-    var k2x = getSlopeX(x + blob.direction * stepsize * k1x, y + blob.direction * stepsize * k1y);
-    var k2y = getSlopeY(x + blob.direction * stepsize * k1x, y + blob.direction * stepsize * k1y);
+    var k2x = getSlopeX(x + 1/2 * blob.direction * stepsize * k1x, y + 1/2 * blob.direction * stepsize * k1y);
+    var k2y = getSlopeY(x + 1/2 * blob.direction * stepsize * k1x, y + 1/2 * blob.direction * stepsize * k1y);
 
-    var k3x = getSlopeX(x + blob.direction * stepsize * k2x, y + blob.direction * stepsize * k2y);
-    var k3y = getSlopeY(x + blob.direction * stepsize * k2x, y + blob.direction * stepsize * k2y);
+    var k3x = getSlopeX(x + 1/2 * blob.direction * stepsize * k2x, y + 1/2 * blob.direction * stepsize * k2y);
+    var k3y = getSlopeY(x + 1/2 * blob.direction * stepsize * k2x, y + 1/2 * blob.direction * stepsize * k2y);
 
-    var k4x = getSlopeX(x + blob.direction * 2 * stepsize * k3x, y + blob.direction * 2 * stepsize * k3y);
-    var k4y = getSlopeY(x + blob.direction * 2 * stepsize * k3x, y + blob.direction * 2 * stepsize * k3y);
+    var k4x = getSlopeX(x + blob.direction * 2 * stepsize * k3x, y + blob.direction * stepsize * k3y);
+    var k4y = getSlopeY(x + blob.direction * 2 * stepsize * k3x, y + blob.direction * stepsize * k3y);
 
-    blob.xSpeed = blob.direction * stepsize / 3 * (k1x + 2 * k2x + 2 * k3x + k4x);
-    blob.ySpeed = blob.direction * stepsize / 3 * (k1y + 2 * k2y + 2 * k3y + k4y);
+    blob.xSpeed = blob.direction * stepsize / 6 * (k1x + 2 * k2x + 2 * k3x + k4x);
+    blob.ySpeed = blob.direction * stepsize / 6 * (k1y + 2 * k2y + 2 * k3y + k4y);
 
     blob.x += blob.xSpeed;
     blob.y += blob.ySpeed;
@@ -318,31 +318,31 @@ function userSelection() {
   if (clts.ode === "Lotka-Volterra") {
     variation = 10;
   }
-  if (clts.ode === "Strudel") {
+  if (clts.ode === "Spiral") {
     variation = 11;
   }
-  if (clts.ode === "Rauten") {
+  if (clts.ode === "Diamonds periodic") {
     variation = 12;
   }
-  if (clts.ode === "Rauten2") {
+  if (clts.ode === "Diamonds sinks") {
     variation = 13;
   }
   if (clts.ode === "Random linear") {
     variation = 14;
   }
-  if (clts.ode === "Duffing") {
+  if (clts.ode === "Double rotational") {
     variation = 15;
   }
-  if (clts.ode === "BSP Seite 11") {
+  if (clts.ode === "Circle attractor") {
     variation = 16;
   }
-  if (clts.ode === "Sonstiges") {
+  if (clts.ode === "Non Linear 1") {
     variation = 17;
   }
   if (clts.ode === "van der Pol") {
     variation = 18;
   }
-  if (clts.ode === "Non linear") {
+  if (clts.ode === "Non Linear 2") {
     variation = 19;
   }
   if (clts.ode === "Source & Sink") {
