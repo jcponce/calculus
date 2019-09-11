@@ -21,14 +21,15 @@ let xScale, yScale, centerX, centerY;
 
 // --Control variables--
 let clts = {
+  nparticles: 3000,
   ode: "y'=cos(xy)",
   trace: true,
 };
 
 function setup() {
-  createCanvas(windowWidth, windowHeight);
+  let canvas = createCanvas(windowWidth, windowHeight);
   textAlign(CENTER, CENTER);
-  frameRate(50);
+  frameRate(60);
   xScale = width / 20;
   yScale = height / 20 * (width / height);
 
@@ -39,10 +40,12 @@ function setup() {
 
   // create gui (dat.gui)
   let gui = new dat.GUI({
-    width: 260
+    width: 270
   });
   gui.add(clts, 'ode', ["y'=cos(xy)", "y'=x+y", "y'=sin(x)cos(y)", "y'=cos(x)*y^2", "y'=log(x)log(y)", "y'=tan(x)cos(y)", "y'=4cos(y)(1-y)", "Pendulum", "Oval", "x''=-g*x'-sin(x)+F", "Lotka-Volterra", "Strudel", "Rauten", "Rauten2", "Regenbogen", "Duffing", "BSP Seite 11", "Sonstiges", "van der Pol", "Non linear", "Source & Sink", "Doublet"]).name("Select:").onChange(userSelection);
   gui.add(clts, 'trace').name("Streamlines");
+  gui.add(clts, 'nparticles', 0, 5000, 1).name(" Max n = ");
+  
 }
 
 function draw() {
@@ -85,6 +88,7 @@ function draw() {
     text("Use mouse to add particles", centerX, centerY);
     return;
   }
+
 
   noStroke();
   if (clts.trace == true) {
@@ -136,10 +140,19 @@ function draw() {
     blob.lastY = y;
 
     const border = 200;
-    if (x < -border || y < -border || x > width + border || y > height + border || length > 3000) {
+    if (x < -border || y < -border || x > width + border || y > height + border || length > clts.nparticles) {
       blobs.splice(i, 1);
     }
   }
+    fill(0);
+    noStroke();
+    rect(5, 10, 90, 20);
+    textAlign(LEFT);
+    fill(255);
+    stroke(0);
+    strokeWeight(1);
+    textSize(20);
+    text('n = ' +length, 10, 20);
   //console.log(length);
   //noLoop();
 }
@@ -314,6 +327,10 @@ function userSelection() {
   }
 
   redraw();
+}
+
+function windowSize(){
+    resizeCanvas(windowWidth, windowHeight);
 }
 
 function getXPos(x) {
