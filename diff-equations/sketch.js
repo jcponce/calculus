@@ -133,7 +133,7 @@ function draw() {
   //	if(variation>11) variation = 0;
   //}
 
-  var stepsize = deltaTime * 0.0009;
+  var stepsize = deltaTime * 0.001;
   for (var i = length - 1; i >= 0; i--) {
     let blob = blobs[i];
 
@@ -161,7 +161,7 @@ function draw() {
     x = getXPrint(blob.x);
     y = getYPrint(blob.y);
     stroke(blob.color);
-    strokeWeight(blob.size);
+    strokeWeight(blob.size*0.8);
     line(x, y, blob.lastX, blob.lastY);
     blob.lastX = x;
     blob.lastY = y;
