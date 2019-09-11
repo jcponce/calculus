@@ -87,9 +87,9 @@ function draw() {
     }
 
   if (mouseIsPressed) {
-    for (let i = 0; i < 15; i++) {
-      let x = mouseX + random(-80, 80);
-      let y = mouseY + random(-80, 80);
+    for (let i = 0; i < 10; i++) {
+      let x = mouseX + random(-50, 50);
+      let y = mouseY + random(-50, 50);
       var blob = {
         x: getXPos(x),
         y: getYPos(y),
@@ -107,7 +107,7 @@ function draw() {
 
   var length = blobs.length;
   if (length == 0) {
-    background("#1a0633");
+    background(0);
     noStroke();
     fill(255);
     textSize(40);
