@@ -39,6 +39,7 @@ function setup() {
   centerY = height / 2;
 
   colors = [color("#7beddc"), color("#78d9fa"), color("#91a7ff"), color("#28fcd2"), color("#456ff7")];
+   
 
   // create gui (dat.gui)
   let gui = new dat.GUI({
@@ -88,8 +89,8 @@ function draw() {
 
   if (mouseIsPressed) {
     for (let i = 0; i < 10; i++) {
-      let x = mouseX + random(-50, 50);
-      let y = mouseY + random(-50, 50);
+      let x = mouseX + random(-100, 100);
+      let y = mouseY + random(-100, 100);
       var blob = {
         x: getXPos(x),
         y: getYPos(y),
