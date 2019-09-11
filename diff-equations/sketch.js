@@ -24,10 +24,12 @@ let clts = {
   nparticles: 3000,
   ode: "y'=cos(xy)",
   trace: true,
+  neg: "Positive",
 };
 
 function setup() {
   let canvas = createCanvas(windowWidth, windowHeight);
+  cursor(HAND);
   textAlign(CENTER, CENTER);
   frameRate(60);
   xScale = width / 20;
@@ -42,11 +44,20 @@ function setup() {
   let gui = new dat.GUI({
     width: 270
   });
-  gui.add(clts, 'ode', ["y'=cos(xy)", "y'=x+y", "y'=sin(x)cos(y)", "y'=cos(x)*y^2", "y'=log(x)log(y)", "y'=tan(x)cos(y)", "y'=4cos(y)(1-y)", "Pendulum", "Oval", "x''=-g*x'-sin(x)+F", "Lotka-Volterra", "Strudel", "Rauten", "Rauten2", "Regenbogen", "Duffing", "BSP Seite 11", "Sonstiges", "van der Pol", "Non linear", "Source & Sink", "Doublet"]).name("Select:").onChange(userSelection);
-  gui.add(clts, 'trace').name("Streamlines");
+  gui.add(clts, 'ode', ["y'=cos(xy)", "y'=x+y", "y'=sin(x)cos(y)", "y'=cos(x)*y^2", "y'=log(x)log(y)", "y'=tan(x)cos(y)", "y'=4cos(y)(1-y)", "Pendulum", "Oval", "x''=-g*x'-sin(x)+F", "Lotka-Volterra", "Strudel", "Rauten", "Rauten2", "Random linear", "Duffing", "BSP Seite 11", "Sonstiges", "van der Pol", "Non linear", "Source & Sink", "Doublet"]).name("Select:").onChange(userSelection);
   gui.add(clts, 'nparticles', 0, 5000, 1).name(" Max n = ");
+  gui.add(clts, 'trace').name("Streamlines");
+    gui.add(clts, 'neg', ["Positive", "Negative", "Pos/Neg"]).name("Direction");//.onChange(userDirection);
+    gui.close();
+    
+  dir = random(0.1, 1);
   
 }
+let dir;
+
+//function userDirection(){
+    
+//}
 
 function draw() {
   /*
@@ -59,6 +70,21 @@ function draw() {
   text(variation, centerX, centerY-10);
   text(length, centerX, centerY+10);
   */
+  
+  //if(clts.neg===false){
+  //    dir = random(0.1, 1);
+  //}else {
+  //dir = random(0.1, 1)* (random() > 0.5 ? 1 : -1);
+  //}
+    if (clts.neg === "Positive") {
+        dir = random(0.1, 1);
+    }
+    if (clts.neg === "Negative") {
+        dir = random(-0.1, -1);
+    }
+    if (clts.neg === "Pos/Neg") {
+        dir = random(0.1, 1) * (random() > 0.5 ? 1 : -1);
+    }
 
   if (mouseIsPressed) {
     for (let i = 0; i < 15; i++) {
@@ -73,7 +99,7 @@ function draw() {
         lastX: x,
         lastY: y,
         color: colors[floor(random(colors.length))],
-        direction: random(0.1, 1) //* (random() > 0.5 ? 1 : -1)
+      direction: dir,
       };
       blobs.push(blob);
     }
@@ -92,7 +118,7 @@ function draw() {
 
   noStroke();
   if (clts.trace == true) {
-    fill(0, 10);
+    fill(0, 7);
   } else {
     fill(0, 100);
   }
@@ -301,7 +327,7 @@ function userSelection() {
   if (clts.ode === "Rauten2") {
     variation = 13;
   }
-  if (clts.ode === "Regenbogen") {
+  if (clts.ode === "Random linear") {
     variation = 14;
   }
   if (clts.ode === "Duffing") {
