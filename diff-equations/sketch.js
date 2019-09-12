@@ -4,7 +4,7 @@
    Adapted by Vamoss https://www.openprocessing.org/user/65884
    https://www.openprocessing.org/sketch/751983
    
-   This version made by Juan Carlos Ponce Campuzano
+   This version made by Juan Carlos Ponce Campuzano 11-Sept-2019
    with more examples
    https://jcponce.github.io
 */
@@ -15,9 +15,6 @@ var colors;
 let variation = 0;
 let xScale, yScale, centerX, centerY;
 
-//auto change
-//let changeDuration = 3000;
-//let lastChange = 0;
 
 // --Control variables--
 let clts = {
@@ -72,11 +69,6 @@ function draw() {
   text(length, centerX, centerY+10);
   */
   
-  //if(clts.neg===false){
-  //    dir = random(0.1, 1);
-  //}else {
-  //dir = random(0.1, 1)* (random() > 0.5 ? 1 : -1);
-  //}
     if (clts.neg === "Positive") {
         dir = random(0.1, 1);
     }
