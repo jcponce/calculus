@@ -22,6 +22,7 @@ let clts = {
   ode: "y'=cos(xy)",
   trace: true,
   neg: "Positive",
+  //remove: 'Clear',
 };
 
 function setup() {
@@ -40,22 +41,25 @@ function setup() {
 
   // create gui (dat.gui)
   let gui = new dat.GUI({
-    width: 270
+    width: 300
   });
   gui.add(clts, 'ode', ["y'=cos(xy)", "y'=x+y", "y'=sin(x)cos(y)", "y'=cos(x)*y^2", "y'=log(x)log(y)", "y'=tan(x)cos(y)", "y'=4cos(y)(1-y)", "Pendulum", "Oval", "x''=-g*x'-sin(x)+F", "Lotka-Volterra", "Spiral", "Diamonds periodic", "Diamonds sinks", "Random linear", "Double rotational", "Circle attractor", "Non Linear 1", "van der Pol", "Non Linear 2", "Source & Sink", "Doublet"]).name("Select:").onChange(userSelection);
-  gui.add(clts, 'nparticles', 0, 5000, 1).name(" Max n = ");
+  gui.add(clts, 'nparticles', 0, 6000, 1).name(" Max n = ");
   gui.add(clts, 'trace').name("Streamlines");
-    gui.add(clts, 'neg', ["Positive", "Negative", "Pos/Neg"]).name("Direction");//.onChange(userDirection);
-    gui.close();
+  gui.add(clts, 'neg', ["Positive", "Negative", "Pos/Neg"]).name("Direction").onChange(removeParticles);
+  gui.add(this, 'removeParticles').name("Clear");
+  gui.close();
     
   dir = random(0.1, 1);
   
 }
 let dir;
 
-//function userDirection(){
-    
-//}
+function removeParticles(){
+    for (var i = blobs.length - 1; i >= 0; i--) {
+        blobs.splice(i, 1);
+    }
+}
 
 function draw() {
   /*
