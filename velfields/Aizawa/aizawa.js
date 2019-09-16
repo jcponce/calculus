@@ -6,14 +6,15 @@
 
 // Updated Jan-2019
 
-let easycam;
+let easycam; //3D view
+
 let particles = [];
 
 let points = [];
 
 let NUM_POINTS = 3900;//num of points in curve
 
-let numMax = 600;
+let numMax = 600;//num of particles
 let t = 0;
 let h = 0.01;
 let currentParticle = 0;
@@ -48,8 +49,6 @@ Randomize: randomCurve,
 function backAttractors () {
     window.location.href = "https://jcponce.github.io/strange-attractors/#aizawa";
 }
-
-
 
 function setup() {
     
@@ -186,18 +185,14 @@ function draw(){
     
 }
 
+const componentFX = (t, x, y, z) => parDef.Speed * ((z - attractor.b) * x - attractor.d * y) ;//Change this function
 
-function componentFX(t, x, y, z){
-    return  ( parDef.Speed * ((z - attractor.b) * x - attractor.d * y) );//Change this function
-}
 
-function componentFY(t, x, y, z){
-    return  (  parDef.Speed * (attractor.d * x + (z - attractor.b) * y) );//Change this function
-}
+const componentFY = (t, x, y, z) => parDef.Speed * (attractor.d * x + (z - attractor.b) * y);//Change this function
 
-function componentFZ(t, x, y, z){
-    return ( parDef.Speed * (attractor.c + attractor.a * z - z*z*z/3 - (x*x+y*y)*(1+attractor.e*z)+attractor.f*z*x*x*x)  );//Change this function
-}
+
+const componentFZ = (t, x, y, z) => parDef.Speed * (attractor.c + attractor.a * z - z*z*z/3 - (x*x+y*y)*(1+attractor.e*z)+attractor.f*z*x*x*x);//Change this function
+
 
 //Particle definition and motion
 class Particle{
@@ -245,6 +240,7 @@ class Particle{
     
 }
 
+//Curve class
 class AizawaAttractor {
     
     constructor(){

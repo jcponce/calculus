@@ -125,7 +125,7 @@ function initSketch(){
         points.push(createVector(attractor.scale * p.x,attractor.scale * p.y, attractor.scale * p.z));
         
     }
-    let m = 20;
+    let m = 15;
     for (var i=0; i < numMax; i++) {
         particles[i] = new Particle(random(-m, m), random(-m, m), random(-m, m), t, h);
     }
@@ -177,17 +177,11 @@ function draw(){
 }
 
 
-function componentFX(t, x, y, z){
-    return 1 * parDef.Speed * ( -(y+z) );//Change this function
-}
+const componentFX = (t, x, y, z) => parDef.Speed * ( -(y+z) );//Change this function
 
-function componentFY(t, x, y, z){
-    return 1 * parDef.Speed * ( x + attractor.a * y );//Change this function
-}
+const componentFY = (t, x, y, z) => parDef.Speed * ( x + attractor.a * y );//Change this function
 
-function componentFZ(t, x, y, z){
-    return 1 * parDef.Speed * ( attractor.b + z * ( x - attractor.c ));//Change this function
-}
+const componentFZ = (t, x, y, z) => parDef.Speed * ( attractor.b + z * ( x - attractor.c ));//Change this function
 
 //Particle definition and motion
 class Particle{

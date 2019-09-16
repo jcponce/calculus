@@ -53,7 +53,7 @@ function setup() {
     // create gui (dat.gui)
     let gui = new dat.GUI();
     gui.add(parDef, 'Attractor');
-    gui.add(parDef, 'Speed', 0, 6, 0.01).listen();
+    gui.add(parDef, 'Speed', 0, 8, 0.01).listen();
     gui.add(parDef, 'Particles' );
     gui.add(parDef, 'Randomize'  );
     gui.add(parDef, 'Preset'  );
@@ -167,17 +167,11 @@ if(parDef.Particles==true){
 }
 
 //Define system funtions for using in Particle class
-function componentFX(t, x, y, z){
-    return parDef.Speed * ( sin(y) - attractor.b * x);//Change this function
-}
+const componentFX = (t, x, y, z) => parDef.Speed * ( sin(y) - attractor.b * x);//Change this function
 
-function componentFY(t, x, y, z){
-    return parDef.Speed * (  sin(z) - attractor.b * y  );//Change this function
-}
+const componentFY = (t, x, y, z) => parDef.Speed * (  sin(z) - attractor.b * y  );//Change this function
 
-function componentFZ(t, x, y, z){
-    return parDef.Speed * ( sin(x) - attractor.b * z  );//Change this function
-}
+const componentFZ = (t, x, y, z) => parDef.Speed * ( sin(x) - attractor.b * z  );//Change this function
 
 //Particle class definition and motion
 class Particle{

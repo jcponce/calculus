@@ -66,7 +66,7 @@ function setup() {
     
     console.log(Dw.EasyCam.INFO);
     
-    easycam = new Dw.EasyCam(this._renderer, {distance : 3.5});
+    easycam = new Dw.EasyCam(this._renderer, {distance : 4});
     
     // place initial samples
     initSketch();
@@ -179,17 +179,11 @@ function draw(){
 }
 
 
-function componentFX(t, x, y, z){
-    return   parDef.Speed * (  attractor.a * x + y * z );//Change this function
-}
+const componentFX = (t, x, y, z) => parDef.Speed * (  attractor.a * x + y * z );//Change this function
 
-function componentFY(t, x, y, z){
-    return    parDef.Speed * (attractor.b * x + attractor.c * y -  x * z );//Change this function
-}
+const componentFY = (t, x, y, z) => parDef.Speed * (attractor.b * x + attractor.c * y -  x * z );//Change this function
 
-function componentFZ(t, x, y, z){
-    return  parDef.Speed * ( -z - x * y  );//Change this function
-}
+const componentFZ = (t, x, y, z) => parDef.Speed * ( -z - x * y  );//Change this function
 
 //Particle definition and motion
 class Particle{

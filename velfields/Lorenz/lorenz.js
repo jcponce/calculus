@@ -216,30 +216,22 @@ function draw(){
     //stroke(  0, 32,255); line(0,0,0,0,0,2);
     if(parDef.Animate === false){
         addPoints+=0;
-        addPoints=3200;
+        addPoints=3280;
     }else {
         addPoints+=2;
         if(addPoints>points.length-2){
             addPoints=2;
         }
     }
-    
-    
-    
+
 }
 
 
-function componentFX(t, x, y, z){
-    return 0.5 * parDef.Speed * ( attractor.p * (-x + y) );//Change this function
-}
+const componentFX = (t, x, y, z) => 0.5 * parDef.Speed * ( attractor.p * (-x + y) );//Change this function
 
-function componentFY(t, x, y, z){
-    return 0.5 * parDef.Speed * (  -x * z + attractor.r * x - y );//Change this function
-}
+const componentFY = (t, x, y, z) => 0.5 * parDef.Speed * (  -x * z + attractor.r * x - y );//Change this function
 
-function componentFZ(t, x, y, z){
-    return 0.5 * parDef.Speed * ( x * y - attractor.b * z );//Change this function
-}
+const componentFZ = (t, x, y, z) => 0.5 * parDef.Speed * ( x * y - attractor.b * z );//Change this function
 
 //Particle definition and motion
 class Particle{

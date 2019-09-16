@@ -12,9 +12,9 @@ let particles = [];
 
 let points = [];
 
-let NUM_POINTS = 3800;//num of points in curve
+let NUM_POINTS = 4500;//num of points in curve
 
-let numMax = 600;
+let numMax = 450;
 let t = 0;
 let h = 0.01;
 let currentParticle = 0;
@@ -47,14 +47,13 @@ function backAttractors () {
 }
 
 
-
 function setup() {
     
     attractor = new SprottAttractor();
     // create gui (dat.gui)
     let gui = new dat.GUI();
     gui.add(parDef, 'Attractor');
-    gui.add(parDef, 'Speed', 0, 5, 0.01).listen();
+    gui.add(parDef, 'Speed', 0, 10, 0.01).listen();
     gui.add(parDef, 'Particles' );
     gui.add(parDef, 'Randomize'  );
     gui.add(parDef, 'Preset'  );
@@ -124,13 +123,12 @@ function initSketch(){
         points.push(new p5.Vector(attractor.scale * p.x,attractor.scale * p.y, attractor.scale * p.z));
         
     }
-    let m = 2;
+    let m = 1;
     for (var i=0; i < numMax; i++) {
         particles[i] = new Particle(random(-m, m), random(-m, m), random(-m, m), t, h);
     }
     
 }
-
 
 function draw(){
     
@@ -180,17 +178,11 @@ function draw(){
 }
 
 
-function componentFX(t, x, y, z){
-    return   parDef.Speed * ( y + attractor.a * x * y + x * z );//Change this function
-}
+const componentFX = (t, x, y, z) => parDef.Speed * ( y + attractor.a * x * y + x * z );//Change this function
 
-function componentFY(t, x, y, z){
-    return    parDef.Speed * (1 - attractor.b * x * x + y * z );//Change this function
-}
+const componentFY = (t, x, y, z) => parDef.Speed * (1 - attractor.b * x * x + y * z );//Change this function
 
-function componentFZ(t, x, y, z){
-    return  parDef.Speed * ( x - x * x - y * y  );//Change this function
-}
+const componentFZ = (t, x, y, z) => parDef.Speed * ( x - x * x - y * y  );//Change this function
 
 //Particle definition and motion
 class Particle{
@@ -241,7 +233,7 @@ class Particle{
 class SprottAttractor {
     
     constructor(){
-        this.speed = 0.6;
+        this.speed = 3.0;
         
         this.a = 2.07;
         this.b = 1.79;
@@ -250,12 +242,11 @@ class SprottAttractor {
         this.y = 0.47;
         this.z = -0.54;
         
-        this.h = .03;
+        this.h = .01;
         this.scale = 1;
     }
     
     generatePoint( x, y, z ) {
-        
         
         var nx = this.speed * (y + this.a * x * y + x * z) ;
         var ny =  this.speed * (1 - this.b * x * x + y * z) ;

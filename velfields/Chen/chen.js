@@ -53,7 +53,6 @@ function backAttractors () {
     window.location.href = "https://jcponce.github.io/strange-attractors/#chen";
 }
 
-
 function setup() {
     
     attractor = new ChenAttractor();
@@ -74,7 +73,7 @@ function setup() {
     
     console.log(Dw.EasyCam.INFO);
     
-    easycam = new Dw.EasyCam(this._renderer, {distance : 40});
+    easycam = new Dw.EasyCam(this._renderer, {distance : 45});
     
     // place initial samples
     initSketch();
@@ -221,17 +220,12 @@ function draw(){
 }
 
 
-function componentFX(t, x, y, z){
-    return  parDef.Speed*( attractor.alpha * x- y * z );//Change this function
-}
+const componentFX = (t, x, y, z) => parDef.Speed*( attractor.alpha * x- y * z );//Change this function
 
-function componentFY(t, x, y, z){
-    return  parDef.Speed*(  attractor.beta * y + x * z);//Change this function
-}
 
-function componentFZ(t, x, y, z){
-    return parDef.Speed*( attractor.delta * z + x * y/3  );//Change this function
-}
+const componentFY = (t, x, y, z) => parDef.Speed*(  attractor.beta * y + x * z);//Change this function
+
+const componentFZ = (t, x, y, z) => parDef.Speed*( attractor.delta * z + x * y/3  );//Change this function
 
 //Particle definition and motion
 class Particle{
