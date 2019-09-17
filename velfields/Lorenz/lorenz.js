@@ -103,9 +103,9 @@ function initSketch(){
     var hleft = select('#hud-left');
     var hright = select('#hud-right');
     
-    createElement('li', 'p = '+ nfc(attractor.p,2) ).parent(hleft);
-    createElement('li', 'r = '+ nfc(attractor.r,2) ).parent(hleft);
-    createElement('li', 'b = '+ nfc(attractor.b,2) ).parent(hleft);
+    createElement('li', '&sigma; = '+ nfc(attractor.p,2) ).parent(hleft);
+    createElement('li', '&rho; = '+ nfc(attractor.r,2) ).parent(hleft);
+    createElement('li', '&beta; = '+ nfc(attractor.b,2) ).parent(hleft);
     
     createElement('li', '----------' ).parent(hleft);
     createElement('li', 'In. Cond.' ).parent(hleft);
