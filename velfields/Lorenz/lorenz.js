@@ -108,7 +108,7 @@ function initSketch(){
     createElement('li', '&beta; = '+ nfc(attractor.b,2) ).parent(hleft);
     
     createElement('li', '----------' ).parent(hleft);
-    createElement('li', 'In. Cond.' ).parent(hleft);
+    createElement('h3', 'Init. Cond.' ).parent(hleft);
     
     createElement('li', 'x<sub>1</sub> = '+ nfc(attractor.x,2) ).parent(hleft);
     createElement('li', 'y<sub>1</sub> = '+ nfc(attractor.y,2) ).parent(hleft);
