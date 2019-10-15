@@ -6,7 +6,7 @@
  
 // Updated Jan-2019
 
-let easycam;
+let easycam;//3d enviroment
 
 let particles = [];
 let points = [];
@@ -219,7 +219,7 @@ class Particle{
     
 }
 
-//Define attracto class for drawing the solution curve
+//Define attractor class for drawing the solution curve
 class ThomasAttractor {
     
     constructor(){
