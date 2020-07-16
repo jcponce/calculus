@@ -39,6 +39,10 @@ level: 15
 
 let mic;
 
+let complex = [];
+let n = [];
+let nt;
+
 function setup() {
     
     // create gui (dat.gui)
@@ -66,6 +70,16 @@ function setup() {
     
     mic = new p5.AudioIn();
     startMicro();
+
+    nt = getRndInteger(2, 4);
+  
+    for (let i = 0; i < 4; i++) {
+        complex[i] = new p5.Vector(random(-1, 1), random(-1, 1));
+      }
+    
+      for (let i = 0; i < 4; i++) {
+        n[i] = getRndInteger(-30, 30);
+      }
 }
 
 function startMicro(){
@@ -114,11 +128,11 @@ function draw(){
     rotateZ(0.4);
     
     //Create the rainbow loops
-    for(let i=1; i<=35; i++){
+    for(let i=1; i<=30; i++){
         if(parDef.horn==true){
            //size, posz, strSize, hu
-           noiseCircle(1/i, ((i+0.2)*70-70)/8, (35-i)/15, (i-1)/35);
-        } else noiseCircle(1, (i*70-70)/5, (35-i)/18, (i-1)/35);
+           noiseCircle(1/i, ((i+0.2)*70-70)/8, (30-i)/15, (i-1)/30);
+        } else noiseCircle(1, (i*70-70)/5, (30-i)/18, (i-1)/30);
     }
 
     //Update values
@@ -149,7 +163,7 @@ function noiseCircle(size, posz, strSize, hu){
     }else{
         noiseMax = parDef.level;
     }
-    for (let a = 0; a < TWO_PI; a += 0.03) {
+    for (let a = 0; a < TWO_PI; a += 0.01) {
         let xoff = map(cos(a + phase), -1, 1, 0, noiseMax);
         let yoff = map(sin(a + phase), -1, 1, 0, noiseMax);
         let r = map(noise(xoff, yoff, zoff), 0, 1, 100, height / 2);
@@ -158,9 +172,34 @@ function noiseCircle(size, posz, strSize, hu){
         noFill();
         let x = size * r * cos(a);
         let y = size * r * sin(a);
+        //let v = sumCurve(complex, n, nt, a);
+        //let x = size * r * v.x;
+        //let y = size * r * v.y;
         
         vertex(x, y, posz);
     }
     endShape(CLOSE);
     
 }
+
+function sumCurve(pos, n, terms, t) {
+    let sumX = 0;
+    let sumY = 0;
+    let k = 0;
+    while (k < terms) {
+      let x = pos[k].x;
+      let y = pos[k].y;
+      let c = n[k];
+      sumX += x * cos(c * t) - y * sin(c * t);
+      sumY += x * sin(c * t) + y * cos(c * t);
+      k++
+    }
+    let size = 0.2;//width * 0.9 / 10 ;
+    sumX = sumX * size;
+    sumY = sumY * size;
+    return createVector(sumX, sumY);
+  }
+
+  function getRndInteger(min, max) {
+    return Math.floor(Math.random() * (max - min + 1)) + min;
+  }
