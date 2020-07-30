@@ -68,7 +68,7 @@ function setup() {
     gui.add(parDef, 'Preset'  );
     gui.add(this, 'backAttractors').name("Go Back");
     
-    pixelDensity(1);
+    pixelDensity(2);
     
     let canvas = createCanvas(windowWidth, windowHeight, WEBGL);
     setAttributes('antialias', true);
@@ -177,7 +177,8 @@ function draw(){
     background(0);
     
     translate(0,0,-23);
-    
+    push();
+    noFill();
     beginShape(POINTS);
     for (let k=0; k<addPoints;k++) {
         stroke(128, 200, 255);
@@ -186,6 +187,7 @@ function draw(){
         
     }
     endShape();
+    pop();
     
     beginShape(POINTS);
     for (let l=0; l<addPoints;l++) {

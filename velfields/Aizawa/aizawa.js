@@ -62,7 +62,7 @@ function setup() {
     gui.add(parDef, 'Preset'  );
     gui.add(this, 'backAttractors').name("Go Back");
     
-    pixelDensity(1);
+    pixelDensity(2);
     
     let canvas = createCanvas(windowWidth, windowHeight, WEBGL);
     setAttributes('antialias', true);
@@ -150,7 +150,9 @@ function draw(){
     rotateY(0);
     rotateZ(0.9)
     let hu = 0;
-    beginShape(POINTS);
+    push();
+    noFill();
+    beginShape();
     for (let v of points) {
         stroke(hu, 193, 255);
         strokeWeight(0.01);
@@ -162,6 +164,7 @@ function draw(){
         }
     }
     endShape();
+    pop();
     
     if(parDef.Particles==true){
     //updating and displaying the particles
