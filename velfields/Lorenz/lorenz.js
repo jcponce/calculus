@@ -54,6 +54,10 @@ function backAttractors () {
     window.location.href = "https://jcponce.github.io/strange-attractors/#lorenz";
 }
 
+function goButterflies() {
+    window.location.href = "https://editor.p5js.org/jcponce/present/WUmXSTPvr";
+}
+
 
 function setup() {
     
@@ -66,6 +70,7 @@ function setup() {
     gui.add(parDef, 'Animate' ).name("Compare");
     gui.add(parDef, 'Randomize'  );
     gui.add(parDef, 'Preset'  );
+    gui.add(this, 'goButterflies').name("Butterflies");
     gui.add(this, 'backAttractors').name("Go Back");
     
     pixelDensity(2);
