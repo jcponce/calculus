@@ -55,7 +55,7 @@ function backAttractors () {
 }
 
 function goButterflies() {
-    window.location.href = "https://editor.p5js.org/jcponce/present/WUmXSTPvr";
+    window.location.href = "../Lorenz-Butterflies";
 }
 
 

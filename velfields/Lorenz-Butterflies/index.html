@@ -1,0 +1,53 @@
+<html>
+
+<head>
+    <title>Lorenz attractor</title>
+
+    <meta charset="UTF-8">
+
+    <!-- PLEASE NO CHANGES BELOW THIS LINE (UNTIL I SAY SO) -->
+    <script src="p5.min.js"></script>
+    <script src="p5.easycam.min.js"></script>
+
+    <script language="javascript" type="text/javascript" src="dat.gui.min.js"></script>
+    <!-- OK, YOU CAN MAKE CHANGES BELOW THIS LINE AGAIN -->
+
+    <!-- This line removes any default padding and style.
+             You might only need one of these values set. -->
+    <link rel="stylesheet" type="text/css" href="style.css">
+
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-121691678-1"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+
+        function gtag() {
+            dataLayer.push(arguments);
+        }
+        gtag('js', new Date());
+
+        gtag('config', 'UA-121691678-1');
+    </script>
+
+</head>
+
+<body>
+    <div id="easycamhud" class="hud unselectable">
+        <h3>Parameters</h3>
+        <div>
+            <ul id="hud-left" class="two"></ul>
+            <ul id="hud-right" class="two"></ul>
+        </div>
+
+    </div>
+
+    <script language="javascript" type="text/javascript" src="aux.js"></script>
+    <script language="javascript" type="text/javascript" src="initial.js"></script>
+    <script language="javascript" type="text/javascript" src="attractor.js"></script>
+    <script language="javascript" type="text/javascript" src="particle.js"></script>
+    <script language="javascript" type="text/javascript" src="sketch.js"></script>
+
+
+</body>
+
+</html>
