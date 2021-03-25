@@ -43,7 +43,7 @@ function setup() {
   let gui = new dat.GUI({
     width: 300
   });
-  gui.add(clts, 'ode', ["y'=cos(xy)", "y'=x+y", "y'=sin(x)cos(y)", "y'=cos(x)*y^2", "y'=log(x)log(y)", "y'=tan(x)cos(y)", "y'=4cos(y)(1-y)", "Pendulum", "Oval", "x''=-g*x'-sin(x)+F", "Lotka-Volterra", "Spiral", "Diamonds periodic", "Diamonds sinks", "Random linear", "Double rotational", "Circle attractor", "Non Linear 1", "van der Pol", "Non Linear 2", "Source & Sink", "Doublet"]).name("Select:").onChange(userSelection);
+  gui.add(clts, 'ode', ["y'=cos(xy)", "y'=x+y", "y'=sin(x)cos(y)", "y'=cos(x)*y^2", "y'=log(x)log(y)", "y'=tan(x)cos(y)", "y'=4cos(y)(1-y)", "Pendulum", "Oval", "x''=-g*x'-sin(x)+F", "Lotka-Volterra", "Spiral", "Diamonds periodic", "Diamonds sinks", "Random linear", "Double rotational", "Circle attractor", "Non Linear 1", "van der Pol", "Non Linear 2", "Source & Sink", "Doublet", "Sinks and flow"]).name("Select:").onChange(userSelection);
   gui.add(clts, 'nparticles', 0, 6000, 1).name(" Max n = ");
   gui.add(clts, 'trace').name("Streamlines");
   gui.add(clts, 'neg', ["Positive", "Negative", "Pos/Neg"]).name("Direction").onChange(removeParticles);
@@ -229,7 +229,8 @@ function getSlopeY(x, y) {
       return 2 * 0.5 * 0.5 * x * y;
     case 21:
       return -(2 * 0.5 * 0.5 * x * y) / pow(0.5 * 0.5 * x * x + 0.5 * 0.5 * y * y, 2);
-
+    case 22:
+      return Math.sin(x + y + Math.PI);
   }
 }
 
@@ -276,7 +277,8 @@ function getSlopeX(x, y) {
       return (0.5 * 0.5 * x * x - 0.5 * 0.5 * y * y - 1);
     case 21:
       return (pow(0.5 * x, 4) + 0.5 * 0.5 * x * x * (2 * 0.5 * 0.5 * y * y - 1) + pow(0.5 * y, 4) + 0.5 * 0.5 * y * y) / pow(0.5 * 0.5 * x * x + 0.5 * 0.5 * y * y, 2);
-
+    case 22:
+      return y;
   }
 }
 
@@ -347,6 +349,9 @@ function userSelection() {
   }
   if (clts.ode === "Doublet") {
     variation = 21;
+  }
+  if (clts.ode === "Sinks and flow") {
+    variation = 22;
   }
 
   redraw();
