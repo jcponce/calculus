@@ -8,8 +8,8 @@
 
 let easycam; //3d enviroment
 
-let particles = [];
-let points = [];
+let particles = []; 
+let points = []; // Points on curve
 
 let attractor; //Define attractor
 
@@ -158,17 +158,15 @@ function draw() {
             }
         }
     }
-    // gizmo
+    // gizmo for reference
     //strokeWeight(0.1);
     //stroke(255, 32,  0); line(0,0,0,2,0,0);
     //stroke( 32,255, 32); line(0,0,0,0,2,0);
     //stroke(  0, 32,255); line(0,0,0,0,0,2);
 
-    //console.log(attractor.b);
-
 }
 
-//Define system funtions for using in Particle class
+//Define system of funtions for using in Particle class
 const componentFX = (t, x, y, z) => parDef.Speed * (sin(y) - attractor.b * x); //Change this function
 
 const componentFY = (t, x, y, z) => parDef.Speed * (sin(z) - attractor.b * y); //Change this function
@@ -230,7 +228,7 @@ function rungeKutta(time, x, y, z, h) {
     };
 }
 
-//Particle class definition and motion
+//Particle class definition for animation
 class Particle {
 
     constructor(_x, _y, _z, _t, _h) {
