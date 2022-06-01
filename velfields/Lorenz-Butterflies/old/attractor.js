@@ -2,6 +2,7 @@ class LorenzAttractor {
 
   constructor() {
     
+
     this.p = 10.0;
     this.r = 28.0;
     this.b = 8.0 / 3.0;
@@ -20,6 +21,7 @@ class LorenzAttractor {
   }
 
   generatePoint(x, y, z) {
+
 
     var nx = (this.p * (-x + y));
     var ny = (-x * z + this.r * x - y);

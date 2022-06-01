@@ -5,7 +5,7 @@
  * https://jcponce.github.io/
  */
  
-// Updated 31-May-2022 
+// Updated 1-Aug-2020 
 
 let easycam;
 
@@ -25,7 +25,7 @@ function setup() {
   console.log(Dw.EasyCam.INFO);
 
   easycam = new Dw.EasyCam(this._renderer, {
-    distance: 60
+    distance: 70
   });
   
   pixelDensity(2);
@@ -43,8 +43,7 @@ function setup() {
   gui.add(parDef, 'Animate').name("Animate C");
   gui.add(parDef, 'Randomize');
   gui.add(parDef, 'Preset');
-  gui.add(parDef, 'Snapshot');
-  gui.add(this, 'backHome').name("See more");
+  gui.add(this, 'backHome').name("Back home");
 
   // Place initial samples
   initSketch();
@@ -63,7 +62,7 @@ function draw() {
   ambientLight(255);
   rotateX(PI / 2);
   rotateZ(-0.6);
-  translate(-5, 0, -23);
+  translate(0, 0, -23);
 
   if (parDef.Particles == true) {
     //updating and displaying the particles
@@ -92,7 +91,7 @@ function draw() {
     beginShape();
     for (let k = 0; k < addPoints; k++) {
       stroke(41, 82, 163);
-      strokeWeight(0.1);
+      strokeWeight(3);
       vertex(points[k].x, points[k].y, points[k].z);
     }
     endShape();

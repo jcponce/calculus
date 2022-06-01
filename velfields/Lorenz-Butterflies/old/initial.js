@@ -19,6 +19,7 @@ let parDef = {
   Curve: true,
   Animate: false,
   Preset: function() {
+    removeElements();
     this.Speed = 0.35;
     this.Particles = true;
     this.Curve = true;
@@ -34,14 +35,23 @@ let parDef = {
     initSketch();
   },
   Randomize: randomCurve,
-  Snapshot: saveImage,
 };
 
-function saveImage() {
-  save('lorenz-attractor.jpg');
-}
-
 function initSketch() {
+
+  let hleft = select('#hud-left');
+  let hright = select('#hud-right');
+
+  createElement('li', '&sigma; = ' + nfc(attractor.p, 2)).parent(hleft);
+  createElement('li', '&rho; = ' + nfc(attractor.r, 2)).parent(hleft);
+  createElement('li', '&beta; = ' + nfc(attractor.b, 2)).parent(hleft);
+
+  createElement('li', '----------').parent(hleft);
+  createElement('h3', 'Init. Cond.').parent(hleft);
+
+  createElement('li', 'x<sub>1</sub> = ' + nfc(attractor.x, 2)).parent(hleft);
+  createElement('li', 'y<sub>1</sub> = ' + nfc(attractor.y, 2)).parent(hleft);
+  createElement('li', 'z<sub>1</sub> = ' + nfc(attractor.z, 2)).parent(hleft);
 
 
   let p = {
