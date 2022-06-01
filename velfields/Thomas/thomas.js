@@ -40,46 +40,6 @@ let parDef = {
     Randomize: randomCurve,
 };
 
-
-function backAttractors() {
-    window.location.href = "https://jcponce.github.io/strange-attractors/#thomas";
-}
-
-function setup() {
-
-    attractor = new ThomasAttractor();
-
-    // create gui (dat.gui)
-    let gui = new dat.GUI();
-    gui.add(parDef, 'Attractor');
-    gui.add(parDef, 'Speed', 0, 8, 0.01).listen();
-    gui.add(parDef, 'Particles');
-    gui.add(parDef, 'Randomize');
-    gui.add(parDef, 'Preset');
-    gui.add(this, 'backAttractors').name("Go Back");
-
-    pixelDensity(2);
-
-    let canvas = createCanvas(windowWidth, windowHeight, WEBGL);
-    setAttributes('antialias', true);
-
-    console.log(Dw.EasyCam.INFO);
-
-    easycam = new Dw.EasyCam(this._renderer, {
-        distance: 10
-    });
-
-    // place initial samples
-    initSketch();
-
-}
-
-function windowResized() {
-    resizeCanvas(windowWidth, windowHeight);
-    easycam.setViewport([0, 0, windowWidth, windowHeight]);
-
-}
-
 function randomCurve() {
     for (var i = points.length - 1; i >= 0; i -= 1) {
         points.splice(i, 1);
@@ -125,6 +85,35 @@ function initSketch() {
     for (var i = 0; i < numMax; i++) {
         particles[i] = new Particle(random(-m, m), random(-m, m), random(-m, m), t, h);
     }
+
+}
+
+function setup() {
+
+    attractor = new ThomasAttractor();
+
+    // create gui (dat.gui)
+    let gui = new dat.GUI();
+    gui.add(parDef, 'Attractor');
+    gui.add(parDef, 'Speed', 0, 8, 0.01).listen();
+    gui.add(parDef, 'Particles');
+    gui.add(parDef, 'Randomize');
+    gui.add(parDef, 'Preset');
+    gui.add(this, 'backAttractors').name("Go Back");
+
+    pixelDensity(2);
+
+    let canvas = createCanvas(windowWidth, windowHeight, WEBGL);
+    setAttributes('antialias', true);
+
+    console.log(Dw.EasyCam.INFO);
+
+    easycam = new Dw.EasyCam(this._renderer, {
+        distance: 10
+    });
+
+    // place initial samples
+    initSketch();
 
 }
 
@@ -311,5 +300,15 @@ class ThomasAttractor {
         this.z = random(-1, 1);
 
     }
+
+}
+
+function backAttractors() {
+    window.location.href = "https://jcponce.github.io/strange-attractors/#thomas";
+}
+
+function windowResized() {
+    resizeCanvas(windowWidth, windowHeight);
+    easycam.setViewport([0, 0, windowWidth, windowHeight]);
 
 }
