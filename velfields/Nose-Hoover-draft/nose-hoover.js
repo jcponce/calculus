@@ -26,7 +26,6 @@ Attractor: 'Thomas',
 Speed: 4,
 Particles: true,
 Preset: function() {
-    removeElements();
     this.Speed = 4;
     this.Particles = true;
     attractor.b = 1.5;
@@ -80,7 +79,6 @@ function windowResized() {
 }
 
 function randomCurve() {
-    removeElements();
         for (var i=points.length-1; i>=0; i-=1){
             points.splice(i,1);
         }

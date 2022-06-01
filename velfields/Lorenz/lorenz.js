@@ -28,7 +28,6 @@ Speed: 1.0,
 Particles: true,
 Animate: false,
 Preset: function() {
-    removeElements();
     this.Speed = 1.0;
     this.Particles = true;
     attractor.p = 10.0;
@@ -93,7 +92,6 @@ function windowResized() {
 }
 
 function randomCurve() {
-    removeElements();
     for (var i = points.length-1; i>=0; i-=1){
         points.splice(i,1);
         points2.splice(i,1);

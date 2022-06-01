@@ -27,7 +27,6 @@ Attractor: 'Four-Wing',
 Speed: 3.0,
 Particles: true,
 Preset: function() {
-    removeElements();
     this.Particles = true;
     this.Speed = 3.0;
     attractor.a = 0.2;
@@ -81,7 +80,6 @@ function windowResized() {
 }
 
 function randomCurve() {
-    removeElements();
     for (var i = points.length-1; i>=0; i-=1){
         points.splice(i,1);
     }

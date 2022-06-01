@@ -26,7 +26,6 @@ Attractor: 'Rössler',
 Speed: 1.0,
 Particles: true,
 Preset: function() {
-    removeElements();
     this.Speed = 1.0;
     this.Particles = true;
     attractor.a = 0.2;
@@ -82,7 +81,6 @@ function windowResized() {
 }
 
 function randomCurve() {
-    removeElements();
     for (var i = points.length-1; i>=0; i-=1){
         points.splice(i,1);
     }
