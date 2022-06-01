@@ -44,7 +44,7 @@ function setup() {
   gui.add(parDef, 'Randomize');
   gui.add(parDef, 'Preset');
   gui.add(parDef, 'Snapshot');
-  gui.add(this, 'backHome').name("See more");
+  //gui.add(this, 'backHome').name("See more");
 
   // Place initial samples
   initSketch();
