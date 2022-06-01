@@ -9,9 +9,9 @@
 let easycam; //3d enviroment
 
 let particles = []; 
-let points = []; // Points on curve
+let points = []; //Points on curve
 
-let attractor; //Define attractor
+let attractor; //Attractor
 
 let NUM_POINTS = 4000; //num of points in curve
 
@@ -20,7 +20,7 @@ let t = 0;
 let h = 0.027;
 
 
-// settings and presets
+// Settings and presets
 let parDef = {
     Attractor: 'Thomas',
     Speed: 4,
@@ -135,6 +135,8 @@ function draw() {
 
     // BG
     background(0);
+
+    // Plot curve
     push();
     noFill();
     beginShape(POINTS);
@@ -146,6 +148,7 @@ function draw() {
     endShape();
     pop();
 
+    // Render particles
     if (parDef.Particles == true) {
         //updating and displaying the particles
         for (var i = particles.length - 1; i >= 0; i -= 1) {
