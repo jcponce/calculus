@@ -4,7 +4,7 @@
  * Written by Juan Carlos Ponce Campuzano, 19-Jul-2018
  */
 
-// Updated Jan-2019
+// Updated 01/Jun-2022
 
 let easycam;
 let particles = [];
@@ -179,6 +179,61 @@ const componentFY = (t, x, y, z) => 0.2 * parDef.Speed * ( x * ( 3 * z + 1 - x *
 
 const componentFZ = (t, x, y, z) => 0.2 * parDef.Speed * ( - 2 * z * ( attractor.alpha + x * y ) );//Change this function
 
+// Runge-Kutta method
+function rungeKutta(time, x, y, z, h) {
+    let k1 = componentFX(time, x, y, z);
+    let j1 = componentFY(time, x, y, z);
+    let i1 = componentFZ(time, x, y, z);
+
+    let k2 = componentFX(
+        time + (1 / 2) * h,
+        x + (1 / 2) * h * k1,
+        y + (1 / 2) * h * j1,
+        z + (1 / 2) * h * i1
+    );
+    let j2 = componentFY(
+        time + (1 / 2) * h,
+        x + (1 / 2) * h * k1,
+        y + (1 / 2) * h * j1,
+        z + (1 / 2) * h * i1
+    );
+    let i2 = componentFZ(
+        time + (1 / 2) * h,
+        x + (1 / 2) * h * k1,
+        y + (1 / 2) * h * j1,
+        z + (1 / 2) * h * i1
+    );
+    let k3 = componentFX(
+        time + (1 / 2) * h,
+        x + (1 / 2) * h * k2,
+        y + (1 / 2) * h * j2,
+        z + (1 / 2) * h * i2
+    );
+    let j3 = componentFY(
+        time + (1 / 2) * h,
+        x + (1 / 2) * h * k2,
+        y + (1 / 2) * h * j2,
+        z + (1 / 2) * h * i2
+    );
+    let i3 = componentFZ(
+        time + (1 / 2) * h,
+        x + (1 / 2) * h * k2,
+        y + (1 / 2) * h * j2,
+        z + (1 / 2) * h * i2
+    );
+    let k4 = componentFX(time + h, x + h * k3, y + h * j3, z + h * i3);
+    let j4 = componentFY(time + h, x + h * k3, y + h * j3, z + h * i3);
+    let i4 = componentFZ(time + h, x + h * k3, y + h * j3, z + h * i3);
+    x = x + (h / 6) * (k1 + 2 * k2 + 2 * k3 + k4);
+    y = y + (h / 6) * (j1 + 2 * j2 + 2 * j3 + j4);
+    z = z + (h / 6) * (i1 + 2 * i2 + 2 * i3 + i4);
+    return {
+        u: x,
+        v: y,
+        w: z
+    };
+}
+
 //Particle definition and motion
 class Particle{
     
@@ -196,21 +251,12 @@ class Particle{
     }
     
     update() {
-        this.k1 = componentFX(this.time, this.x, this.y, this.z);
-        this.j1 = componentFY(this.time, this.x, this.y, this.z);
-        this.i1 = componentFZ(this.time, this.x, this.y, this.z);
-        this.k2 = componentFX(this.time + 1/2 * this.h, this.x + 1/2 * this.h * this.k1, this.y + 1/2 * this.h * this.j1, this.z + 1/2 * this.h * this.i1);
-        this.j2 = componentFY(this.time + 1/2 * this.h, this.x + 1/2 * this.h * this.k1, this.y + 1/2 * this.h * this.j1, this.z + 1/2 * this.h * this.i1);
-        this.i2 = componentFZ(this.time + 1/2 * this.h, this.x + 1/2 * this.h * this.k1, this.y + 1/2 * this.h * this.j1, this.z + 1/2 * this.h * this.i1);
-        this.k3 = componentFX(this.time + 1/2 * this.h, this.x + 1/2 * this.h * this.k2, this.y + 1/2 * this.h * this.j2, this.z + 1/2 * this.h * this.i2);
-        this.j3 = componentFY(this.time + 1/2 * this.h, this.x + 1/2 * this.h * this.k2, this.y + 1/2 * this.h * this.j2, this.z + 1/2 * this.h * this.i2);
-        this.i3 = componentFZ(this.time + 1/2 * this.h, this.x + 1/2 * this.h * this.k2, this.y + 1/2 * this.h * this.j2, this.z + 1/2 * this.h * this.i2);
-        this.k4 = componentFX(this.time + this.h, this.x + this.h * this.k3, this.y + this.h * this.j3, this.z + this.h * this.i3);
-        this.j4 = componentFY(this.time + this.h, this.x + this.h * this.k3, this.y + this.h * this.j3, this.z + this.h * this.i3);
-        this.i4 = componentFZ(this.time + this.h, this.x + this.h * this.k3, this.y + this.h * this.j3, this.z + this.h * this.i3);
-        this.x = this.x + this.h/6 *(this.k1 + 2 * this.k2 + 2 * this.k3 + this.k4);
-        this.y = this.y + this.h/6 *(this.j1 + 2 * this.j2 + 2 * this.j3 + this.j4);
-        this.z = this.z + this.h/6 *(this.i1 + 2 * this.i2 + 2 * this.i3 + this.i4);
+        let tmp = rungeKutta(this.time, this.x, this.y, this.z, this.h);
+
+        this.x = tmp.u;
+        this.y = tmp.v;
+        this.z = tmp.w;
+
         this.time += this.h;
     }
     
