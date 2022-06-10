@@ -19,12 +19,13 @@
  *
  */
 
-let N = 2500;//number of particles
-let chl;
-let time; //Does not run forever
+let N = 2500; // Max number of particles
+let chl; // Variable to store Chladni particles
+let time; // Does not run forever
 
-// settings and presets
+// settings and presets to use with dat.gui
 let parDef = {
+  nParticles: 1000,
   play: true,
   frq: 0.15,
   //elasticity: 0.5,
@@ -52,14 +53,13 @@ function setup() {
   //createCanvas(windowWidth, windowHeight);
   createCanvas(500, 500);
   pixelDensity(1);
-    smooth();
+  smooth();
   //frameRate(60);
-  //blendMode(BLEND);
-  //colorMode(HSB, 255);
     
   //Gui controls
   let gui = new dat.GUI( { width: 290 } );
   gui.add(parDef, 'play').name('Animation');
+  gui.add(parDef, 'nParticles', 0, 2500, 1).name('Particles').listen(); // Number of particles on animation
   gui.add(parDef, 'frq', 0.03, 0.6, 0.001).name('Frequency').listen();
   //gui.add(parDef, 'elasticity', 0.001, 2, 0.001).name('Elasticity').listen();
   gui.add(parDef, 'canvasSize', ['Square', 'Landscape', 'Full-Screen'] ).name("Size: ").onChange(screenSize);
@@ -89,13 +89,16 @@ function setup() {
   gui.close();
   //Ends GUI controls
 
+  // Add draggable points
   for (let i = 0; i < parDef.nPoints; i++) {
     pushRandomCircle();
   }
 
+  // Set Chladni particles to animate
   chl = new Chladni(N, ptsD);
   chl.init();
     
+  // Reset my dragable points to specific positions
   resetPoints();
     
 } // setup()
@@ -112,6 +115,7 @@ function draw() {
     
   chl.run();//Chladni is updated
   chl.F = parDef.frq;
+  chl.N = parDef.nParticles;
   
   //Draggable objects
   if(parDef.showOcs===true){
@@ -204,10 +208,6 @@ function screenSize() {
     resetPoints();
 }
 
-//function windowResized() {
-//    resizeCanvas(windowWidth, windowHeight);
-//    resetPoints();
-//}
 
 function resetPoints() {
     let nx, ny;
@@ -241,6 +241,13 @@ function resetPoints() {
 }
 
 let textIni = true;
+
+let ptsD = [];
+// Make a new circle
+function pushRandomCircle() {
+  let dragP = new Draggable(); // Create a new circle
+  ptsD.push(dragP); // Add the new circle to the points
+}
 
 function mousePressed() {
 
@@ -276,9 +283,4 @@ function touchEnded() {
     }
 }
 
-let ptsD = [];
-// Make a new circle
-function pushRandomCircle() {
-  let dragP = new Draggable(); // Create a new circle
-  ptsD.push(dragP); // Add the new circle to the points
-}
+
