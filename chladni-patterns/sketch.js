@@ -1,22 +1,22 @@
 /* p5.js (https://p5js.org/)
- * Under Creative Commons License
- * https://creativecommons.org/licenses/by-sa/4.0/
- * Written by Juan Carlos Ponce Campuzano, 06-Aug-2019
- * https://jcponce.github.io/
- *
- * This Chladni patterns simulation is based upon the work
- * of KaijinQ https://www.openprocessing.org/user/44852
- * The original sketch was written in Processing and can be
- * found here: https://www.openprocessing.org/sketch/715119
- * In this p5 version, I rewrote the Chladni particles as a
- * class and added some draggable points to play with different
- * patterns and some parameters that can be modified by the user.
- *
- * I am still learning about the maths behind these amazing patterns.
- * For now, it looks pretty cool.
- *
- * Last update: 15-Aug-19
- *
+  Under Creative Commons License
+  https://creativecommons.org/licenses/by-sa/4.0/
+  Written by Juan Carlos Ponce Campuzano, 06-Aug-2019
+  https://jcponce.github.io/
+ 
+  This Chladni patterns simulation is based upon the work
+  of KaijinQ https://www.openprocessing.org/user/44852
+  The original sketch was written in Processing and can be
+  found here: https://www.openprocessing.org/sketch/715119
+  In this p5 version, I rewrote the Chladni particles as a
+  class and added some draggable points to play with different
+  patterns and some parameters that can be modified by the user.
+ 
+  I am still learning about the maths behind these amazing patterns.
+  For now, it looks pretty cool.
+ 
+  Last update: 11-June-22
+ 
  */
 
 let N = 2500; // Max number of particles
