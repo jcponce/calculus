@@ -160,7 +160,7 @@ function draw() {
     //text("Change values with controls", width / 2, 110)
   }
     
-  if(time > 6 * 60){//6 minutes max runnig time, so it does not crash :)
+  if(time > 10 * 60){// 10 minutes max runnig time, so it does not crash. Suggested by Alex :)
     noStroke()
     fill(70);
     rectMode(CENTER);
