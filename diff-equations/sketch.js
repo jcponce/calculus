@@ -357,7 +357,7 @@ function userSelection() {
   redraw();
 }
 
-function windowSize(){
+function windowResized(){
     resizeCanvas(windowWidth, windowHeight);
 }
 
