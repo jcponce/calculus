@@ -41,6 +41,7 @@
     // Dat GUI
     var gui = new dat.GUI();
     var props = {
+      k: 1, 
       speed: 2,
       x: 0,
       y: 0,
@@ -54,7 +55,8 @@
       rotate: false,
     };
     //gui.add(props, 'rotate')
-    gui.add(props, 'speed').min(-10).max(10).step(.1).name('k')
+    gui.add(props, 'k').min(-3).max(3).step(.1)
+    gui.add(props, 'speed').min(0).max(2).step(.1)
     //gui.add(props, 'x').min(-1).max(1).step(.05)
     //gui.add(props, 'y').min(-1).max(1).step(.05)
     //gui.add(props, 'z').min(-1).max(1).step(.05)
@@ -113,8 +115,8 @@
       //var torus = 1/(.1 + offset*offset + y*y);
 
       var r = x*x + y*y;
-      var cx = -y/r;
-      var cy = x/r;
+      var cx = - props.k * y/r;
+      var cy = props.k * x/r;
       var cz = 0;
 
       v.set(cx, cy, cz);
