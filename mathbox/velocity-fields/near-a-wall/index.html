@@ -42,20 +42,19 @@
     var gui = new dat.GUI();
     var props = {
       k: 0.5,
-      speed: 2,
+      speed: 1,
       x: 0,
       y: 0,
       z: 0,
       jitter: 1,
-      steps: 8,
+      steps: 10,
       respawn: 0.0005,
       fixed: false,
-      field1: true,
-      field2: false,
+      //field1: true,
       rotate: false,
     };
     //gui.add(props, 'rotate')
-    gui.add(props, 'k').min(0.1).max(2.5).step(.1)
+    gui.add(props, 'k').min(0.1).max(3.0).step(.1)
     //gui.add(props, 'speed').min(0.0).max(10).step(.1)
     //gui.add(props, 'x').min(-1).max(1).step(.05)
     //gui.add(props, 'y').min(-1).max(1).step(.05)
@@ -64,8 +63,7 @@
     gui.add(props, 'fixed')
     //gui.add(props, 'respawn').min(0).max(.01).step(.0005)
     //gui.add(props, 'jitter').min(0).max(4).step(.05)
-    //gui.add(props, 'field1')
-    //gui.add(props, 'field2')
+
 
 
     // DOM
@@ -110,30 +108,11 @@
       y += props.y;
       z += props.z;
 
-      //var rad = Math.sqrt(x*x + z*z);
-      //var offset = rad - 1;
-      //var torus = 1/(.1 + offset*offset + y*y);
-
-      
       var cx = props.k * x;
       var cy = - props.k * y;
       var cz = 0;
 
       v.set(cx, cy, cz);
-      return v;
-    };
-
-    // Vector field 2
-    var field2 = function (x, y, z) {
-      x += props.x;
-      y += props.y;
-      z += props.z;
-
-      var rad = Math.sqrt(x * x + z * z);
-      var offset = rad - 1;
-      var torus = 1 / (.1 + offset * offset + y * y);
-
-      v.set(x * y * torus, -offset * torus, z * y * torus);
       return v;
     };
 
@@ -263,120 +242,12 @@
         width: 1,
         zBias: 3,
         end: true,
-      }, {
-        visible: function () {
-          return props.field1;
-        }
-      });
-
-    // Compute a 3D volume of integrated field lines
-    var previous2 = new Float32Array(SAMPLES * SAMPLES * SAMPLES * 3);
-    var data2 =
-      view
-      .volume({
-        expr: function (emit, x, y, z, i, j, k, t) {
-          var f;
-
-          var x1, y1, z1, x2, y2, z2, x3, y3, z3;
-          var delta = STEP * props.speed;
-
-          // Point index
-          var l = (i + (j + k * SAMPLES) * SAMPLES) * 3;
-
-          if (!props.fixed && Math.random() > props.respawn) {
-            // Keep integrating along same field line with X% probability.
-            x = previous2[l] || x;
-            y = previous2[l + 1] || y;
-            z = previous2[l + 2] || z;
-
-            // Take 1 step (Runge-Kutta 4)
-            f = field2(x, y, z);
-            va.copy(f);
-
-            x1 = x + f.x * delta * .5;
-            y1 = y + f.y * delta * .5;
-            z1 = z + f.z * delta * .5;
-
-            f = field2(x1, y1, z1);
-            vb.copy(f);
-
-            x2 = x + f.x * delta * .5;
-            y2 = y + f.y * delta * .5;
-            z2 = z + f.z * delta * .5;
-
-            f = field2(x2, y2, z2);
-            vc.copy(f);
-
-            x3 = x + f.x * delta;
-            y3 = y + f.y * delta;
-            z3 = z + f.z * delta;
-
-            f = field2(x3, y3, z3);
-            vd.copy(f);
-
-            va.multiplyScalar(1 / 6);
-            vb.multiplyScalar(2 / 6);
-            vc.multiplyScalar(2 / 6);
-            vd.multiplyScalar(1 / 6);
-
-            va.add(vb);
-            vc.add(vd);
-            f.addVectors(va, vc);
-
-            x += f.x * delta;
-            y += f.y * delta;
-            z += f.z * delta;
-          } else {
-            if (props.fixed) t = 0;
-
-            // Start at jittered home position
-            f = jitter(l + t);
-            x += f.x * JITTER;
-            y += f.y * JITTER;
-            z += f.z * JITTER;
-          }
-
-          previous2[l] = x;
-          previous2[l + 1] = y;
-          previous2[l + 2] = z;
-
-          // Emit MAX_STEPS points ahead
-          for (var i = 0; i < MAX_STEPS; ++i) {
-            emit(x, y, z);
-
-            // Only take selected number of steps
-            delta = (i >= MAX_STEPS - props.steps) ? STEP : 0.0001;
-
-            // Take DIVIDE steps (Euler)
-            for (var j = 0; j < DIVIDE; ++j) {
-              f = field2(x, y, z);
-              x += f.x * delta;
-              y += f.y * delta;
-              z += f.z * delta;
-            }
-          }
-
-        },
-        width: SAMPLES,
-        height: SAMPLES,
-        depth: SAMPLES,
-        items: MAX_STEPS,
-        channels: 2,
-      });
-
-    // Draw polyarrows
-    var vectors2 =
-      view
-      .vector({
-        color: 0xA00040,
-        width: 1,
-        zBias: 3,
-        end: true,
-      }, {
-        visible: function () {
-          return props.field2;
-        }
-      });
+      }, //{
+       // visible: function () {
+         // return props.field1;
+        //}
+      //}
+      );
 
     view.axis({
       detail: 30,
