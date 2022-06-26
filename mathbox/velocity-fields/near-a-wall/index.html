@@ -109,7 +109,7 @@
       z += props.z;
 
       var cx = props.k * x;
-      var cy = - props.k * y;
+      var cy = -props.k * y;
       var cz = 0;
 
       v.set(cx, cy, cz);
@@ -238,15 +238,15 @@
     var vectors =
       view
       .vector({
-        color: 0x4098FF,
-        width: 1,
-        zBias: 3,
-        end: true,
-      }, //{
-       // visible: function () {
-         // return props.field1;
+          color: 0x4098FF,
+          width: 1,
+          zBias: 3,
+          end: true,
+        }, //{
+        // visible: function () {
+        // return props.field1;
         //}
-      //}
+        //}
       );
 
     view.axis({
