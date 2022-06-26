@@ -223,7 +223,7 @@
             emit(x, y, z);
 
             // Only take selected number of steps
-            delta = (i >= MAX_STEPS - props.steps) ? STEP : 0.0001;
+            delta = (i >= MAX_STEPS - props.steps) ? STEP : 0.00001;
 
             // Take DIVIDE steps (Euler)
             for (let j = 0; j < DIVIDE; ++j) {
