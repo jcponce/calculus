@@ -13,20 +13,20 @@
 <body>
   <script>
     // Number of samples on each 3D axis
-    var SAMPLES = 12;
+    const SAMPLES = 12;
 
     // Accuracy of integration steps
-    var DIVIDE = 8;
-    var STEP = 1 / 32 / DIVIDE;
+    const DIVIDE = 8;
+    const STEP = 1 / 32 / DIVIDE;
 
     // Jitter range
-    var JITTER = 1 / SAMPLES;
+    const JITTER = 1 / SAMPLES;
 
     // Maximum integration steps drawn
-    var MAX_STEPS = 16;
+    const MAX_STEPS = 16;
 
     // Bootstrap MathBox
-    var mathbox = mathBox({
+    const mathbox = mathBox({
       plugins: ['core', 'controls', 'cursor', 'mathbox'],
       controls: {
         // Trackball controls, i.e. Free quaternion rotation
@@ -35,12 +35,12 @@
     });
     if (mathbox.fallback) throw "WebGL not supported"
 
-    var three = mathbox.three;
+    let three = mathbox.three;
     three.renderer.setClearColor(new THREE.Color(0x000000), 1.0);
 
     // Dat GUI
-    var gui = new dat.GUI();
-    var props = {
+    let gui = new dat.GUI();
+    let props = {
       k: 1,
       speed: 1,
       x: 0,
@@ -68,14 +68,14 @@
     // DOM
     mathbox.set('focus', 3);
 
-    var camera =
+    let camera =
       mathbox
       .camera({
         proxy: true,
         position: [0, 0, 3],
       });
 
-    var view =
+    let view =
       mathbox
       .set({
         focus: 3,
@@ -99,59 +99,56 @@
       });
 
     // Scratch vector
-    var v = new THREE.Vector3();
+    let v = new THREE.Vector3();
 
     // Vector field 1
-    var field = function (x, y, z) {
+    let field = function (x, y, z) {
       x += props.x;
       y += props.y;
       z += props.z;
 
-      //var rad = Math.sqrt(x*x + z*z);
-      //var offset = rad - 1;
-      //var torus = 1/(.1 + offset*offset + y*y);
-
-      var r = x * x + y * y;
-      var cx = -props.k * y / r;
-      var cy = props.k * x / r;
-      var cz = 0;
+      let r = x * x + y * y;
+      let cx = -props.k * y / r;
+      let cy = props.k * x / r;
+      let cz = 0;
 
       v.set(cx, cy, cz);
       return v;
     };
 
     // Random deterministic jitter
-    var rand = function (seed) {
+    let rand = (seed) => {
       var seed = (Math.abs(Math.sin(seed * seed * seed * 319.1981313 +
         seed * seed * 131.8455733 +
         seed * 473.3914129)) * 10631.1318791821) % 1;
       return seed * 2 - 1;
-    }
-    var jitter = function (i) {
+    };
+
+    let jitter = (i) => {
       v.set(rand(i), rand(i * i), rand(i * i * i));
       v.multiplyScalar(props.jitter);
       return v;
     };
 
     // RK4 scratch vectors
-    var va = new THREE.Vector3();
-    var vb = new THREE.Vector3();
-    var vc = new THREE.Vector3();
-    var vd = new THREE.Vector3();
+    let va = new THREE.Vector3();
+    let vb = new THREE.Vector3();
+    let vc = new THREE.Vector3();
+    let vd = new THREE.Vector3();
 
     // Compute a 3D volume of integrated field lines
-    var previous = new Float32Array(SAMPLES * SAMPLES * SAMPLES * 3);
-    var data =
+    let previous = new Float32Array(SAMPLES * SAMPLES * SAMPLES * 3);
+    let data =
       view
       .volume({
         expr: function (emit, x, y, z, i, j, k, t) {
-          var f;
+          let f;
 
-          var x1, y1, z1, x2, y2, z2, x3, y3, z3;
-          var delta = STEP * props.speed;
+          let x1, y1, z1, x2, y2, z2, x3, y3, z3;
+          let delta = STEP * props.speed;
 
           // Point index
-          var l = (i + (j + k * SAMPLES) * SAMPLES) * 3;
+          let l = (i + (j + k * SAMPLES) * SAMPLES) * 3;
 
           if (props.speed === 0) {
             props.respawn = 0;
@@ -215,14 +212,14 @@
           previous[l + 2] = z;
 
           // Emit MAX_STEPS points ahead
-          for (var i = 0; i < MAX_STEPS; ++i) {
+          for (let i = 0; i < MAX_STEPS; ++i) {
             emit(x, y, z);
 
             // Only take selected number of steps
             delta = (i >= MAX_STEPS - props.steps) ? STEP : 0.0001;
 
             // Take DIVIDE steps (Euler)
-            for (var j = 0; j < DIVIDE; ++j) {
+            for (let j = 0; j < DIVIDE; ++j) {
               f = field(x, y, z);
               x += f.x * delta;
               y += f.y * delta;
@@ -239,7 +236,7 @@
       });
 
     // Draw polyarrows
-    var vectors =
+    let vectors =
       view
       .vector({
           color: 0x4098FF,
