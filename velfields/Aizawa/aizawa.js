@@ -25,7 +25,7 @@ Attractor: 'Aizawa',
 Speed: 2.0,
 Particles: true,
 Preset: function() {
-    removeElements();
+    removeElements(); //https://p5js.org/reference/#/p5/removeElements
     this.Particles = true;
     this.Speed = 2.0;
     attractor.a = 0.95;

@@ -26,6 +26,7 @@ Attractor: 'Thomas',
 Speed: 4,
 Particles: true,
 Preset: function() {
+    removeElements(); //https://p5js.org/reference/#/p5/removeElements
     this.Speed = 4;
     this.Particles = true;
     attractor.b = 1.5;

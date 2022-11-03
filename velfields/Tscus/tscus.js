@@ -26,6 +26,7 @@ Attractor: 'Three-Scroll Unified Chaotic System',
 Speed: 1.0,
 Particles: true,
 Preset: function() {
+    removeElements(); //https://p5js.org/reference/#/p5/removeElements
     this.Speed = 1.0;
     this.Particles = true;
     attractor.a = 32.48;//40;

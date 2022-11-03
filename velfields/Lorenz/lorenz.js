@@ -28,6 +28,7 @@ Speed: 1.0,
 Particles: true,
 Animate: false,
 Preset: function() {
+    removeElements(); //https://p5js.org/reference/#/p5/removeElements
     this.Speed = 1.0;
     this.Particles = true;
     attractor.p = 10.0;

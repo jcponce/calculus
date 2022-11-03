@@ -27,6 +27,7 @@ Attractor: 'Four-Wing',
 Speed: 3.0,
 Particles: true,
 Preset: function() {
+    removeElements(); //https://p5js.org/reference/#/p5/removeElements
     this.Particles = true;
     this.Speed = 3.0;
     attractor.a = 0.2;
