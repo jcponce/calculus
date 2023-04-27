@@ -93,12 +93,14 @@ function windowResized() {
 }
 
 function randomCurve() {
+    removeElements();
     for (var i = points.length-1; i>=0; i-=1){
         points.splice(i,1);
         points2.splice(i,1);
     }
     attractor.randomize();
     initSketch();
+    
     
 }
 
