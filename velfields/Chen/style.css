@@ -1,5 +1,6 @@
 @import url(https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css);
 
+/*
 :root {
     /*--border_radius:  0px;*/
     /*--colorA: rgba(210, 110, 0, 0.9);*/
@@ -7,7 +8,7 @@
     /*--col_ORANGE: rgb(255,130,0);*/
     /*--box-shadow: 5px 5px 5px rgba(80, 35, 0, 0.5);*/
     /*--box-shadow-button: 0px 0px 5px rgba(0, 0, 0, 1);*/
-}
+/*}*/
 
 .unselectable{
     -moz-user-select: none;
