@@ -1,42 +1,69 @@
 <html>
-    <title>Sprott attractor</title>
-    <head>
-        <meta charset="UTF-8">
-            
-            <!-- PLEASE NO CHANGES BELOW THIS LINE (UNTIL I SAY SO) -->
-            <script language="javascript" type="text/javascript" src="../libraries/p5.min.js"></script>
-            <script language="javascript" type="text/javascript" src="../libraries/p5.dom.min.js"></script>
-            <script language="javascript" type="text/javascript" src="../libraries/p5.easycam.min.js"></script>
-            <script language="javascript" type="text/javascript" src="sprott.js"></script>
-            <script language="javascript" type="text/javascript" src="../libraries/dat.gui.min.js"></script>
-            <!-- OK, YOU CAN MAKE CHANGES BELOW THIS LINE AGAIN -->
-            
-            <!-- This line removes any default padding and style.
+<title>Sprott attractor</title>
+
+<head>
+    <meta charset="UTF-8">
+
+    <!-- PLEASE NO CHANGES BELOW THIS LINE (UNTIL I SAY SO) -->
+    <script language="javascript" type="text/javascript" src="../libraries/p5.min.js"></script>
+    <script language="javascript" type="text/javascript" src="../libraries/p5.dom.min.js"></script>
+    <script language="javascript" type="text/javascript" src="../libraries/p5.easycam.min.js"></script>
+    <script language="javascript" type="text/javascript" src="sprott.js"></script>
+    <script language="javascript" type="text/javascript" src="../libraries/dat.gui.min.js"></script>
+    <!-- OK, YOU CAN MAKE CHANGES BELOW THIS LINE AGAIN -->
+
+    <!-- This line removes any default padding and style.
              You might only need one of these values set. -->
-            <link rel="stylesheet" type="text/css" href="style.css">
-            <link rel="icon" type="image/png" href="https://dynamicmath.xyz/images/icon/infinity32.png" sizes="32x32">
-            <link rel="icon" type="image/png" href="https://dynamicmath.xyz/images/icon/infinity16.png" sizes="16x16">
-                
- <!-- Global site tag (gtag.js) - Google Analytics -->
- <script async src="https://www.googletagmanager.com/gtag/js?id=G-JPYTNF6MB4"></script>
- <script>
-     window.dataLayer = window.dataLayer || [];
-     function gtag(){dataLayer.push(arguments);}
-     gtag('js', new Date());
-     gtag('config', 'G-JPYTNF6MB4');
- </script>
-            
-    </head>
-    
-    <body>
-        <div id="easycamhud" class="hud unselectable">
-            <h3>Parameters</h3>
-            <div>
-                <ul id="hud-left" class="two"></ul>
-                <ul id="hud-right" class="two"></ul>
+    <link rel="stylesheet" type="text/css" href="style.css">
+    <link rel="icon" type="image/png" href="https://dynamicmath.xyz/images/icon/infinity32.png" sizes="32x32">
+    <link rel="icon" type="image/png" href="https://dynamicmath.xyz/images/icon/infinity16.png" sizes="16x16">
+
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-JPYTNF6MB4"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+        gtag('config', 'G-JPYTNF6MB4');
+    </script>
+
+</head>
+
+<body>
+    <div id="easycamhud" class="hud unselectable">
+        <h3>Parameters</h3>
+        <div>
+            <ul id="hud-left" class="two"></ul>
+            <ul id="hud-right" class="two"></ul>
+        </div>
+    </div>
+    <!-- The Modal -->
+    <div id="myModal" class="modal">
+
+        <!-- Modal content -->
+        <div class="modal-content">
+            <div class="modal-header">
+                <span class="close">&times;</span><br />
+                <strong>👋 Hello!</strong>
+            </div>
+            <div class="modal-body">
+
+                <div w3-include-html="../libraries/message.html"></div>
+
+            </div>
+            <div class="modal-footer">
+                Thank you! 🙏 I highly appreciate your support! 🤗
             </div>
         </div>
-        
-    </body>
-</html>
 
+    </div>
+    <!-- The Modal ends -->
+
+    <div class="support">
+        <p>❤️ Support in <a href="https://www.patreon.com/jcponce">Patreon</a></p>
+    </div>
+
+    <script language="javascript" type="text/javascript" src="../libraries/message.js"></script>
+</body>
+
+</html>
