@@ -135,7 +135,7 @@ ul .orange {
   -webkit-animation-duration: .4s;
   animation-name: animatetop;
   animation-duration: .4s;
-  font-size: 18px;
+  font-size: 17px;
   font-family: Verdana, Geneva, Tahoma, sans-serif;
   line-height: 1.6em;
   color: #262626
@@ -162,7 +162,7 @@ ul .orange {
   border: 1px #d8d8d8;
   border-radius: 8px;
   font-weight: 700;
-  font-size: 1em;
+  font-size: 17px;
   text-decoration: none !important
 }
 
