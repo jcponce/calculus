@@ -1,0 +1,141 @@
+
+.support {
+    position: fixed;
+    font-size: 1.2em;
+    left: 10;
+    bottom: 25;
+  }
+  
+  .support a {
+    color: aqua;
+  }
+  
+  .support a:hover {
+    color:rgba(4, 112, 162, .976);
+  }
+  
+  
+  .modal {
+    display: none;
+    position: fixed;
+    z-index: 9998;
+    padding-top: 70px;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: #000;
+    background-color: rgba(0, 0, 0, .4)
+  }
+  
+  .modal-content {
+    position: relative;
+    background-color: #f2f2f2;
+    margin: auto;
+    padding: 0;
+    border: 1px solid #888;
+    width: 80%;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, .2), 0 6px 20px 0 rgba(0, 0, 0, .19);
+    -webkit-animation-name: animatetop;
+    -webkit-animation-duration: .4s;
+    animation-name: animatetop;
+    animation-duration: .4s;
+    font-size: 17px;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    line-height: 1.6em;
+    color: #262626
+  }
+  
+  .button-container {
+    position: relative;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center
+  }
+  
+  .button-container button {
+    margin-top: 10;
+    margin-left: 7px;
+    margin-right: 7px;
+    margin-bottom: 10px
+  }
+  
+  #modal-link {
+    padding: 9px;
+    background-color: #d8d8d8;
+    border: 1px #d8d8d8;
+    border-radius: 8px;
+    font-weight: 700;
+    font-size: 17px;
+    text-decoration: none !important
+  }
+  
+  #modal-link a {
+    text-decoration: none !important;
+    color: #000 !important
+  }
+  
+  #modal-link a:hover {
+    color: rgba(4, 112, 162, .976) !important
+  }
+  
+  @-webkit-keyframes animatetop {
+    from {
+      top: -300px;
+      opacity: 0
+    }
+  
+    to {
+      top: 0;
+      opacity: 1
+    }
+  }
+  
+  @keyframes animatetop {
+    from {
+      top: -300px;
+      opacity: 0
+    }
+  
+    to {
+      top: 0;
+      opacity: 1
+    }
+  }
+  
+  .close {
+    margin-top: 10px;
+    color: #fff;
+    float: right;
+    font-size: 48px;
+    font-weight: 700
+  }
+  
+  .close:focus,
+  .close:hover {
+    color: #000;
+    text-decoration: none;
+    cursor: pointer
+  }
+  
+  .modal-header {
+    padding: 2px 16px;
+    background-color: #595959;
+    color: #f7f7f7f3;
+    text-align: center;
+    font-size: 1.5em
+  }
+  
+  .modal-body {
+    padding: 2px 16px
+  }
+  
+  .modal-footer {
+    padding: 20px 20px 20px 20px;
+    background-color: #595959;
+    color: #f7f7f7f3;
+    text-align: center !important;
+    font-weight: 700
+  }
